@@ -1,0 +1,11 @@
+{
+  "name": "auth-boilerplate",
+  "version": "1.0.0",
+  "description": "Authentication boilerplate using React and NestJS",
+  "repository": "https://github.com/mpontus/auth-boilerplate",
+  "author": "Michael Pontus",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^2.11.0"
+  }
+}

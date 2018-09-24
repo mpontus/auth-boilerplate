@@ -5,6 +5,9 @@
   "repository": "https://github.com/mpontus/auth-boilerplate",
   "author": "Michael Pontus",
   "license": "MIT",
+  "scripts": {
+    "start": "lerna run start --parallel --scope '{client,server}'"
+  },
   "devDependencies": {
     "lerna": "^2.11.0"
   }

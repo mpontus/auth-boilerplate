@@ -25,7 +25,7 @@ export class AuthService {
       throw new BadCredentialsError('Bad credentials');
     }
 
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isValid) {
       throw new BadCredentialsError('Bad credentials');

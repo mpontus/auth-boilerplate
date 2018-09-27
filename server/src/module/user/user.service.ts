@@ -19,7 +19,7 @@ export class UserService {
       name,
       email,
       // TODO: Extract salt rounds
-      password: await bcrypt.hash(password, 5),
+      passwordHash: await bcrypt.hash(password, 5),
     });
 
     await this.userRepository.save(userEntity);

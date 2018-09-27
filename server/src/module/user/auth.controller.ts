@@ -1,4 +1,14 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  ClassSerializerInterceptor,
+  Post,
+  Body,
+} from '@nestjs/common';
+import { LoginDto } from './domain/model/LoginDto';
+import { Session } from './domain/model/Session';
 import { AuthService } from './auth.service';
 
 @Controller('/auth')
@@ -6,12 +16,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() { email, password }: any) {
-    const token = await this.authService.createToken({
-      email,
-      password,
-    });
-
-    return { token };
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async login(@Body() data: LoginDto): Promise<Session> {
+    return await this.authService.createToken(data);
   }
 }

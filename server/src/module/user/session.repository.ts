@@ -2,8 +2,9 @@ import * as hat from 'hat';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { SessionEntity } from './token.entity';
+import { SessionEntity } from './session.entity';
 import { User } from './domain/model/User';
+import { Session } from './domain/model/Session';
 
 export class SessionRepository {
   constructor(
@@ -13,7 +14,7 @@ export class SessionRepository {
     private readonly sessionRepository: Repository<SessionEntity>,
   ) {}
 
-  async create(user: User): Promise<string> {
+  async create(user: User): Promise<Session> {
     const userEntity = await this.userRepository.findOne({ id: user.id });
     const sessionEntity = this.sessionRepository.create({
       user: userEntity,
@@ -22,7 +23,9 @@ export class SessionRepository {
 
     await this.sessionRepository.save(sessionEntity);
 
-    return sessionEntity.token;
+    return new Session({
+      token: sessionEntity.token,
+    });
   }
 
   async findUser(token: string): Promise<User> {

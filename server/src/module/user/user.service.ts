@@ -2,13 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from './domain/model/User';
-
-// TODO: Validate
-interface SignupDto {
-  name: string;
-  email: string;
-  password: string;
-}
+import { SignupDto } from './domain/model/SignupDto';
 
 export class UserService {
   constructor(

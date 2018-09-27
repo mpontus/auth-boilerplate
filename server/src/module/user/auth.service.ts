@@ -1,23 +1,20 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { SessionRepository } from './token.repository';
+import { SessionRepository } from './session.repository';
+import { LoginDto } from './domain/model/LoginDto';
+import { Session } from './domain/model/Session';
 import { User } from './domain/model/User';
 import { BadCredentialsError } from './exception/BadCredentialsError';
 
-// TODO: Validate createTokenDTO
-interface CreateTokenDto {
-  email: string;
-  password: string;
-}
-
 export class AuthService {
   constructor(
-    @Inject(UserReSessionRepositoryte readonly userRepository: UserRepository,
-    @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
+    @Inject(UserRepository) readonly userRepository: UserRepository,
+    @Inject(SessionRepository)
+    private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async createToken({ email, password }: CreateTokenDto): Promise<string> {
+  async createToken({ email, password }: LoginDto): Promise<Session> {
     const user = await this.userRepository.findByEmail(email);
 
     if (user == null) {
@@ -30,10 +27,10 @@ export class AuthService {
       throw new BadCredentialsError('Bad credentials');
     }
 
-    return await this.tokenRepository.create(user);
+    return await this.sessionRepository.create(user);
   }
 
   async findUserByToken(token: string): Promise<User> {
-    return this.tokenRepository.findUser(token);
+    return this.sessionRepository.findUser(token);
   }
 }

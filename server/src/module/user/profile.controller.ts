@@ -1,6 +1,16 @@
-import { Controller, Get, Post, UseGuards, Req, Body } from '@nestjs/common';
+import {
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Req,
+  Body,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
+import { UserJson } from './serializer/UserJson';
 
 interface SignupDto {
   name: string;
@@ -13,13 +23,15 @@ export class ProfileController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('bearer'))
-  async profile(@Req() req) {
-    return req.user;
+  async profile(@Req() req): Promise<UserJson> {
+    return new UserJson(req.user);
   }
 
   @Post()
-  async signup(@Body() data: SignupDto) {
-    return await this.userService.signup(data);
+  @UseInterceptors(ClassSerializerInterceptor)
+  async signup(@Body() data: SignupDto): Promise<UserJson> {
+    return new UserJson(await this.userService.signup(data));
   }
 }

@@ -1,5 +1,7 @@
 import {
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
   ClassSerializerInterceptor,
   Controller,
   Get,
@@ -11,12 +13,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 import { UserJson } from './serializer/UserJson';
-
-interface SignupDto {
-  name: string;
-  email: string;
-  password: string;
-}
+import { SignupDto } from './domain/model/SignupDto';
 
 @Controller('profile')
 export class ProfileController {
@@ -31,6 +28,7 @@ export class ProfileController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
   async signup(@Body() data: SignupDto): Promise<UserJson> {
     return new UserJson(await this.userService.signup(data));
   }

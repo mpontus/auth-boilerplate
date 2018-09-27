@@ -1,11 +1,11 @@
-import * as hat from 'hat';
 import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
-import { Token } from './token.entity';
+import { Inject } from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import { TokenRepository } from './token.repository';
+import { User } from './domain/model/User';
 import { BadCredentialsError } from './exception/BadCredentialsError';
 
+// TODO: Validate createTokenDTO
 interface CreateTokenDto {
   email: string;
   password: string;
@@ -13,13 +13,12 @@ interface CreateTokenDto {
 
 export class AuthService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @InjectRepository(Token)
-    private readonly tokenRepository: Repository<Token>,
+    @Inject(UserRepository) private readonly userRepository: UserRepository,
+    @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
   ) {}
 
   async createToken({ email, password }: CreateTokenDto): Promise<string> {
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userRepository.findByEmail(email);
 
     if (user == null) {
       throw new BadCredentialsError('Bad credentials');
@@ -31,21 +30,10 @@ export class AuthService {
       throw new BadCredentialsError('Bad credentials');
     }
 
-    const token = hat();
-
-    await this.tokenRepository.save(
-      this.tokenRepository.create({ user, token }),
-    );
-
-    return token;
+    return await this.tokenRepository.create(user);
   }
 
-  async findUserByToken(token: string) {
-    const result = await this.tokenRepository.findOne(
-      { token },
-      { relations: ['user'] },
-    );
-
-    return result.user;
+  async findUserByToken(token: string): Promise<User> {
+    return this.tokenRepository.findUser(token);
   }
 }

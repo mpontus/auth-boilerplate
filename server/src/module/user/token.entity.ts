@@ -5,16 +5,16 @@ import {
   Column,
   ManyToOne,
 } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
 @Entity()
 @Unique(['token'])
-export class Token {
+export class TokenEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => User, { cascade: true, onDelete: 'CASCADE' })
-  user: User;
+  @ManyToOne(type => UserEntity, { cascade: true, onDelete: 'CASCADE' })
+  user: UserEntity;
 
   @Column()
   token: string;

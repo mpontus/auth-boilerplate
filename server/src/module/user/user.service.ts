@@ -1,8 +1,9 @@
 import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { Inject } from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import { User } from './domain/model/User';
 
+// TODO: Validate
 interface SignupDto {
   name: string;
   email: string;
@@ -11,19 +12,15 @@ interface SignupDto {
 
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(UserRepository) private readonly userRepository: UserRepository,
   ) {}
 
   public async signup({ name, email, password }: SignupDto): Promise<User> {
-    const userEntity = this.userRepository.create({
+    return await this.userRepository.create({
       name,
       email,
       // TODO: Extract salt rounds
       passwordHash: await bcrypt.hash(password, 5),
     });
-
-    await this.userRepository.save(userEntity);
-
-    return userEntity;
   }
 }

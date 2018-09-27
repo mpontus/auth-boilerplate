@@ -1,5 +1,4 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -24,8 +23,6 @@ export class UserService {
     });
 
     await this.userRepository.save(userEntity);
-
-    console.log(await this.userRepository.find({}));
 
     return userEntity;
   }

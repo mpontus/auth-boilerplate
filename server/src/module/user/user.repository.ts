@@ -14,7 +14,6 @@ export class UserRepository {
     const userEntity = this.userRepository.create({
       name,
       email,
-      // TODO: Extract salt rounds
       passwordHash,
     });
 

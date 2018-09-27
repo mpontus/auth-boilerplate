@@ -6,6 +6,7 @@ import { SessionRepository } from './session.repository';
 import { SessionEntity } from './session.entity';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { CryptoService } from './crypto.service';
 import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
 import { HttpStrategy } from './http.strategy';
@@ -22,6 +23,10 @@ import { HttpStrategy } from './http.strategy';
     HttpStrategy,
     UserRepository,
     SessionRepository,
+    {
+      provide: CryptoService,
+      useValue: new CryptoService(10),
+    },
   ],
 })
 export class UserModule {}

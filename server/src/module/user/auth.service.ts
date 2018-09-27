@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { TokenRepository } from './token.repository';
+import { SessionRepository } from './token.repository';
 import { User } from './domain/model/User';
 import { BadCredentialsError } from './exception/BadCredentialsError';
 
@@ -13,7 +13,7 @@ interface CreateTokenDto {
 
 export class AuthService {
   constructor(
-    @Inject(UserRepository) private readonly userRepository: UserRepository,
+    @Inject(UserReSessionRepositoryte readonly userRepository: UserRepository,
     @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
   ) {}
 

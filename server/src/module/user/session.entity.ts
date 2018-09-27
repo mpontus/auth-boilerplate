@@ -9,7 +9,7 @@ import { UserEntity } from './user.entity';
 
 @Entity()
 @Unique(['token'])
-export class TokenEntity {
+export class SessionEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

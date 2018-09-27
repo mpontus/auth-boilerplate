@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
-import { TokenRepository } from './token.repository';
-import { TokenEntity } from './token.entity';
+import { SessionRepository } from './token.repository';
+import { SessionEntity } from './token.entity';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { ProfileController } from './profile.controller';
@@ -13,7 +13,7 @@ import { HttpStrategy } from './http.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
-    TypeOrmModule.forFeature([TokenEntity]),
+    TypeOrmModule.forFeature([SessionEntity]),
   ],
   controllers: [ProfileController, AuthController],
   providers: [
@@ -21,7 +21,7 @@ import { HttpStrategy } from './http.strategy';
     AuthService,
     HttpStrategy,
     UserRepository,
-    TokenRepository,
+    SessionRepository,
   ],
 })
 export class UserModule {}

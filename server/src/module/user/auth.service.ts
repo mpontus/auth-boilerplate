@@ -39,4 +39,13 @@ export class AuthService {
 
     return token;
   }
+
+  async findUserByToken(token: string) {
+    const result = await this.tokenRepository.findOne(
+      { token },
+      { relations: ['user'] },
+    );
+
+    return result.user;
+  }
 }

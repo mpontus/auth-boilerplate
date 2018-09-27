@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
+import { HttpStrategy } from './http.strategy';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { AuthController } from './auth.controller';
     TypeOrmModule.forFeature([Token]),
   ],
   controllers: [ProfileController, AuthController],
-  providers: [UserService, AuthService],
+  providers: [UserService, AuthService, HttpStrategy],
 })
 export class UserModule {}

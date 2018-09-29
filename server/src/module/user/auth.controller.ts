@@ -29,6 +29,6 @@ export class AuthController {
   @Get('google')
   @UseGuards(AuthGuard('google'))
   async googleSingup(@Req() req) {
-    return req.user;
+    return this.authService.authenticate(req.user);
   }
 }

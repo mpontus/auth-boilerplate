@@ -15,6 +15,10 @@ export class AuthService {
     @Inject(CryptoService) private readonly cryptoService: CryptoService,
   ) {}
 
+  async authenticate(user: User): Promise<Session> {
+    return await this.sessionRepository.create(user);
+  }
+
   async createToken({ email, password }: LoginDto): Promise<Session> {
     const user = await this.userRepository.findByEmail(email);
 

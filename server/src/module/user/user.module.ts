@@ -10,6 +10,7 @@ import { CryptoService } from './crypto.service';
 import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
 import { HttpStrategy } from './http.strategy';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   imports: [
@@ -21,6 +22,14 @@ import { HttpStrategy } from './http.strategy';
     UserService,
     AuthService,
     HttpStrategy,
+    {
+      provide: GoogleStrategy,
+      useValue: new GoogleStrategy({
+        clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_AUTH_SECRET,
+        callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      }),
+    },
     UserRepository,
     SessionRepository,
     {

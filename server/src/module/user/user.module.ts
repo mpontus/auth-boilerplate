@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
+import { LinkEntity } from './link.entity';
 import { UserRepository } from './user.repository';
 import { SessionRepository } from './session.repository';
 import { SessionEntity } from './session.entity';
@@ -26,6 +27,7 @@ interface ModuleOptions {
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([LinkEntity]),
     TypeOrmModule.forFeature([SessionEntity]),
   ],
   controllers: [ProfileController, AuthController],

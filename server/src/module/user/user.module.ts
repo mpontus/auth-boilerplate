@@ -11,6 +11,17 @@ import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
 import { HttpStrategy } from './http.strategy';
 import { GoogleStrategy } from './google.strategy';
+import { ModuleConfig } from './ModuleConfig';
+
+interface ModuleOptions {
+  providers: {
+    google: {
+      clientId: string;
+      clientSecret: string;
+      callbackUrl: string;
+    };
+  };
+}
 
 @Module({
   imports: [
@@ -22,14 +33,7 @@ import { GoogleStrategy } from './google.strategy';
     UserService,
     AuthService,
     HttpStrategy,
-    {
-      provide: GoogleStrategy,
-      useValue: new GoogleStrategy({
-        clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_AUTH_SECRET,
-        callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
-      }),
-    },
+    GoogleStrategy,
     UserRepository,
     SessionRepository,
     {
@@ -38,4 +42,16 @@ import { GoogleStrategy } from './google.strategy';
     },
   ],
 })
-export class UserModule {}
+export class UserModule {
+  static create(options: ModuleConfig) {
+    return {
+      module: UserModule,
+      providers: [
+        {
+          provide: ModuleConfig,
+          useValue: new ModuleConfig(options),
+        },
+      ],
+    };
+  }
+}

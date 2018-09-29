@@ -12,7 +12,11 @@ import { UserModule } from '../user/user.module';
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    UserModule,
+    UserModule.create({
+      googleClientId: process.env.GOOGLE_AUTH_CLIENT_ID,
+      googleClientSecret: process.env.GOOGLE_AUTH_SECRET,
+      googleCallbackUrl: process.env.GOOGLE_AUTH_CALLBACK_URL,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

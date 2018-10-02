@@ -4,9 +4,12 @@ import { UserEntity } from './user.entity';
 import { LinkEntity } from './link.entity';
 import { UserRepository } from './user.repository';
 import { SessionRepository } from './session.repository';
+import { TokenRepository } from './token.repository';
 import { SessionEntity } from './session.entity';
+import { TokenEntity } from './token.entity';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { MailService } from './mail.service';
 import { CryptoService } from './crypto.service';
 import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
@@ -29,15 +32,18 @@ interface ModuleOptions {
     TypeOrmModule.forFeature([UserEntity]),
     TypeOrmModule.forFeature([LinkEntity]),
     TypeOrmModule.forFeature([SessionEntity]),
+    TypeOrmModule.forFeature([TokenEntity]),
   ],
   controllers: [ProfileController, AuthController],
   providers: [
     UserService,
     AuthService,
+    MailService,
     HttpStrategy,
     GoogleStrategy,
     UserRepository,
     SessionRepository,
+    TokenRepository,
     {
       provide: CryptoService,
       useValue: new CryptoService(10),

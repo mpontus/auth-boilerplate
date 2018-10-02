@@ -5,6 +5,7 @@ import { LinkEntity } from './link.entity';
 import { User } from './domain/model/User';
 import { SignupDto } from './domain/model/SignupDto';
 import { SocialLoginDto } from './domain/model/SocialLoginDto';
+import { UpdatePasswordDto } from './domain/model/UpdatePasswordDto';
 
 export class UserRepository {
   constructor(
@@ -59,5 +60,16 @@ export class UserRepository {
     await this.linkRepository.save(linkEntity);
 
     return new User(userEntity);
+  }
+
+  public async updatePassword({ user, passwordHash }: UpdatePasswordDto) {
+    await this.userRepository.update(
+      {
+        id: user.id,
+      },
+      {
+        passwordHash,
+      },
+    );
   }
 }

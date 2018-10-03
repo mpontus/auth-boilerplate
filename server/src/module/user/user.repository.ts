@@ -30,6 +30,10 @@ export class UserRepository {
   public async findByEmail(email: string): Promise<User> {
     const userEntity = await this.userRepository.findOne({ email });
 
+    if (!userEntity) {
+      return null;
+    }
+
     return new User(userEntity);
   }
 

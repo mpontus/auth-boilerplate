@@ -6,6 +6,6 @@ interface SendDto {
 
 export class MailService {
   async send({ template, data, recepient }: SendDto) {
-    console.log('Sending email', { template, data, recepient });
+    // console.log('Sending email', { template, data, recepient });
   }
 }

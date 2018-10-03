@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from '../user/user.module';
+import { UserModule } from './module/user/user.module';
 
 @Module({
   imports: [
@@ -18,7 +16,5 @@ import { UserModule } from '../user/user.module';
       googleCallbackUrl: process.env.GOOGLE_AUTH_CALLBACK_URL,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

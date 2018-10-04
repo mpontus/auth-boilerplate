@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`signup when credentials are correct should be successful 1`] = `
+Object {
+  "token": Any<String>,
+}
+`;
+
+exports[`signup when the user does not exist should be an error 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isString": "name must be a string",
+        "maxLength": "name must be shorter than or equal to 255 characters",
+      },
+      "property": "name",
+      "target": Object {
+        "email": "nfisher@yahoo.com",
+        "password": "9O_8ywUKpHuHjnZ",
+      },
+    },
+  ],
+  "statusCode": 400,
+}
+`;

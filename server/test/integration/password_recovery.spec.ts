@@ -1,67 +1,45 @@
 import * as request from 'supertest';
-import { Test } from '@nestjs/testing';
-import { AppModule } from '../../src/app.module';
-// import { app } from '../utils/app';
 import { resetDb } from '../utils/resetDb';
+import { initApp } from '../utils/initApp';
 
-let app;
+let expressApp, nestApp;
 
 beforeAll(async () => {
-  const moduleFixture = await Test.createTestingModule({
-    imports: [AppModule],
-  }).compile();
-
-  app = moduleFixture.createNestApplication();
-  await app.init();
+  ({ expressApp, nestApp } = await initApp());
 });
+
+afterAll(() => nestApp.close());
 
 beforeEach(() => resetDb());
 
-// describe('when user does not exist', () => {
-//   it('should match response snapshot', async () => {
-//     const response = await request(app.getHttpServer())
-//       .post('/auth/password_recovery')
-//       .send({
-//         email: 'fkgjhdfkjgh@bar.baz',
-//       })
-//       .expect(200);
+describe('Password recovery', () => {
+  describe('when the user exists', () => {
+    const seed = require('../seeds/registered_user');
 
-//     expect(response).toMatchSnapshot();
-//   });
-// });
+    beforeEach(() => seed.run());
 
-describe('when user exists', () => {
-  const seed = require('../seeds/registered_user');
+    it('should match response snapshot', async () => {
+      const response = await request(expressApp)
+        .post('/auth/password_recovery')
+        .send({
+          email: seed.email,
+        })
+        .expect(202);
 
-  beforeEach(() => seed.run());
-
-  it('should match response snapshot', async () => {
-    const response = await request(app.getHttpServer())
-      .post('/auth/password_recovery')
-      .send({
-        email: seed.email,
-      })
-      .expect(201);
-
-    expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchSnapshot();
+    });
   });
-});
 
-describe('Password reset', () => {
-  const newPassword = 'foobarbaz';
-  const seed = require('../seeds/password_recovery_request');
+  describe('when the user does not exist', () => {
+    it('should match response snapshot', async () => {
+      const response = await request(expressApp)
+        .post('/auth/password_recovery')
+        .send({
+          email: 'foo@bar.baz',
+        })
+        .expect(400);
 
-  beforeEach(() => seed.run());
-
-  it('should match response snapshot', async () => {
-    const response = await request(app.getHttpServer())
-      .post('/auth/reset_password')
-      .send({
-        secret: seed.secret,
-        email: seed.userEmail,
-        password: newPassword,
-      })
-      .expect(201);
-    expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchSnapshot();
+    });
   });
 });

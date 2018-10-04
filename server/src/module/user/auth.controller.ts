@@ -9,6 +9,9 @@ import {
   Req,
   Body,
   UseGuards,
+  HttpCode,
+  HttpStatus,
+  UseFilters,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './domain/model/LoginDto';
@@ -17,8 +20,10 @@ import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { HttpExceptionFilter } from './http-exception.filter';
 
 @Controller('/auth')
+@UseFilters(HttpExceptionFilter)
 export class AuthController {
   constructor(
     private readonly userService: UserService,
@@ -39,6 +44,7 @@ export class AuthController {
   }
 
   @Post('password_recovery')
+  @HttpCode(HttpStatus.ACCEPTED)
   @UsePipes(new ValidationPipe({ transform: true }))
   async passwortRecovery(@Body() { email }: RecoverPasswordDto) {
     await this.userService.recoverPassword({ email });
@@ -46,6 +52,7 @@ export class AuthController {
 
   @Post('reset_password')
   @UsePipes(new ValidationPipe({ transform: true }))
+  @HttpCode(HttpStatus.ACCEPTED)
   async resetPassword(@Body() { email, secret, password }: ResetPasswordDto) {
     await this.userService.resetPassword({ email, secret, password });
   }

@@ -3,7 +3,7 @@ import { UserEntity } from '../../src/module/user/user.entity';
 import { TokenEntity } from '../../src/module/user/token.entity';
 
 export const userId = 123;
-export const userEmail = 'Toby38@gmail.com';
+export const userEmail = 'Fannie.Brekke88@gmail.com';
 export const secret = '38169';
 
 export const run = async () => {

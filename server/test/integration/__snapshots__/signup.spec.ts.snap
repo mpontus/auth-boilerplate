@@ -74,14 +74,6 @@ Object {
 }
 `;
 
-exports[`signup when the user does not exist should be an error 1`] = `
-Object {
-  "email": "nfisher@yahoo.com",
-  "id": 2,
-  "name": "Hailee58",
-}
-`;
-
 exports[`signup when the user does not exist should be successful 1`] = `
 Object {
   "email": "nfisher@yahoo.com",

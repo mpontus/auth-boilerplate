@@ -9,15 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
+    "types": ["jest", "node"],
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*", "test/**/*.spec.ts"],
+  "exclude": ["node_modules"]
 }

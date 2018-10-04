@@ -14,13 +14,19 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
   }
 
   catch(error: Error, host: ArgumentsHost) {
+    return super.catch(this.mapError(error), host);
+  }
+
+  private mapError(error: Error) {
     switch (error.name) {
       case 'UserNotFoundError':
-        return super.catch(new BadRequestException('User not found'), host);
+        return new BadRequestException('User not found');
       case 'InvalidTokenError':
-        return super.catch(new BadRequestException('Invalid token'), host);
+        return new BadRequestException('Invalid token');
+      case 'UserAlreadyExistsError':
+        return new BadRequestException('User already exists');
       default:
-        return super.catch(error, host);
+        return error;
     }
   }
 }

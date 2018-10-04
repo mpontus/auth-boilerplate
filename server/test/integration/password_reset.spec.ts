@@ -35,13 +35,13 @@ describe('Password reset', () => {
 
   describe('when email does not match secret', () => {
     const newPassword = 'foobarbaz';
-    const userSeed = require('../seeds/registered_user.ts');
+    const userSeed = require('../seeds/registered_user');
     const recoverySeed = require('../seeds/password_recovery_request');
 
     beforeEach(() => userSeed.run());
     beforeEach(() => recoverySeed.run());
 
-    it('should return failed response', async () => {
+    it('should return an error', async () => {
       const response = await request(expressApp)
         .post('/auth/reset_password')
         .send({

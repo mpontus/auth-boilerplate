@@ -9,13 +9,16 @@ import {
   UseGuards,
   Req,
   Body,
+  UseFilters,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 import { User } from './domain/model/User';
 import { SignupDto } from './domain/model/SignupDto';
+import { HttpExceptionFilter } from './http-exception.filter';
 
 @Controller('profile')
+@UseFilters(HttpExceptionFilter)
 export class ProfileController {
   constructor(private readonly userService: UserService) {}
 

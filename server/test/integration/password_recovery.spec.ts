@@ -18,7 +18,7 @@ describe('Password recovery', () => {
 
     beforeEach(() => seed.run());
 
-    it('should match response snapshot', async () => {
+    it('should be successful', async () => {
       const response = await request(expressApp)
         .post('/auth/password_recovery')
         .send({
@@ -31,7 +31,7 @@ describe('Password recovery', () => {
   });
 
   describe('when the user does not exist', () => {
-    it('should match response snapshot', async () => {
+    it('should be an error', async () => {
       const response = await request(expressApp)
         .post('/auth/password_recovery')
         .send({

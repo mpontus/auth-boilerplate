@@ -10,6 +10,7 @@ import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
 import { UserNotFoundError } from './domain/exception/UserNotFoundError';
 import { InvalidTokenError } from './domain/exception/InvalidTokenError';
+import { UserAlreadyExistsError } from './domain/exception/UserAlreadyExistsError';
 
 export class UserService {
   constructor(
@@ -20,6 +21,10 @@ export class UserService {
   ) {}
 
   public async signup({ name, email, password }: SignupDto): Promise<User> {
+    if (await this.userRepository.findByEmail(email)) {
+      throw new UserAlreadyExistsError();
+    }
+
     return await this.userRepository.create({
       name,
       email,

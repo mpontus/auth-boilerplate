@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Profile update When user is authenticated should be successful 1`] = `Object {}`;
+
+exports[`Profile update When user is unauthenticated should fail 1`] = `
+Object {
+  "error": "Unauthorized",
+  "statusCode": 401,
+}
+`;
+
+exports[`Updating email when current password is invalid should fail 1`] = `
+Object {
+  "error": "Validation error",
+  "message": Object {
+    "currentPassword": "Current password is invalid",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Updating email when current password is present should be successful 1`] = `Object {}`;
+
+exports[`Updating password when current password is invalid should fail 1`] = `
+Object {
+  "error": "Validation error",
+  "message": Object {
+    "currentPassword": "Current password is invalid",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Updating password when current password is present should be successful 1`] = `Object {}`;

@@ -8,6 +8,8 @@ import { SignupDto } from './domain/model/SignupDto';
 import { SocialLoginDto } from './domain/model/SocialLoginDto';
 import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
+import { ProfileUpdateDto } from './domain/model/ProfileUpdateDto';
+import { ValidationError } from './domain/exception/ValidationError';
 import { UserNotFoundError } from './domain/exception/UserNotFoundError';
 import { InvalidTokenError } from './domain/exception/InvalidTokenError';
 import { UserAlreadyExistsError } from './domain/exception/UserAlreadyExistsError';
@@ -81,5 +83,40 @@ export class UserService {
       user,
       passwordHash: await bcrypt.hash(password, 10),
     });
+  }
+
+  public async updateProfile(user: User, update: ProfileUpdateDto) {
+    if (update.email || update.password) {
+      if (!update.currentPassword) {
+        throw new ValidationError({
+          currentPassword: 'Current password is empty',
+        });
+      }
+
+      const isValid = await bcrypt.compare(
+        update.currentPassword,
+        user.passwordHash,
+      );
+
+      if (!isValid) {
+        throw new ValidationError({
+          currentPassword: 'Current password is invalid',
+        });
+      }
+    }
+
+    if (update.name) {
+      user.name = update.name;
+    }
+
+    if (update.email) {
+      user.email = update.email;
+    }
+
+    if (update.password) {
+      user.passwordHash = await bcrypt.hash(update.password, 10);
+    }
+
+    await this.userRepository.save(user);
   }
 }

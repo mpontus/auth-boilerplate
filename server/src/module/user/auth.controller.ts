@@ -5,6 +5,7 @@ import {
   ValidationPipe,
   ClassSerializerInterceptor,
   Post,
+  Patch,
   Get,
   Req,
   Body,
@@ -15,6 +16,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './domain/model/LoginDto';
+import { ProfileUpdateDto } from './domain/model/ProfileUpdateDto';
 import { Session } from './domain/model/Session';
 import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
@@ -55,5 +57,12 @@ export class AuthController {
   @HttpCode(HttpStatus.ACCEPTED)
   async resetPassword(@Body() { email, secret, password }: ResetPasswordDto) {
     await this.userService.resetPassword({ email, secret, password });
+  }
+
+  @Patch('profile')
+  @HttpCode(HttpStatus.ACCEPTED)
+  @UseGuards(AuthGuard('bearer'))
+  async updateProfile(@Req() req, @Body() update: ProfileUpdateDto) {
+    await this.userService.updateProfile(req.user, update);
   }
 }

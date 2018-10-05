@@ -6,6 +6,7 @@ import {
   HttpException,
   ArgumentsHost,
 } from '@nestjs/common';
+import { ValidationError } from './domain/exception/ValidationError';
 
 @Catch()
 export class HttpExceptionFilter extends BaseExceptionFilter {
@@ -25,6 +26,13 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
         return new BadRequestException('Invalid token');
       case 'UserAlreadyExistsError':
         return new BadRequestException('User already exists');
+      case 'ValidationError':
+        if (error instanceof ValidationError) {
+          return new BadRequestException(error.fields, 'Validation error');
+        }
+
+        return error;
+
       default:
         return error;
     }

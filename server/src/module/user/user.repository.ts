@@ -76,4 +76,10 @@ export class UserRepository {
       },
     );
   }
+
+  public async save(user: User) {
+    const { id, name, email, passwordHash } = user;
+
+    await this.userRepository.update({ id }, { name, email, passwordHash });
+  }
 }

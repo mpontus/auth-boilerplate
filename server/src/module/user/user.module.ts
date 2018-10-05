@@ -15,6 +15,7 @@ import { AuthController } from './auth.controller';
 import { HttpStrategy } from './http.strategy';
 import { GoogleStrategy } from './google.strategy';
 import { ModuleConfig } from './ModuleConfig';
+import { UserMapper } from './user.mapper';
 
 interface ModuleOptions {
   providers: {
@@ -43,6 +44,7 @@ interface ModuleOptions {
     UserRepository,
     SessionRepository,
     TokenRepository,
+    UserMapper,
   ],
 })
 export class UserModule {

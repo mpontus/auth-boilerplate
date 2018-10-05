@@ -1,7 +1,9 @@
+import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { LinkEntity } from './link.entity';
+import { UserMapper } from './user.mapper';
 import { User } from './domain/model/User';
 import { SignupDto } from './domain/model/SignupDto';
 import { SocialLoginDto } from './domain/model/SocialLoginDto';
@@ -13,6 +15,7 @@ export class UserRepository {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(LinkEntity)
     private readonly linkRepository: Repository<LinkEntity>,
+    @Inject(UserMapper) private readonly userMapper: UserMapper,
   ) {}
 
   public async create({ name, email, passwordHash }: Partial<User>) {
@@ -24,7 +27,7 @@ export class UserRepository {
 
     await this.userRepository.save(userEntity);
 
-    return new User(userEntity);
+    return this.userMapper.transform(userEntity);
   }
 
   public async findByEmail(email: string): Promise<User> {
@@ -34,7 +37,7 @@ export class UserRepository {
       return null;
     }
 
-    return new User(userEntity);
+    return this.userMapper.transform(userEntity);
   }
 
   public async findOrCreateByLinkedAccount({
@@ -63,13 +66,13 @@ export class UserRepository {
     await this.userRepository.save(userEntity);
     await this.linkRepository.save(linkEntity);
 
-    return new User(userEntity);
+    return this.userMapper.transform(userEntity);
   }
 
   public async updatePassword({ user, passwordHash }: UpdatePasswordDto) {
     await this.userRepository.update(
       {
-        id: user.id,
+        id: parseInt(user.id, 10),
       },
       {
         passwordHash,
@@ -80,6 +83,11 @@ export class UserRepository {
   public async save(user: User) {
     const { id, name, email, passwordHash } = user;
 
-    await this.userRepository.update({ id }, { name, email, passwordHash });
+    await this.userRepository.update(
+      {
+        id: parseInt(id, 10),
+      },
+      { name, email, passwordHash },
+    );
   }
 }

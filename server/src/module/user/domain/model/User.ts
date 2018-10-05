@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 
 export class User {
-  public id: number;
+  public id: string;
 
   public name: string;
 

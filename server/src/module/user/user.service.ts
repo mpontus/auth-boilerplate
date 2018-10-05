@@ -1,6 +1,6 @@
+import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { MailService } from './mail.service';
-import { CryptoService } from './crypto.service';
 import { UserRepository } from './user.repository';
 import { TokenRepository } from './token.repository';
 import { User } from './domain/model/User';
@@ -16,7 +16,6 @@ export class UserService {
   constructor(
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
-    @Inject(CryptoService) private readonly cryptoService: CryptoService,
     @Inject(MailService) private readonly mailService: MailService,
   ) {}
 
@@ -28,7 +27,7 @@ export class UserService {
     return await this.userRepository.create({
       name,
       email,
-      passwordHash: await this.cryptoService.hash(password),
+      passwordHash: await bcrypt.hash(password, 10),
     });
   }
 
@@ -80,7 +79,7 @@ export class UserService {
 
     await this.userRepository.updatePassword({
       user,
-      passwordHash: await this.cryptoService.hash(password),
+      passwordHash: await bcrypt.hash(password, 10),
     });
   }
 }

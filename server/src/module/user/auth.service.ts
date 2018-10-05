@@ -1,5 +1,5 @@
+import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
-import { CryptoService } from './crypto.service';
 import { UserRepository } from './user.repository';
 import { SessionRepository } from './session.repository';
 import { LoginDto } from './domain/model/LoginDto';
@@ -12,7 +12,6 @@ export class AuthService {
     @Inject(UserRepository) readonly userRepository: UserRepository,
     @Inject(SessionRepository)
     private readonly sessionRepository: SessionRepository,
-    @Inject(CryptoService) private readonly cryptoService: CryptoService,
   ) {}
 
   async authenticate(user: User): Promise<Session> {
@@ -26,10 +25,7 @@ export class AuthService {
       throw new BadCredentialsError('Bad credentials');
     }
 
-    const isValid = await this.cryptoService.verify(
-      user.passwordHash,
-      password,
-    );
+    const isValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isValid) {
       throw new BadCredentialsError('Bad credentials');

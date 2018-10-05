@@ -10,7 +10,6 @@ import { TokenEntity } from './token.entity';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { MailService } from './mail.service';
-import { CryptoService } from './crypto.service';
 import { ProfileController } from './profile.controller';
 import { AuthController } from './auth.controller';
 import { HttpStrategy } from './http.strategy';
@@ -44,10 +43,6 @@ interface ModuleOptions {
     UserRepository,
     SessionRepository,
     TokenRepository,
-    {
-      provide: CryptoService,
-      useValue: new CryptoService(10),
-    },
   ],
 })
 export class UserModule {

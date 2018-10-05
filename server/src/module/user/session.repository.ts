@@ -34,6 +34,10 @@ export class SessionRepository {
       { relations: ['user'] },
     );
 
+    if (result == null) {
+      return null;
+    }
+
     return new User(result.user);
   }
 }

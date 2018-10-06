@@ -1,5 +1,5 @@
 import { UserEntity } from './user.entity';
-import { User } from './domain/model/User';
+import { User } from '../../domain/model/User';
 
 export class UserMapper {
   transform(entity: UserEntity): User {

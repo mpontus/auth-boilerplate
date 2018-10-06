@@ -15,13 +15,13 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { LoginDto } from './domain/model/LoginDto';
-import { ProfileUpdateDto } from './domain/model/ProfileUpdateDto';
-import { Session } from './domain/model/Session';
-import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
-import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
-import { UserService } from './user.service';
-import { AuthService } from './auth.service';
+import { LoginDto } from '../domain/model/LoginDto';
+import { ProfileUpdateDto } from '../domain/model/ProfileUpdateDto';
+import { Session } from '../domain/model/Session';
+import { RecoverPasswordDto } from '../domain/model/RecoverPasswordDto';
+import { ResetPasswordDto } from '../domain/model/ResetPasswordDto';
+import { UserService } from '../domain/service/user.service';
+import { AuthService } from '../domain/service/auth.service';
 import { HttpExceptionFilter } from './http-exception.filter';
 
 @Controller('/auth')

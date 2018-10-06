@@ -3,13 +3,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../../src/app.module';
 
 export const initApp = async () => {
-  const expressApp = express();
-
-  const nestApp = await await NestFactory.create(AppModule, expressApp, {
+  const nestApp = await NestFactory.create(AppModule, {
     logger: false,
   });
 
   await nestApp.init();
 
-  return { expressApp, nestApp };
+  return {
+    expressApp: nestApp.getHttpServer(),
+    nestApp,
+  };
 };

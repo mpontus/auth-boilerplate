@@ -1,11 +1,11 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { SessionRepository } from './session.repository';
-import { LoginDto } from './domain/model/LoginDto';
-import { Session } from './domain/model/Session';
-import { User } from './domain/model/User';
-import { BadCredentialsError } from './exception/BadCredentialsError';
+import { UserRepository } from '../../data/user/user.repository';
+import { SessionRepository } from '../../data/session/session.repository';
+import { LoginDto } from '../model/LoginDto';
+import { Session } from '../model/Session';
+import { User } from '../model/User';
+import { BadCredentialsError } from '../exception/BadCredentialsError';
 
 export class AuthService {
   constructor(
@@ -22,13 +22,13 @@ export class AuthService {
     const user = await this.userRepository.findByEmail(email);
 
     if (user == null) {
-      throw new BadCredentialsError('Bad credentials');
+      throw new BadCredentialsError();
     }
 
     const isValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isValid) {
-      throw new BadCredentialsError('Bad credentials');
+      throw new BadCredentialsError();
     }
 
     return await this.sessionRepository.create(user);

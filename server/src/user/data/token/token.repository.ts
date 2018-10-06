@@ -2,9 +2,9 @@ import * as hat from 'hat';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager, MoreThan } from 'typeorm';
 import { TokenEntity } from './token.entity';
-import { CreateTokenDto } from './domain/model/CreateTokenDto';
-import { ClaimTokenDto } from './domain/model/ClaimTokenDto';
-import { Token } from './domain/model/Token';
+import { CreateTokenDto } from '../../domain/model/CreateTokenDto';
+import { ClaimTokenDto } from '../../domain/model/ClaimTokenDto';
+import { Token } from '../../domain/model/Token';
 
 export class TokenRepository {
   constructor(

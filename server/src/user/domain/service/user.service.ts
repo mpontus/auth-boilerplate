@@ -1,18 +1,18 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { MailService } from './mail.service';
-import { UserRepository } from './user.repository';
-import { TokenRepository } from './token.repository';
-import { User } from './domain/model/User';
-import { SignupDto } from './domain/model/SignupDto';
-import { SocialLoginDto } from './domain/model/SocialLoginDto';
-import { RecoverPasswordDto } from './domain/model/RecoverPasswordDto';
-import { ResetPasswordDto } from './domain/model/ResetPasswordDto';
-import { ProfileUpdateDto } from './domain/model/ProfileUpdateDto';
-import { ValidationError } from './domain/exception/ValidationError';
-import { UserNotFoundError } from './domain/exception/UserNotFoundError';
-import { InvalidTokenError } from './domain/exception/InvalidTokenError';
-import { UserAlreadyExistsError } from './domain/exception/UserAlreadyExistsError';
+import { UserRepository } from '../../data/user/user.repository';
+import { TokenRepository } from '../../data/token/token.repository';
+import { User } from '../model/User';
+import { SignupDto } from '../model/SignupDto';
+import { SocialLoginDto } from '../model/SocialLoginDto';
+import { RecoverPasswordDto } from '../model/RecoverPasswordDto';
+import { ResetPasswordDto } from '../model/ResetPasswordDto';
+import { ProfileUpdateDto } from '../model/ProfileUpdateDto';
+import { ValidationError } from '../exception/ValidationError';
+import { UserNotFoundError } from '../exception/UserNotFoundError';
+import { InvalidTokenError } from '../exception/InvalidTokenError';
+import { UserAlreadyExistsError } from '../exception/UserAlreadyExistsError';
 
 export class UserService {
   constructor(

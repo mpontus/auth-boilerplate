@@ -4,10 +4,10 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { LinkEntity } from './link.entity';
 import { UserMapper } from './user.mapper';
-import { User } from './domain/model/User';
-import { SignupDto } from './domain/model/SignupDto';
-import { SocialLoginDto } from './domain/model/SocialLoginDto';
-import { UpdatePasswordDto } from './domain/model/UpdatePasswordDto';
+import { User } from '../../domain/model/User';
+import { SignupDto } from '../../domain/model/SignupDto';
+import { SocialLoginDto } from '../../domain/model/SocialLoginDto';
+import { UpdatePasswordDto } from '../../domain/model/UpdatePasswordDto';
 
 export class UserRepository {
   constructor(
@@ -51,7 +51,7 @@ export class UserRepository {
     );
 
     if (link) {
-      return link.user;
+      return this.userMapper.transform(link.user);
     }
 
     const userEntity = this.userRepository.create({

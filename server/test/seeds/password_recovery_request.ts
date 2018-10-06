@@ -1,6 +1,6 @@
 import { getConnection } from 'typeorm';
-import { UserEntity } from '../../src/module/user/user.entity';
-import { TokenEntity } from '../../src/module/user/token.entity';
+import { UserEntity } from '../../src/user/data/user/user.entity';
+import { TokenEntity } from '../../src/user/data/token/token.entity';
 
 export const userId = 123;
 export const userEmail = 'Fannie.Brekke88@gmail.com';

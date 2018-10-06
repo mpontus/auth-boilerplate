@@ -1,7 +1,7 @@
 import hat from 'hat';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager, MoreThan } from 'typeorm';
-import { TokenEntity } from './token.entity';
+import { TokenEntity } from './TokenEntity';
 import { CreateTokenDto } from '../../domain/model/CreateTokenDto';
 import { ClaimTokenDto } from '../../domain/model/ClaimTokenDto';
 import { Token } from '../../domain/model/Token';

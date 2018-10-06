@@ -1,9 +1,9 @@
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from './user.entity';
-import { LinkEntity } from './link.entity';
-import { UserMapper } from './user.mapper';
+import { UserEntity } from './UserEntity';
+import { LinkEntity } from './LinkEntity';
+import { UserMapper } from './UserMapper';
 import { User } from '../../domain/model/User';
 import { SignupDto } from '../../domain/model/SignupDto';
 import { SocialLoginDto } from '../../domain/model/SocialLoginDto';

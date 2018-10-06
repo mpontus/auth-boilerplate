@@ -12,10 +12,10 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserService } from '../domain/service/user.service';
+import { UserService } from '../domain/service/UserService';
 import { User } from '../domain/model/User';
 import { SignupDto } from '../domain/model/SignupDto';
-import { HttpExceptionFilter } from './http-exception.filter';
+import { HttpExceptionFilter } from './HttpExceptionFilter';
 
 @Controller('profile')
 @UseFilters(HttpExceptionFilter)

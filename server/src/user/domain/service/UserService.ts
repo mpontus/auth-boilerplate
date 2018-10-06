@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
-import { MailService } from './mail.service';
-import { UserRepository } from '../../data/user/user.repository';
-import { TokenRepository } from '../../data/token/token.repository';
+import { MailService } from './MailService';
+import { UserRepository } from '../../data/user/UserRepository';
+import { TokenRepository } from '../../data/token/TokenRepository';
 import { User } from '../model/User';
 import { SignupDto } from '../model/SignupDto';
 import { SocialLoginDto } from '../model/SocialLoginDto';

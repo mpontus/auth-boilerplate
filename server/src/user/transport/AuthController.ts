@@ -20,9 +20,9 @@ import { ProfileUpdateDto } from '../domain/model/ProfileUpdateDto';
 import { Session } from '../domain/model/Session';
 import { RecoverPasswordDto } from '../domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from '../domain/model/ResetPasswordDto';
-import { UserService } from '../domain/service/user.service';
-import { AuthService } from '../domain/service/auth.service';
-import { HttpExceptionFilter } from './http-exception.filter';
+import { UserService } from '../domain/service/UserService';
+import { AuthService } from '../domain/service/AuthService';
+import { HttpExceptionFilter } from './HttpExceptionFilter';
 
 @Controller('/auth')
 @UseFilters(HttpExceptionFilter)

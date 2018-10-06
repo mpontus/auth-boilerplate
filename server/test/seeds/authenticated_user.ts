@@ -1,8 +1,8 @@
 import hat from 'hat';
 import * as bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
-import { UserEntity } from '../../src/user/data/user/user.entity';
-import { SessionEntity } from '../../src/user/data/session/session.entity';
+import { UserEntity } from '../../src/user/data/user/UserEntity';
+import { SessionEntity } from '../../src/user/data/session/SessionEntity';
 
 export const id = 847563;
 export const email = 'Toby38@gmail.com';

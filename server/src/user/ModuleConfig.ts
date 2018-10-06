@@ -1,4 +1,5 @@
 export class ModuleConfig {
+  public readonly databaseUrl: string = '';
   public readonly googleClientId: string = '';
   public readonly googleClientSecret: string = '';
   public readonly googleCallbackUrl: string = '';

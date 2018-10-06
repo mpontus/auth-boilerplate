@@ -2,9 +2,9 @@ import hat from 'hat';
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
-import { UserMapper } from '../user/user.mapper';
-import { SessionEntity } from './session.entity';
+import { UserEntity } from '../user/UserEntity';
+import { UserMapper } from '../user/UserMapper';
+import { SessionEntity } from './SessionEntity';
 import { User } from '../../domain/model/User';
 import { Session } from '../../domain/model/Session';
 

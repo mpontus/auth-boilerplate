@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
-import { UserRepository } from '../../data/user/user.repository';
-import { SessionRepository } from '../../data/session/session.repository';
+import { UserRepository } from '../../data/user/UserRepository';
+import { SessionRepository } from '../../data/session/SessionRepository';
 import { LoginDto } from '../model/LoginDto';
 import { Session } from '../model/Session';
 import { User } from '../model/User';

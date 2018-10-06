@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../../src/app.module';
+import { AppModule } from '../../src/AppModule';
 
 export const initApp = async () => {
   const nestApp = await NestFactory.create(AppModule, {

@@ -1,4 +1,4 @@
-import * as hat from 'hat';
+import hat from 'hat';
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -33,7 +33,7 @@ export class SessionRepository {
     });
   }
 
-  async findUser(token: string): Promise<User> {
+  async findUser(token: string): Promise<User | null> {
     const result = await this.sessionRepository.findOne(
       { token },
       { relations: ['user'] },

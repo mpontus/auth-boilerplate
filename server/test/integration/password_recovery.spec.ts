@@ -1,8 +1,8 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import { resetDb } from '../utils/resetDb';
 import { initApp } from '../utils/initApp';
 
-let expressApp, nestApp;
+let expressApp: any, nestApp: any;
 
 beforeAll(async () => {
   ({ expressApp, nestApp } = await initApp());

@@ -41,7 +41,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleSingup(@Req() req) {
+  async googleSingup(@Req() req: any) {
     return this.authService.authenticate(req.user);
   }
 
@@ -62,7 +62,7 @@ export class AuthController {
   @Patch('profile')
   @HttpCode(HttpStatus.ACCEPTED)
   @UseGuards(AuthGuard('bearer'))
-  async updateProfile(@Req() req, @Body() update: ProfileUpdateDto) {
+  async updateProfile(@Req() req: any, @Body() update: ProfileUpdateDto) {
     await this.userService.updateProfile(req.user, update);
   }
 }

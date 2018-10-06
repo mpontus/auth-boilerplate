@@ -1,19 +1,8 @@
 {
+  "extends": "./tsconfig.build",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es6",
-    "types": ["jest", "node"],
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./src"
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*", "test/**/*.spec.ts"],
+  "include": ["src/**/*", "**/*.spec.ts", "**/*.d.ts"],
   "exclude": ["node_modules"]
 }

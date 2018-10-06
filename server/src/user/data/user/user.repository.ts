@@ -30,7 +30,7 @@ export class UserRepository {
     return this.userMapper.transform(userEntity);
   }
 
-  public async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User | null> {
     const userEntity = await this.userRepository.findOne({ email });
 
     if (!userEntity) {

@@ -35,6 +35,12 @@ export class AuthService {
   }
 
   async findUserByToken(token: string): Promise<User> {
-    return this.sessionRepository.findUser(token);
+    const user = await this.sessionRepository.findUser(token);
+
+    if (user === null) {
+      throw new BadCredentialsError();
+    }
+
+    return user;
   }
 }

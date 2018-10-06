@@ -3,7 +3,7 @@ import { IsOptional, IsString, IsEmail, MinLength } from 'class-validator';
 export class ProfileUpdateDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name!: string;
 
   @IsOptional()
   @IsString()

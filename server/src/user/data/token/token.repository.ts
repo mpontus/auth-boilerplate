@@ -1,4 +1,4 @@
-import * as hat from 'hat';
+import hat from 'hat';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager, MoreThan } from 'typeorm';
 import { TokenEntity } from './token.entity';

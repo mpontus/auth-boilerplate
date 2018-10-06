@@ -25,7 +25,7 @@ export class ProfileController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('bearer'))
-  async profile(@Req() req): Promise<User> {
+  async profile(@Req() req: any): Promise<User> {
     return req.user;
   }
 

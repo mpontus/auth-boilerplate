@@ -1,15 +1,9 @@
-interface IModuleConfig {
-  googleClientId: string;
-  googleClientSecret: string;
-  googleCallbackUrl: string;
-}
+export class ModuleConfig {
+  public readonly googleClientId: string = '';
+  public readonly googleClientSecret: string = '';
+  public readonly googleCallbackUrl: string = '';
 
-export class ModuleConfig implements IModuleConfig {
-  public readonly googleClientId;
-  public readonly googleClientSecret;
-  public readonly googleCallbackUrl;
-
-  constructor(options: IModuleConfig) {
+  constructor(options: Partial<ModuleConfig>) {
     Object.assign(this, options);
   }
 }

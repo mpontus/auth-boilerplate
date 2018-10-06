@@ -1,4 +1,4 @@
-import * as hat from 'hat';
+import hat from 'hat';
 import * as bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
 import { UserEntity } from '../../src/user/data/user/user.entity';

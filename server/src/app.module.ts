@@ -11,9 +11,9 @@ import { UserModule } from './user/user.module';
       synchronize: true,
     }),
     UserModule.create({
-      googleClientId: process.env.GOOGLE_AUTH_CLIENT_ID,
-      googleClientSecret: process.env.GOOGLE_AUTH_SECRET,
-      googleCallbackUrl: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      googleClientId: process.env.GOOGLE_AUTH_CLIENT_ID || '',
+      googleClientSecret: process.env.GOOGLE_AUTH_SECRET || '',
+      googleCallbackUrl: process.env.GOOGLE_AUTH_CALLBACK_URL || '',
     }),
   ],
 })

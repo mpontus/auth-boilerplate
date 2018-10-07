@@ -11,7 +11,6 @@ import { TokenEntity } from './data/token/TokenEntity';
 import { UserService } from './domain/service/UserService';
 import { AuthService } from './domain/service/AuthService';
 import { MailService } from './domain/service/MailService';
-import { ProfileController } from './transport/ProfileController';
 import { AuthController } from './transport/AuthController';
 import { HttpStrategy } from './transport/HttpStrategy';
 import { GoogleStrategy } from './transport/GoogleStrategy';
@@ -24,7 +23,7 @@ import { ModuleConfig } from './ModuleConfig';
     TypeOrmModule.forFeature([SessionEntity]),
     TypeOrmModule.forFeature([TokenEntity]),
   ],
-  controllers: [ProfileController, AuthController],
+  controllers: [AuthController],
   providers: [
     UserService,
     AuthService,

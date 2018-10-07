@@ -1,5 +1,9 @@
 import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
-import { Catch, BadRequestException } from '@nestjs/common';
+import {
+  Catch,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { HttpServer, Inject, ArgumentsHost } from '@nestjs/common';
 import { ValidationError } from '../domain/exception/ValidationError';
 
@@ -21,6 +25,8 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
         return new BadRequestException('Invalid token');
       case 'UserAlreadyExistsError':
         return new BadRequestException('User already exists');
+      case 'BadCredentialsError':
+        return new UnauthorizedException('Bad credentials');
       case 'ValidationError':
         if (error instanceof ValidationError) {
           return new BadRequestException(error.fields, 'Validation error');

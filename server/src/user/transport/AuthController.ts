@@ -16,7 +16,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from '../domain/model/LoginDto';
+import { SignupDto } from '../domain/model/SignupDto';
 import { ProfileUpdateDto } from '../domain/model/ProfileUpdateDto';
+import { User } from '../domain/model/User';
 import { Session } from '../domain/model/Session';
 import { RecoverPasswordDto } from '../domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from '../domain/model/ResetPasswordDto';
@@ -57,6 +59,13 @@ export class AuthController {
   @HttpCode(HttpStatus.ACCEPTED)
   async resetPassword(@Body() { email, secret, password }: ResetPasswordDto) {
     await this.userService.resetPassword({ email, secret, password });
+  }
+
+  @Post('profile')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async signup(@Body() data: SignupDto): Promise<User> {
+    return await this.userService.signup(data);
   }
 
   @Patch('profile')

@@ -36,12 +36,12 @@ describe('signup', () => {
   describe('when the user does not exist', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/login')
         .send({
           email: 'nfisher@yahoo.com',
           password: '9O_8ywUKpHuHjnZ',
         })
-        .expect(400);
+        .expect(401);
 
       expect(response.body).toMatchSnapshot();
     });

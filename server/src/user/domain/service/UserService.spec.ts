@@ -1,7 +1,10 @@
-import { UserNotFoundError } from '../exception/UserNotFoundError';
-import { InvalidTokenError } from '../exception/InvalidTokenError';
 import { Token } from '../model/Token';
 import { User } from '../model/User';
+import { Session } from '../model/Session';
+import { UserNotFoundError } from '../exception/UserNotFoundError';
+import { InvalidTokenError } from '../exception/InvalidTokenError';
+import { UserAlreadyExistsError } from '../exception/UserAlreadyExistsError';
+import { BadCredentialsError } from '../exception/BadCredentialsError';
 import { UserService } from './UserService';
 
 const userRepository = {
@@ -23,12 +26,147 @@ const passwordHasher = {
   verify: jest.fn(),
 };
 
+const sessionRepository = {
+  create: jest.fn(),
+};
+
 const userService = new UserService(
   userRepository,
+  sessionRepository,
   tokenRepository,
   mailerService,
   passwordHasher,
 );
+
+describe('signup', () => {
+  const name = 'Brian Foster';
+  const email = 'ebrown@hotmail.com';
+  const password = '_q*9s^Li$G';
+  const passwordHash = 'FW9%!nRe$M';
+
+  describe('when user already exists', () => {
+    beforeEach(() => {
+      userRepository.findByEmail.mockImplementationOnce(actual => {
+        expect(actual).toBe(email);
+
+        return {};
+      });
+    });
+
+    it('should throw an error', async () => {
+      await expect(userService.signup(name, email, password)).rejects.toThrow(
+        UserAlreadyExistsError,
+      );
+    });
+  });
+
+  describe('when details are valid', () => {
+    beforeEach(() => {
+      passwordHasher.hash.mockImplementationOnce(actual => {
+        expect(actual).toBe(password);
+
+        return passwordHash;
+      });
+    });
+
+    beforeEach(async () => {
+      await userService.signup(name, email, password);
+    });
+
+    it('should save the user to the database', () => {
+      expect(userRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name,
+          email,
+          passwordHash,
+        }),
+      );
+    });
+  });
+});
+
+describe('login', () => {
+  const email = 'ebrown@hotmail.com';
+  const password = '_q*9s^Li$G';
+  const passwordHash = 'ngbA1CVl!H';
+
+  describe('when user does not exist', () => {
+    beforeEach(() => {
+      userRepository.findByEmail.mockImplementationOnce(actual => {
+        expect(actual).toBe(email);
+
+        return null;
+      });
+    });
+
+    it('should throw an error', async () => {
+      await expect(userService.login(email, password)).rejects.toThrow(
+        BadCredentialsError,
+      );
+    });
+  });
+
+  describe('when password does not match', () => {
+    beforeEach(() => {
+      userRepository.findByEmail.mockImplementationOnce(actual => {
+        expect(actual).toBe(email);
+
+        return new User({
+          passwordHash,
+        });
+      });
+
+      passwordHasher.verify.mockImplementationOnce(
+        (actualPassword, actualPasswordHash) => {
+          expect(actualPasswordHash).toEqual(passwordHash);
+          expect(actualPassword).toEqual(password);
+
+          return false;
+        },
+      );
+    });
+
+    it('should throw an error', async () => {
+      await expect(userService.login(email, password)).rejects.toThrow(
+        BadCredentialsError,
+      );
+    });
+  });
+
+  describe('when password matches', () => {
+    const user = new User({
+      passwordHash,
+    });
+    const session = {};
+
+    beforeEach(() => {
+      userRepository.findByEmail.mockImplementationOnce(actual => {
+        expect(actual).toBe(email);
+
+        return user;
+      });
+
+      passwordHasher.verify.mockImplementationOnce(
+        (actualPassword, actualPasswordHash) => {
+          expect(actualPasswordHash).toEqual(passwordHash);
+          expect(actualPassword).toEqual(password);
+
+          return true;
+        },
+      );
+
+      sessionRepository.create.mockImplementationOnce(actual => {
+        expect(actual).toBe(user);
+
+        return session;
+      });
+    });
+
+    it('should return a session', async () => {
+      await expect(userService.login(email, password)).resolves.toBe(session);
+    });
+  });
+});
 
 describe('password recovery', () => {
   describe('when user is not found', () => {

@@ -28,6 +28,7 @@ const passwordHasher = {
 
 const sessionRepository = {
   create: jest.fn(),
+  destroy: jest.fn(),
 };
 
 const userService = new UserService(
@@ -165,6 +166,18 @@ describe('login', () => {
     it('should return a session', async () => {
       await expect(userService.login(email, password)).resolves.toBe(session);
     });
+  });
+});
+
+describe('logout', () => {
+  const token = '2$_5PHMeGU';
+
+  beforeEach(async () => {
+    await userService.logout(token);
+  });
+
+  it('should delete the session', () => {
+    expect(sessionRepository.destroy).toHaveBeenCalledWith(token);
   });
 });
 

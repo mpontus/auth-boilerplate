@@ -54,6 +54,10 @@ export class UserService {
     return this.sessionRepository.create(user);
   }
 
+  public async logout(token: string) {
+    this.sessionRepository.destroy(token);
+  }
+
   public async recoverPassword(email: string): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
 

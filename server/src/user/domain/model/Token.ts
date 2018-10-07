@@ -1,9 +1,9 @@
 export class Token {
-  public readonly secret: string;
+  public token: string = '';
 
-  public readonly permission: string;
+  public permission: string = '';
 
-  public readonly expires: number;
+  public expires: number = 0;
 
   constructor(partial: Partial<Token>) {
     Object.assign(this, partial);

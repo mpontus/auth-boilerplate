@@ -58,6 +58,16 @@ export class UserService {
     this.sessionRepository.destroy(token);
   }
 
+  public async authenticate(token: string) {
+    const session = await this.sessionRepository.find(token);
+
+    if (!session) {
+      throw new BadCredentialsError();
+    }
+
+    return session.user;
+  }
+
   public async recoverPassword(email: string): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
 

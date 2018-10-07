@@ -1,6 +1,5 @@
 import { Token } from '../model/Token';
 import { User } from '../model/User';
-import { Session } from '../model/Session';
 import { UserNotFoundError } from '../exception/UserNotFoundError';
 import { InvalidTokenError } from '../exception/InvalidTokenError';
 import { UserAlreadyExistsError } from '../exception/UserAlreadyExistsError';
@@ -27,6 +26,7 @@ const passwordHasher = {
 };
 
 const sessionRepository = {
+  find: jest.fn(),
   create: jest.fn(),
   destroy: jest.fn(),
 };
@@ -178,6 +178,44 @@ describe('logout', () => {
 
   it('should delete the session', () => {
     expect(sessionRepository.destroy).toHaveBeenCalledWith(token);
+  });
+});
+
+describe('authenticate', () => {
+  const token = 'H$4Dxli4R8';
+
+  describe('when session does not exist', () => {
+    beforeEach(() => {
+      sessionRepository.find.mockImplementationOnce(expected => {
+        expect(expected).toBe(token);
+
+        return null;
+      });
+    });
+
+    it('should throw an error', () => {
+      expect(userService.authenticate(token)).rejects.toThrow(
+        BadCredentialsError,
+      );
+    });
+  });
+
+  describe('when session exists', () => {
+    const user = {};
+
+    beforeEach(() => {
+      sessionRepository.find.mockImplementationOnce(expected => {
+        expect(expected).toBe(token);
+
+        return {
+          user,
+        };
+      });
+    });
+
+    it('should return the user', async () => {
+      await expect(userService.authenticate(token)).resolves.toBe(user);
+    });
   });
 });
 

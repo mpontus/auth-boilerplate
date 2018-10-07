@@ -38,7 +38,7 @@ export class TokenRepository {
       return false;
     }
 
-    const count = await this.entityManager.delete(TokenEntity, {
+    await this.entityManager.delete(TokenEntity, {
       secret,
       permission,
     });

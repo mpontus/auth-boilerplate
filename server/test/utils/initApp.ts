@@ -1,4 +1,3 @@
-import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../../src/AppModule';
 

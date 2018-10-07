@@ -13,7 +13,7 @@ export class SessionEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => UserEntity, { cascade: true, onDelete: 'CASCADE' })
+  @ManyToOne(_ => UserEntity, { cascade: true, onDelete: 'CASCADE' })
   user: UserEntity;
 
   @Column()

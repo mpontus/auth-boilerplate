@@ -5,7 +5,6 @@ import { UserEntity } from './UserEntity';
 import { LinkEntity } from './LinkEntity';
 import { UserMapper } from './UserMapper';
 import { User } from '../../domain/model/User';
-import { SignupDto } from '../../domain/model/SignupDto';
 import { SocialLoginDto } from '../../domain/model/SocialLoginDto';
 import { UpdatePasswordDto } from '../../domain/model/UpdatePasswordDto';
 

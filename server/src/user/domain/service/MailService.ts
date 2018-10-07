@@ -6,6 +6,7 @@ interface SendDto {
 
 export class MailService {
   async send({ template, data, recepient }: SendDto) {
-    // console.log('Sending email', { template, data, recepient });
+    // tslint:disable-next-line
+    console.log('Sending email', { template, data, recepient });
   }
 }

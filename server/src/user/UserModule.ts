@@ -17,16 +17,6 @@ import { HttpStrategy } from './transport/HttpStrategy';
 import { GoogleStrategy } from './transport/GoogleStrategy';
 import { ModuleConfig } from './ModuleConfig';
 
-interface ModuleOptions {
-  providers: {
-    google: {
-      clientId: string;
-      clientSecret: string;
-      callbackUrl: string;
-    };
-  };
-}
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),

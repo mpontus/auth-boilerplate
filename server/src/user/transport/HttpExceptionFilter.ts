@@ -1,11 +1,6 @@
 import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
-import { ExceptionFilter, Catch, BadRequestException } from '@nestjs/common';
-import {
-  HttpServer,
-  Inject,
-  HttpException,
-  ArgumentsHost,
-} from '@nestjs/common';
+import { Catch, BadRequestException } from '@nestjs/common';
+import { HttpServer, Inject, ArgumentsHost } from '@nestjs/common';
 import { ValidationError } from '../domain/exception/ValidationError';
 
 @Catch()

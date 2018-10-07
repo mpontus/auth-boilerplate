@@ -16,7 +16,7 @@ describe('signup', () => {
   describe('when the user does not exist', () => {
     it('should be successful', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/profile')
         .send({
           name: 'Hailee58',
           email: 'nfisher@yahoo.com',
@@ -35,7 +35,7 @@ describe('signup', () => {
 
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/profile')
         .send({
           name: 'Hailee58',
           email: seed.email,
@@ -50,7 +50,7 @@ describe('signup', () => {
   describe('when the email is invalid', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/profile')
         .send({
           name: 'Hailee58',
           email: 'foo',
@@ -65,7 +65,7 @@ describe('signup', () => {
   describe('when the password is too short', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/profile')
         .send({
           name: 'Hailee58',
           email: 'nfisher@yahoo.com',
@@ -80,7 +80,7 @@ describe('signup', () => {
   describe('when the name is too long', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/profile')
+        .post('/auth/profile')
         .send({
           name: 'x'.repeat(1000),
           email: 'nfisher@yahoo.com',

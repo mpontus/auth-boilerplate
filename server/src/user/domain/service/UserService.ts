@@ -5,6 +5,7 @@ import { TokenRepository } from '../abstract/TokenRepository';
 import { MailerService } from '../abstract/MailerService';
 import { PasswordHasher } from '../abstract/PasswordHasher';
 import { User } from '../model/User';
+import { Session } from '../model/Session';
 import { UserNotFoundError } from '../exception/UserNotFoundError';
 import { InvalidTokenError } from '../exception/InvalidTokenError';
 import { UserAlreadyExistsError } from '../exception/UserAlreadyExistsError';
@@ -20,7 +21,11 @@ export class UserService {
     @Inject(PasswordHasher) private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  public async signup(name: string, email: string, password: string) {
+  public async signup(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<Session> {
     const userExists = await this.userRepository.findByEmail(email);
 
     if (userExists) {
@@ -40,7 +45,7 @@ export class UserService {
     return await this.sessionRepository.create(user);
   }
 
-  public async login(email: string, password: string) {
+  public async login(email: string, password: string): Promise<Session> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -56,11 +61,11 @@ export class UserService {
     return this.sessionRepository.create(user);
   }
 
-  public async logout(token: string) {
-    this.sessionRepository.destroy(token);
+  public logout(token: string): Promise<Session> {
+    return this.sessionRepository.destroy(token);
   }
 
-  public async authenticate(token: string) {
+  public async authenticate(token: string): Promise<User> {
     const session = await this.sessionRepository.find(token);
 
     if (!session) {

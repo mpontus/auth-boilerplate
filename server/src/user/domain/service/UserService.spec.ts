@@ -193,13 +193,28 @@ describe('login', () => {
 
 describe('logout', () => {
   const token = '2$_5PHMeGU';
+  const session = { destroyed: true };
+
+  beforeEach(() => {
+    sessionRepository.destroy.mockImplementationOnce(actual => {
+      expect(actual).toBe(token);
+
+      return session;
+    });
+  });
+
+  let result: any;
 
   beforeEach(async () => {
-    await userService.logout(token);
+    result = await userService.logout(token);
   });
 
   it('should delete the session', () => {
     expect(sessionRepository.destroy).toHaveBeenCalledWith(token);
+  });
+
+  it('should return the session object', () => {
+    expect(result).toEqual(session);
   });
 });
 

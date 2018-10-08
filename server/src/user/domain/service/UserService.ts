@@ -29,13 +29,15 @@ export class UserService {
 
     const passwordHash = await this.passwordHasher.hash(password);
 
-    await this.userRepository.save(
-      new User({
-        name,
-        email,
-        passwordHash,
-      }),
-    );
+    const user = new User({
+      name,
+      email,
+      passwordHash,
+    });
+
+    await this.userRepository.save(user);
+
+    return await this.sessionRepository.create(user);
   }
 
   public async login(email: string, password: string) {

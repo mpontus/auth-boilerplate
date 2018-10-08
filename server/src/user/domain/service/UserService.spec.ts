@@ -89,8 +89,10 @@ describe('signup', () => {
       });
     });
 
+    let result: any;
+
     beforeEach(async () => {
-      await userService.signup(name, email, password);
+      result = await userService.signup(name, email, password);
     });
 
     it('should save the user to the database', () => {
@@ -98,7 +100,7 @@ describe('signup', () => {
     });
 
     it('should return a session', async () => {
-      expect(await userService.signup(name, email, password)).toMatchObject({
+      expect(result).toMatchObject({
         token,
         user,
       });

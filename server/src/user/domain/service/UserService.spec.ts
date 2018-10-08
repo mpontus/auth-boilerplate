@@ -1,4 +1,4 @@
-import { Token } from '../model/Token';
+import { PasswordRecovery } from '../model/PasswordRecovery';
 import { User } from '../model/User';
 import { UserNotFoundError } from '../exception/UserNotFoundError';
 import { InvalidTokenError } from '../exception/InvalidTokenError';
@@ -11,9 +11,10 @@ const userRepository = {
   save: jest.fn(),
 };
 
-const tokenRepository = {
+const passwordRecoveryRepository = {
   create: jest.fn(),
-  claim: jest.fn(),
+  find: jest.fn(),
+  destroy: jest.fn(),
 };
 
 const mailerService = {
@@ -34,7 +35,7 @@ const sessionRepository = {
 const userService = new UserService(
   userRepository,
   sessionRepository,
-  tokenRepository,
+  passwordRecoveryRepository,
   mailerService,
   passwordHasher,
 );
@@ -271,22 +272,23 @@ describe('password recovery', () => {
 
   describe('when the user exists', () => {
     const email = 'dillondelacruz@shaw.com';
+    const user = {};
     const token = 'FW9%!nRe$M';
 
     beforeEach(async () => {
-      tokenRepository.create.mockResolvedValueOnce(
-        new Token({
-          token,
-        }),
-      );
+      userRepository.findByEmail.mockImplementationOnce(actual => {
+        expect(actual).toBe(email);
+
+        return user;
+      });
+
+      passwordRecoveryRepository.create.mockReturnValueOnce({ token });
 
       await userService.recoverPassword(email);
     });
 
     it('should persist new password recovery request', () => {
-      expect(tokenRepository.create).toHaveBeenCalledWith(
-        `password_reset:${email}`,
-      );
+      expect(passwordRecoveryRepository.create).toHaveBeenCalledWith(user);
     });
 
     it('should dispatch a notification to user email', () => {
@@ -303,39 +305,30 @@ describe('password recovery', () => {
 });
 
 describe('password reset', () => {
-  const email = 'nwashington@gmail.com';
+  const userId = '239847629834';
   const token = 'x6tnBEr4&i';
   const password = '_q*9s^Li$G';
   const passwordHash = '^u&Mt3&I52';
-  const user = new User({
-    email,
-  });
 
   describe('when the token is invalid', () => {
     beforeEach(() => {
-      tokenRepository.claim.mockResolvedValueOnce(false);
+      passwordRecoveryRepository.find.mockResolvedValueOnce(false);
     });
 
     it('must throw an error', async () => {
-      await expect(
-        userService.resetPassword(email, token, password),
-      ).rejects.toThrow(InvalidTokenError);
+      await expect(userService.resetPassword(token, password)).rejects.toThrow(
+        InvalidTokenError,
+      );
     });
   });
 
   describe('when the token is valid', () => {
     beforeEach(() => {
-      tokenRepository.claim.mockImplementationOnce((permit, token) => {
-        expect(permit).toBe(`password_reset:${email}`);
-        expect(token).toBe(token);
-
-        return true;
-      });
-
-      userRepository.findByEmail.mockImplementationOnce(actual => {
-        expect(actual).toBe(email);
-
-        return user;
+      passwordRecoveryRepository.find.mockResolvedValueOnce({
+        token,
+        user: {
+          id: userId,
+        },
       });
 
       passwordHasher.hash.mockImplementationOnce(actual => {
@@ -343,19 +336,35 @@ describe('password reset', () => {
 
         return passwordHash;
       });
+
+      passwordRecoveryRepository.destroy.mockReturnValueOnce({
+        fulfilled: true,
+      });
     });
 
+    let result: any;
+
     beforeEach(async () => {
-      await userService.resetPassword(email, token, password);
+      result = await userService.resetPassword(token, password);
+    });
+
+    it('must destroy the token', () => {
+      expect(passwordRecoveryRepository.destroy).toHaveBeenCalledWith(token);
     });
 
     it('must write the user to the database', () => {
       expect(userRepository.save).toHaveBeenCalledWith(
         expect.objectContaining({
-          email,
+          id: userId,
           passwordHash,
         }),
       );
+    });
+
+    it('should return the password recovery object', () => {
+      expect(result).toEqual({
+        fulfilled: true,
+      });
     });
   });
 });

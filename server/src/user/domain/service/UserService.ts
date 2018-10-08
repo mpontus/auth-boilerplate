@@ -1,11 +1,12 @@
 import { Inject } from '@nestjs/common';
 import { UserRepository } from '../abstract/UserRepository';
 import { SessionRepository } from '../abstract/SessionRepository';
-import { TokenRepository } from '../abstract/TokenRepository';
+import { PasswordRecoveryRepository } from '../abstract/PasswordRecoveryRepository';
 import { MailerService } from '../abstract/MailerService';
 import { PasswordHasher } from '../abstract/PasswordHasher';
 import { User } from '../model/User';
 import { Session } from '../model/Session';
+import { PasswordRecovery } from '../model/PasswordRecovery';
 import { UserNotFoundError } from '../exception/UserNotFoundError';
 import { InvalidTokenError } from '../exception/InvalidTokenError';
 import { UserAlreadyExistsError } from '../exception/UserAlreadyExistsError';
@@ -16,7 +17,8 @@ export class UserService {
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(SessionRepository)
     private readonly sessionRepository: SessionRepository,
-    @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
+    @Inject(PasswordRecoveryRepository)
+    private readonly passwordRecoveryRepository: PasswordRecoveryRepository,
     @Inject(MailerService) private readonly mailerService: MailerService,
     @Inject(PasswordHasher) private readonly passwordHasher: PasswordHasher,
   ) {}
@@ -75,39 +77,39 @@ export class UserService {
     return session.user;
   }
 
-  public async recoverPassword(email: string): Promise<void> {
+  public async recoverPassword(email: string): Promise<PasswordRecovery> {
     const user = await this.userRepository.findByEmail(email);
 
     if (user === null) {
       throw new UserNotFoundError();
     }
 
-    const token = await this.tokenRepository.create(`password_reset:${email}`);
+    const request = await this.passwordRecoveryRepository.create(user);
 
     await this.mailerService.send(email, 'password_recovery', {
       email,
-      token: token.token,
+      token: request.token,
     });
+
+    return request;
   }
 
   public async resetPassword(
-    email: string,
     token: string,
     password: string,
-  ): Promise<void> {
-    const validToken = await this.tokenRepository.claim(
-      `password_reset:${email}`,
-      token,
-    );
+  ): Promise<PasswordRecovery> {
+    const request = await this.passwordRecoveryRepository.find(token);
 
-    if (!validToken) {
+    if (!request) {
       throw new InvalidTokenError();
     }
 
-    const user = await this.userRepository.findByEmail(email);
+    const user = request.user;
 
     user.passwordHash = await this.passwordHasher.hash(password);
 
     await this.userRepository.save(user);
+
+    return this.passwordRecoveryRepository.destroy(token);
   }
 }

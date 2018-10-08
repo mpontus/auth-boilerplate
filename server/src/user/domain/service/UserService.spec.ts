@@ -39,11 +39,21 @@ const userService = new UserService(
   passwordHasher,
 );
 
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 describe('signup', () => {
   const name = 'Brian Foster';
   const email = 'ebrown@hotmail.com';
   const password = '_q*9s^Li$G';
   const passwordHash = 'FW9%!nRe$M';
+  const token = 'x6tnBEr4&i';
+  const user = expect.objectContaining({
+    name,
+    email,
+    passwordHash,
+  });
 
   describe('when user already exists', () => {
     beforeEach(() => {
@@ -68,6 +78,15 @@ describe('signup', () => {
 
         return passwordHash;
       });
+
+      sessionRepository.create.mockImplementationOnce(actual => {
+        expect(actual).toEqual(user);
+
+        return {
+          token,
+          user,
+        };
+      });
     });
 
     beforeEach(async () => {
@@ -75,13 +94,14 @@ describe('signup', () => {
     });
 
     it('should save the user to the database', () => {
-      expect(userRepository.save).toHaveBeenCalledWith(
-        expect.objectContaining({
-          name,
-          email,
-          passwordHash,
-        }),
-      );
+      expect(userRepository.save).toHaveBeenCalledWith(user);
+    });
+
+    it('should return a session', async () => {
+      expect(await userService.signup(name, email, password)).toMatchObject({
+        token,
+        user,
+      });
     });
   });
 });

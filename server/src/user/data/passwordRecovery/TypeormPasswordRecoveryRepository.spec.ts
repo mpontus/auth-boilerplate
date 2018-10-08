@@ -68,3 +68,45 @@ describe('create', () => {
     });
   });
 });
+
+describe('find', () => {
+  describe('when the request does not exist', () => {
+    it('should return null', async () => {
+      expect(await repository.find('FW9%!nRe$M')).toEqual(null);
+    });
+  });
+
+  describe('when the request exists', () => {
+    const token = 'FW9%!nRe$M';
+    const expires = new Date();
+    const user = {
+      name: 'Theresa Brown',
+      email: 'nfisher@yahoo.com',
+      passwordHash: '#(i9Z3OyGW',
+    };
+
+    beforeEach(async () => {
+      const userEntity = {
+        ...user,
+      };
+
+      const requestEntity = {
+        token,
+        expires,
+        user: userEntity,
+      };
+
+      await manager.save(UserEntity, userEntity);
+      await manager.save(PasswordRecoveryEntity, requestEntity);
+    });
+
+    it('should return the request', async () => {
+      expect(await repository.find(token)).toEqual({
+        token,
+        expires,
+        user: expect.objectContaining(user),
+        fulfilled: false,
+      });
+    });
+  });
+});

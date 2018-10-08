@@ -8,16 +8,17 @@ import { UserEntity } from '../user/UserEntity';
 import { PasswordRecoveryEntity } from './PasswordRecoveryEntity';
 
 export class TypeormPasswordRecoveryRepository extends PasswordRecoveryRepository {
-  constructor(
-    @InjectEntityManager() private readonly manager: EntityManager,
-    @Inject() private readonly userRepository: UserRepository,
-  ) {
+  constructor(@InjectEntityManager() private readonly manager: EntityManager) {
     super();
   }
 
   public async create(user: User): Promise<PasswordRecovery> {
+    const userEntity = await this.manager.findOneOrFail(UserEntity, {
+      id: parseInt(user.id),
+    });
+
     const requestEntity = this.manager.create(PasswordRecoveryEntity, {
-      userId: user.id,
+      user: userEntity,
       token: hat(),
       expires: new Date(),
     });
@@ -33,7 +34,29 @@ export class TypeormPasswordRecoveryRepository extends PasswordRecoveryRepositor
   }
 
   public async find(token: string): Promise<PasswordRecovery | null> {
-    return null;
+    const requestEntity = await this.manager.findOne(
+      PasswordRecoveryEntity,
+      {
+        token,
+      },
+      {
+        relations: ['user'],
+      },
+    );
+
+    if (!requestEntity) {
+      return null;
+    }
+
+    return {
+      token: requestEntity.token,
+      expires: requestEntity.expires,
+      user: {
+        ...requestEntity.user,
+        id: `${requestEntity.user.id}`,
+      },
+      fulfilled: false,
+    };
   }
 
   public async destroy(token: string): Promise<PasswordRecovery> {

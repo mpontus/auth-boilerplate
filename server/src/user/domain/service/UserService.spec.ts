@@ -45,16 +45,18 @@ afterEach(() => {
 });
 
 describe('signup', () => {
+  const id = '1298379';
   const name = 'Brian Foster';
   const email = 'ebrown@hotmail.com';
   const password = '_q*9s^Li$G';
   const passwordHash = 'FW9%!nRe$M';
   const token = 'x6tnBEr4&i';
-  const user = expect.objectContaining({
+  const user = {
+    id,
     name,
     email,
     passwordHash,
-  });
+  };
 
   describe('when user already exists', () => {
     beforeEach(() => {
@@ -80,6 +82,8 @@ describe('signup', () => {
         return passwordHash;
       });
 
+      userRepository.save.mockReturnValueOnce(user);
+
       sessionRepository.create.mockImplementationOnce(actual => {
         expect(actual).toEqual(user);
 
@@ -97,7 +101,11 @@ describe('signup', () => {
     });
 
     it('should save the user to the database', () => {
-      expect(userRepository.save).toHaveBeenCalledWith(user);
+      expect(userRepository.save).toHaveBeenCalledWith({
+        name,
+        email,
+        passwordHash,
+      });
     });
 
     it('should return a session', async () => {

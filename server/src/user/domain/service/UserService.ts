@@ -36,13 +36,13 @@ export class UserService {
 
     const passwordHash = await this.passwordHasher.hash(password);
 
-    const user = new User({
-      name,
-      email,
-      passwordHash,
-    });
-
-    await this.userRepository.save(user);
+    const user = await this.userRepository.save(
+      new User({
+        name,
+        email,
+        passwordHash,
+      }),
+    );
 
     return await this.sessionRepository.create(user);
   }

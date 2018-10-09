@@ -19,9 +19,9 @@ beforeAll(async () => {
   repository = new TypeormPasswordRecoveryRepository(manager);
 });
 
-beforeEach(async () => {
-  await connection.synchronize(true);
-});
+beforeEach(() => connection.synchronize(true));
+
+afterAll(() => connection.close());
 
 describe('find', () => {
   const token = 'FW9%!nRe$M';

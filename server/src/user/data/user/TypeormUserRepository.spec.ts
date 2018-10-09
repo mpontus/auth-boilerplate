@@ -1,6 +1,5 @@
 import { createConnection, Connection, EntityManager } from 'typeorm';
 import { TypeormUserRepository } from './TypeormUserRepository';
-
 import { UserEntity } from './UserEntity';
 
 let connection: Connection;
@@ -18,9 +17,9 @@ beforeAll(async () => {
   userRepository = new TypeormUserRepository(manager);
 });
 
-beforeEach(async () => {
-  await connection.synchronize(true);
-});
+beforeEach(() => connection.synchronize(true));
+
+afterAll(() => connection.close());
 
 describe('findByEmail', () => {
   const email = 'ngallagher@cole-pearson.info';

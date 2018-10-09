@@ -22,6 +22,48 @@ beforeEach(async () => {
   await connection.synchronize(true);
 });
 
+describe('find', () => {
+  describe('when the request does not exist', () => {
+    it('should return null', async () => {
+      expect(await repository.find('FW9%!nRe$M')).toEqual(null);
+    });
+  });
+
+  describe('when the request exists', () => {
+    const token = 'FW9%!nRe$M';
+    const expires = new Date();
+    const user = {
+      name: 'Theresa Brown',
+      email: 'nfisher@yahoo.com',
+      passwordHash: '#(i9Z3OyGW',
+    };
+
+    beforeEach(async () => {
+      const userEntity = {
+        ...user,
+      };
+
+      const requestEntity = {
+        token,
+        expires,
+        user: userEntity,
+      };
+
+      await manager.save(UserEntity, userEntity);
+      await manager.save(PasswordRecoveryEntity, requestEntity);
+    });
+
+    it('should return the request', async () => {
+      expect(await repository.find(token)).toEqual({
+        token,
+        expires,
+        user: expect.objectContaining(user),
+        fulfilled: false,
+      });
+    });
+  });
+});
+
 describe('create', () => {
   const user = {
     id: '1',
@@ -69,42 +111,55 @@ describe('create', () => {
   });
 });
 
-describe('find', () => {
-  describe('when the request does not exist', () => {
-    it('should return null', async () => {
-      expect(await repository.find('FW9%!nRe$M')).toEqual(null);
+describe('destroy', () => {
+  const token = 'H$4Dxli4R8';
+  const expires = new Date();
+  const user = {
+    name: 'Theresa Brown',
+    email: 'mitchell97@jones-smith.net',
+    passwordHash: 'H$4Dxli4R8',
+  };
+
+  beforeEach(async () => {
+    const userEntity = {
+      ...user,
+    };
+
+    const requestEntity = {
+      token,
+      expires,
+      user: userEntity,
+    };
+
+    await manager.save(UserEntity, userEntity);
+    await manager.save(PasswordRecoveryEntity, requestEntity);
+  });
+
+  describe('when request does not exist', () => {
+    it('shold throw an error', () => {
+      expect(repository.destroy('ngbA1CVl!H')).rejects.toThrow();
     });
   });
 
-  describe('when the request exists', () => {
-    const token = 'FW9%!nRe$M';
-    const expires = new Date();
-    const user = {
-      name: 'Theresa Brown',
-      email: 'nfisher@yahoo.com',
-      passwordHash: '#(i9Z3OyGW',
-    };
+  describe('when request exists', () => {
+    let result: any;
 
     beforeEach(async () => {
-      const userEntity = {
-        ...user,
-      };
-
-      const requestEntity = {
-        token,
-        expires,
-        user: userEntity,
-      };
-
-      await manager.save(UserEntity, userEntity);
-      await manager.save(PasswordRecoveryEntity, requestEntity);
+      result = await repository.destroy(token);
     });
 
-    it('should return the request', async () => {
-      expect(await repository.find(token)).toEqual({
-        token,
-        expires,
-        user: expect.objectContaining(user),
+    it('should remove the request from the database', async () => {
+      expect(await manager.find(PasswordRecoveryEntity, {})).toEqual([]);
+    });
+
+    it('should return removed password recovery entity', () => {
+      expect(result).toEqual({
+        token: expect.any(String),
+        user: {
+          id: expect.any(String),
+          ...user,
+        },
+        expires: expect.any(Date),
         fulfilled: false,
       });
     });

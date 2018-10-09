@@ -60,6 +60,24 @@ export class TypeormPasswordRecoveryRepository extends PasswordRecoveryRepositor
   }
 
   public async destroy(token: string): Promise<PasswordRecovery> {
-    return new PasswordRecovery({});
+    const requestEntity = await this.manager.findOneOrFail(
+      PasswordRecoveryEntity,
+      { token },
+      {
+        relations: ['user'],
+      },
+    );
+
+    await this.manager.delete(PasswordRecoveryEntity, requestEntity);
+
+    return {
+      token: requestEntity.token,
+      expires: requestEntity.expires,
+      user: {
+        ...requestEntity.user,
+        id: `${requestEntity.user.id}`,
+      },
+      fulfilled: false,
+    };
   }
 }

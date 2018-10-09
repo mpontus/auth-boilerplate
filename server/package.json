@@ -20,6 +20,7 @@
     "bcrypt": "^3.0.1",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.9.1",
+    "dayjs": "^1.7.7",
     "hat": "^0.0.3",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",

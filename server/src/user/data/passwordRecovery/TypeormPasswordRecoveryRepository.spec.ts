@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { createConnection, Connection, EntityManager } from 'typeorm';
 import { TypeormPasswordRecoveryRepository } from './TypeormPasswordRecoveryRepository';
 import { UserEntity } from '../user/UserEntity';
@@ -23,36 +24,56 @@ beforeEach(async () => {
 });
 
 describe('find', () => {
+  const token = 'FW9%!nRe$M';
+  const expires = dayjs()
+    .add(1, 'day')
+    .toDate();
+  const user = {
+    name: 'Theresa Brown',
+    email: 'nfisher@yahoo.com',
+    passwordHash: '#(i9Z3OyGW',
+  };
+
+  beforeEach(async () => {
+    const userEntity = {
+      ...user,
+    };
+
+    const requestEntity = {
+      token,
+      expires,
+      user: userEntity,
+    };
+
+    await manager.save(UserEntity, userEntity);
+    await manager.save(PasswordRecoveryEntity, requestEntity);
+  });
+
   describe('when the request does not exist', () => {
     it('should return null', async () => {
-      expect(await repository.find('FW9%!nRe$M')).toEqual(null);
+      expect(await repository.find('ngbA1CVl!H')).toEqual(null);
+    });
+  });
+
+  describe('when the request is expired', () => {
+    beforeEach(async () => {
+      await manager.update(
+        PasswordRecoveryEntity,
+        { token },
+        {
+          expires: dayjs()
+            .subtract(5, 'day')
+            .toDate(),
+        },
+      );
+    });
+
+    it('should return null', async () => {
+      expect(await repository.find(token)).toEqual(null);
     });
   });
 
   describe('when the request exists', () => {
-    const token = 'FW9%!nRe$M';
-    const expires = new Date();
-    const user = {
-      name: 'Theresa Brown',
-      email: 'nfisher@yahoo.com',
-      passwordHash: '#(i9Z3OyGW',
-    };
-
-    beforeEach(async () => {
-      const userEntity = {
-        ...user,
-      };
-
-      const requestEntity = {
-        token,
-        expires,
-        user: userEntity,
-      };
-
-      await manager.save(UserEntity, userEntity);
-      await manager.save(PasswordRecoveryEntity, requestEntity);
-    });
-
     it('should return the request', async () => {
       expect(await repository.find(token)).toEqual({
         token,
@@ -101,6 +122,10 @@ describe('create', () => {
     ]);
   });
 
+  it('should have future expiry date', () => {
+    expect(result.expires.getTime()).toBeGreaterThan(Date.now());
+  });
+
   it('should return password recovery object', () => {
     expect(result).toEqual({
       token: expect.any(String),
@@ -138,6 +163,24 @@ describe('destroy', () => {
   describe('when request does not exist', () => {
     it('shold throw an error', () => {
       expect(repository.destroy('ngbA1CVl!H')).rejects.toThrow();
+    });
+  });
+
+  describe('when the request is expired', () => {
+    beforeEach(async () => {
+      await manager.update(
+        PasswordRecoveryEntity,
+        { token },
+        {
+          expires: dayjs()
+            .subtract(5, 'day')
+            .toDate(),
+        },
+      );
+    });
+
+    it('should return null', async () => {
+      expect(await repository.find(token)).toEqual(null);
     });
   });
 

@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import hat from 'hat';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
+import { EntityManager, MoreThan } from 'typeorm';
 import { PasswordRecoveryRepository } from '../../domain/abstract/PasswordRecoveryRepository';
 import { User } from '../../domain/model/User';
 import { PasswordRecovery } from '../../domain/model/PasswordRecovery';
@@ -14,13 +15,15 @@ export class TypeormPasswordRecoveryRepository extends PasswordRecoveryRepositor
 
   public async create(user: User): Promise<PasswordRecovery> {
     const userEntity = await this.manager.findOneOrFail(UserEntity, {
-      id: parseInt(user.id),
+      id: parseInt(user.id, 10),
     });
 
     const requestEntity = this.manager.create(PasswordRecoveryEntity, {
       user: userEntity,
       token: hat(),
-      expires: new Date(),
+      expires: dayjs()
+        .add(1, 'day')
+        .toDate(),
     });
 
     await this.manager.save(requestEntity);
@@ -38,6 +41,7 @@ export class TypeormPasswordRecoveryRepository extends PasswordRecoveryRepositor
       PasswordRecoveryEntity,
       {
         token,
+        expires: MoreThan(new Date()),
       },
       {
         relations: ['user'],

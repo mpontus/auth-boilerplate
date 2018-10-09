@@ -16,7 +16,7 @@ export class PasswordRecoveryEntity {
   @Column()
   token: string;
 
-  @ManyToOne(_ => UserEntity, { cascade: true, onDelete: 'CASCADE' })
+  @ManyToOne(_ => UserEntity, { onDelete: 'CASCADE' })
   user: UserEntity;
 
   @Column()

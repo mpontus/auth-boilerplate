@@ -38,6 +38,7 @@ describe('find', () => {
       token,
     };
 
+    await manager.save(UserEntity, userEntity);
     await manager.save(SessionEntity, sessionEntity);
   });
 
@@ -109,6 +110,7 @@ describe('destroy', () => {
       user: userEntity,
     };
 
+    await manager.save(UserEntity, userEntity);
     await manager.save(SessionEntity, sessionEntity);
   });
 

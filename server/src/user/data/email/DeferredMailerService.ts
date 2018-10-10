@@ -8,14 +8,14 @@ export class DeferredMailerService extends MailerService {
   }
 
   public async send(
-    email: string,
+    recipient: string,
     template: string,
     data: { [key: string]: boolean | string | number },
   ): Promise<void> {
     // Subscribe but ignore the result to kick off message delivery
     // and start task in the background
     this.client
-      .send({ cmd: 'send_email' }, { recepient: email, template, data })
+      .send({ cmd: 'send_email' }, { recipient, template, data })
       .subscribe();
   }
 }

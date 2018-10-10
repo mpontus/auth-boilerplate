@@ -29,6 +29,9 @@ describe('signup', () => {
 
       expect(response.body).toMatchSnapshot({
         token: expect.any(String),
+        user: expect.objectContaining({
+          passwordHash: expect.any(String),
+        }),
       });
     });
   });

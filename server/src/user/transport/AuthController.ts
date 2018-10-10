@@ -23,55 +23,38 @@ import { Session } from '../domain/model/Session';
 import { RecoverPasswordDto } from '../domain/model/RecoverPasswordDto';
 import { ResetPasswordDto } from '../domain/model/ResetPasswordDto';
 import { UserService } from '../domain/service/UserService';
-import { AuthService } from '../domain/service/AuthService';
 import { HttpExceptionFilter } from './HttpExceptionFilter';
 
 @Controller('/auth')
 @UseFilters(HttpExceptionFilter)
 export class AuthController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
-  async login(@Body() data: LoginDto): Promise<Session> {
-    return await this.authService.createToken(data);
-  }
-
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  async googleSingup(@Req() req: any) {
-    return this.authService.authenticate(req.user);
+  async login(@Body() { email, password }: LoginDto): Promise<Session> {
+    return await this.userService.login(email, password);
   }
 
   @Post('password_recovery')
   @HttpCode(HttpStatus.ACCEPTED)
   @UsePipes(new ValidationPipe({ transform: true }))
   async passwortRecovery(@Body() { email }: RecoverPasswordDto) {
-    await this.userService.recoverPassword({ email });
+    await this.userService.recoverPassword(email);
   }
 
   @Post('reset_password')
   @UsePipes(new ValidationPipe({ transform: true }))
   @HttpCode(HttpStatus.ACCEPTED)
-  async resetPassword(@Body() { email, secret, password }: ResetPasswordDto) {
-    await this.userService.resetPassword({ email, secret, password });
+  async resetPassword(@Body() { secret, password }: ResetPasswordDto) {
+    await this.userService.resetPassword(secret, password);
   }
 
   @Post('profile')
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
-  async signup(@Body() data: SignupDto): Promise<User> {
-    return await this.userService.signup(data);
-  }
-
-  @Patch('profile')
-  @HttpCode(HttpStatus.ACCEPTED)
-  @UseGuards(AuthGuard('bearer'))
-  async updateProfile(@Req() req: any, @Body() update: ProfileUpdateDto) {
-    await this.userService.updateProfile(req.user, update);
+  async signup(@Body() { email, name, password }: SignupDto): Promise<Session> {
+    return await this.userService.signup(name, email, password);
   }
 }

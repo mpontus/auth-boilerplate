@@ -76,8 +76,10 @@ Object {
 
 exports[`signup when the user does not exist should be successful 1`] = `
 Object {
-  "email": "nfisher@yahoo.com",
-  "id": "1",
-  "name": "Hailee58",
+  "destroyed": false,
+  "token": Any<String>,
+  "user": ObjectContaining {
+    "passwordHash": Any<String>,
+  },
 }
 `;

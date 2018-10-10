@@ -47,6 +47,10 @@ export class UserService {
     return await this.sessionRepository.create(user);
   }
 
+  public async signupWithProvider(rest: any[]): Promise<User> {
+    throw new Error('Not implemented');
+  }
+
   public async login(email: string, password: string): Promise<Session> {
     const user = await this.userRepository.findByEmail(email);
 

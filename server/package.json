@@ -27,6 +27,7 @@
     "passport-google-oauth2": "^0.1.6",
     "passport-http-bearer": "^1.0.1",
     "pg": "^7.4.3",
+    "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
     "typeorm": "^0.2.7",

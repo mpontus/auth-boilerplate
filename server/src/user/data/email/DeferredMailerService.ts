@@ -1,8 +1,9 @@
+import { Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MailerService } from '../../domain/abstract/MailerService';
 
-class DeferredMailerService extends MailerService {
-  constructor(private readonly client: ClientProxy) {
+export class DeferredMailerService extends MailerService {
+  constructor(@Inject(ClientProxy) private readonly client: ClientProxy) {
     super();
   }
 

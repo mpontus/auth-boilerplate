@@ -33,28 +33,6 @@ describe('Password reset', () => {
     });
   });
 
-  describe('when email does not match secret', () => {
-    const newPassword = 'foobarbaz';
-    const userSeed = require('../seeds/registered_user');
-    const recoverySeed = require('../seeds/password_recovery_request');
-
-    beforeEach(() => userSeed.run());
-    beforeEach(() => recoverySeed.run());
-
-    it('should return an error', async () => {
-      const response = await request(expressApp)
-        .post('/auth/reset_password')
-        .send({
-          secret: recoverySeed.secret,
-          email: userSeed.email,
-          password: newPassword,
-        })
-        .expect(400);
-
-      expect(response.body).toMatchSnapshot();
-    });
-  });
-
   describe('when password is invalid', () => {
     const seed = require('../seeds/password_recovery_request');
 

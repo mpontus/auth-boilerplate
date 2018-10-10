@@ -12,7 +12,7 @@ afterAll(() => nestApp.close());
 
 beforeEach(() => resetDb());
 
-describe('Profile update', () => {
+describe.skip('Profile update', () => {
   describe('When user is authenticated', () => {
     const seed = require('../seeds/authenticated_user');
 
@@ -45,7 +45,7 @@ describe('Profile update', () => {
   });
 });
 
-describe('Updating email', () => {
+describe.skip('Updating email', () => {
   const seed = require('../seeds/authenticated_user');
 
   beforeEach(() => seed.run());
@@ -81,7 +81,7 @@ describe('Updating email', () => {
   });
 });
 
-describe('Updating password', () => {
+describe.skip('Updating password', () => {
   const seed = require('../seeds/authenticated_user');
 
   beforeEach(() => seed.run());

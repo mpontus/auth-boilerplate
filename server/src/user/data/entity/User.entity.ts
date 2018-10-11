@@ -28,6 +28,9 @@ export class User {
   email: string = '';
 
   @Column()
+  emailVerified: boolean = false;
+
+  @Column()
   passwordHash: string = '';
 
   @CreateDateColumn()

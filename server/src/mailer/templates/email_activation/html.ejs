@@ -306,19 +306,17 @@
 		    </tr>
 		    <tr>
 		      <td class="content-block">
-			Someone requested a new password for your <b><%= site_name %></b> account.
+			Please verify your email address by clicking on the link below.
 		      </td>
 		    </tr>
-
 		    <tr>
 		      <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
-			<a href="<%= site_url + '/password_recovery/' + token %>" class="btn-primary" itemprop="url">Reset your password</a>
+			<a href="<%= site_url + '/email_activation/' + token %>" class="btn-primary" itemprop="url">Confirm email address</a>
 		      </td>
 		    </tr>
-
 		    <tr>
 		      <td class="content-block">
-			If you did not request a password reset, then you can safely ignore this message.
+			Thank you for signing up for <b><%= site_name %></b>
 		      </td>
 		    </tr>
 		  </table>

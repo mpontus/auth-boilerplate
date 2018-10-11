@@ -7,8 +7,8 @@ import { SendDto } from './SendDto';
 export class MailerController {
   constructor(private readonly mailerService: MailerService) {}
 
-  @MessagePattern({ cmd: 'send_email' })
-  async send({ recipient, template, data }: SendDto) {
-    this.mailerService.send(recipient, template, data);
+  @MessagePattern({ cmd: 'send_transactional_email' })
+  async send({ recipient, template, locals }: SendDto) {
+    this.mailerService.send(recipient, template, locals);
   }
 }

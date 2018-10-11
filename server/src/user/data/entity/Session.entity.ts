@@ -15,5 +15,5 @@ export class Session {
   token: string;
 
   @ManyToOne(_ => User, { cascade: true, onDelete: 'CASCADE' })
-  user: User | null;
+  user: User;
 }

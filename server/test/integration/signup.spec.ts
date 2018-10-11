@@ -16,7 +16,7 @@ describe('signup', () => {
   describe('when the user does not exist', () => {
     it('should be successful', async () => {
       const response = await request(expressApp)
-        .post('/auth/profile')
+        .post('/auth/signup')
         .send({
           name: 'Hailee58',
           email: 'nfisher@yahoo.com',
@@ -27,7 +27,7 @@ describe('signup', () => {
       expect(response.body).toMatchSnapshot({
         token: expect.any(String),
         user: expect.objectContaining({
-          passwordHash: expect.any(String),
+          name: 'Hailee58',
         }),
       });
     });
@@ -40,7 +40,7 @@ describe('signup', () => {
 
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/auth/profile')
+        .post('/auth/signup')
         .send({
           name: 'Hailee58',
           email: seed.email,
@@ -55,7 +55,7 @@ describe('signup', () => {
   describe('when the email is invalid', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/auth/profile')
+        .post('/auth/signup')
         .send({
           name: 'Hailee58',
           email: 'foo',
@@ -70,7 +70,7 @@ describe('signup', () => {
   describe('when the password is too short', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/auth/profile')
+        .post('/auth/signup')
         .send({
           name: 'Hailee58',
           email: 'nfisher@yahoo.com',
@@ -85,7 +85,7 @@ describe('signup', () => {
   describe('when the name is too long', () => {
     it('should be an error', async () => {
       const response = await request(expressApp)
-        .post('/auth/profile')
+        .post('/auth/signup')
         .send({
           name: 'x'.repeat(1000),
           email: 'nfisher@yahoo.com',

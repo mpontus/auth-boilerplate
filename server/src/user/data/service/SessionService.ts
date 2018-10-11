@@ -110,7 +110,15 @@ export class SessionService {
     return session;
   }
 
-  async logout(token: string): Promise<void> {
-    await this.sessionRepository.delete(token);
+  async logout(actor: User, token: string): Promise<void> {
+    const session = await this.sessionRepository.findOne(token, {
+      relations: ['user'],
+    });
+
+    if (!session || session.user.id !== actor.id) {
+      throw new UnauthorizedException();
+    }
+
+    await this.sessionRepository.remove(session);
   }
 }

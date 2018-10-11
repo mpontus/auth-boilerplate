@@ -2,9 +2,13 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  HttpCode,
+  HttpStatus,
   Inject,
   Param,
   Post,
+  Req,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -15,6 +19,7 @@ import { SocialLoginDto } from '../validator/SocialLoginDto';
 import { SignupDto } from '../validator/SignupDto';
 import { Session } from '../serializer/Session';
 import { TransformInterceptor } from '../interceptor/TransformInterceptor';
+import { AuthGuard } from '../guards/AuthGuard';
 
 @Controller('auth')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -49,6 +54,10 @@ export class AuthController {
     return this.sessionService.signupWithProvider(provider, code);
   }
 
-  @Post('logout')
-  logout() {}
+  @Post('logout/:token')
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.ACCEPTED)
+  async logout(@Req() req: any, @Param('token') token: string): Promise<void> {
+    await this.sessionService.logout(req.user, token);
+  }
 }

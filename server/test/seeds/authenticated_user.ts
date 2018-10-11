@@ -13,12 +13,16 @@ export const token = hat();
 export const run = async () => {
   const { manager } = getConnection();
 
-  await manager.save(Session, {
-    user: {
-      id,
-      email,
-      passwordHash,
-    },
+  const user = manager.create(User, {
+    id,
+    email,
+    passwordHash,
+  });
+
+  const session = manager.create(Session, {
+    user,
     token,
   });
+
+  await manager.save(Session, session);
 };

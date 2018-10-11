@@ -3,7 +3,21 @@
 exports[`signup when email is already taken should be an error 1`] = `
 Object {
   "error": "Bad Request",
-  "message": "User already exists",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isUserAlreadyExist": "User with this email already exists.",
+      },
+      "property": "email",
+      "target": Object {
+        "email": "Toby38@gmail.com",
+        "name": "Hailee58",
+        "password": "9O_8ywUKpHuHjnZ",
+      },
+      "value": "Toby38@gmail.com",
+    },
+  ],
   "statusCode": 400,
 }
 `;
@@ -76,10 +90,9 @@ Object {
 
 exports[`signup when the user does not exist should be successful 1`] = `
 Object {
-  "destroyed": false,
   "token": Any<String>,
   "user": ObjectContaining {
-    "passwordHash": Any<String>,
+    "name": "Hailee58",
   },
 }
 `;

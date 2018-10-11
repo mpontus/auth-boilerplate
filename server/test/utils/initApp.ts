@@ -1,19 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import { AppModule } from '../../src/AppModule';
+import { useContainer } from 'class-validator';
 
 export const initApp = async () => {
   const nestApp = await NestFactory.create(AppModule, {
     logger: false,
   });
-
-  nestApp.connectMicroservice({
-    transport: Transport.REDIS,
-    options: {
-      url: process.env.REDIS_URL,
-    },
-  });
-  await nestApp.startAllMicroservicesAsync();
+  useContainer(nestApp.select(AppModule), { fallbackOnErrors: true });
 
   await nestApp.init();
 

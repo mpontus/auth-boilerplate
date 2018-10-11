@@ -1,6 +1,6 @@
 import {
   Entity,
-  Unique,
+  Index,
   PrimaryColumn,
   Column,
   CreateDateColumn,
@@ -10,7 +10,7 @@ import {
 import { SocialLogin } from './SocialLogin.entity';
 
 @Entity('users')
-@Unique(['email'])
+@Index(['email'])
 export class User {
   @PrimaryColumn()
   id: string;

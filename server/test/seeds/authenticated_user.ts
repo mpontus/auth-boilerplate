@@ -1,10 +1,10 @@
 import hat from 'hat';
 import * as bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
-import { UserEntity } from '../../src/user/data/user/UserEntity';
-import { SessionEntity } from '../../src/user/data/session/SessionEntity';
+import { User } from '../../src/user/data/entity/User.entity';
+import { Session } from '../../src/user/data/entity/Session.entity';
 
-export const id = 847563;
+export const id = '847563';
 export const email = 'Toby38@gmail.com';
 export const password = 'H$4Dxli4R8';
 export const passwordHash = bcrypt.hashSync(password, 6);
@@ -13,14 +13,12 @@ export const token = hat();
 export const run = async () => {
   const { manager } = getConnection();
 
-  const userEntity = await manager.save(UserEntity, {
-    id,
-    email,
-    passwordHash,
-  });
-
-  await manager.save(SessionEntity, {
-    user: userEntity,
+  await manager.save(Session, {
+    user: {
+      id,
+      email,
+      passwordHash,
+    },
     token,
   });
 };

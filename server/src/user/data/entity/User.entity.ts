@@ -16,7 +16,7 @@ export class User {
   id: string;
 
   @Column('boolean')
-  isAnonymous: boolean = true;
+  isAnonymous: boolean = false;
 
   @Column('json')
   roles: string[] = [];

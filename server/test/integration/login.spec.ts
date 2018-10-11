@@ -12,7 +12,19 @@ afterAll(() => nestApp.close());
 
 beforeEach(() => resetDb());
 
-describe('signup', () => {
+describe('login', () => {
+  describe('anonymous authentication', () => {
+    it('should be successful', async () => {
+      const response = await request(expressApp)
+        .post('/auth/login/anonymous')
+        .expect(201);
+
+      expect(response.body).toMatchSnapshot({
+        token: expect.any(String),
+      });
+    });
+  });
+
   describe('when credentials are correct', () => {
     const seed = require('../seeds/registered_user');
 
@@ -30,7 +42,7 @@ describe('signup', () => {
       expect(response.body).toMatchSnapshot({
         token: expect.any(String),
         user: expect.objectContaining({
-          passwordHash: expect.any(String),
+          id: seed.id,
         }),
       });
     });

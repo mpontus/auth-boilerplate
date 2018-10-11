@@ -1,19 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`signup when credentials are correct should be successful 1`] = `
+exports[`login anonymous authentication should be successful 1`] = `
 Object {
-  "destroyed": false,
+  "token": Any<String>,
+  "user": null,
+}
+`;
+
+exports[`login when credentials are correct should be successful 1`] = `
+Object {
   "token": Any<String>,
   "user": ObjectContaining {
-    "passwordHash": Any<String>,
+    "id": "4398753495687346",
   },
 }
 `;
 
-exports[`signup when the user does not exist should be an error 1`] = `
+exports[`login when the user does not exist should be an error 1`] = `
 Object {
   "error": "Unauthorized",
-  "message": "Bad credentials",
   "statusCode": 401,
 }
 `;

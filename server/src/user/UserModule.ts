@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './transport/controller/AuthController';
+import { IsEmailUnique } from './transport/validator/IsEmailUnique';
 import { SessionService } from './data/service/SessionService';
 import { OAuthClient } from './oauth/OAuthClient';
 import {
@@ -28,6 +29,7 @@ import { Session } from './data/entity/Session.entity';
       useValue: new OAuthClient(),
     },
     SessionService,
+    IsEmailUnique,
   ],
 })
 export class UserModule {}

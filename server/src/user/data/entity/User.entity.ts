@@ -72,6 +72,6 @@ export class User {
   /**
    * User social acocunts on other networks
    */
-  @OneToMany(() => SocialLogin, socialLogin => socialLogin.user)
+  @OneToMany(() => SocialLogin, (socialLogin: SocialLogin) => socialLogin.user)
   public socialLogins: SocialLogin[];
 }

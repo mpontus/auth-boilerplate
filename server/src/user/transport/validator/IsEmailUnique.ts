@@ -17,7 +17,7 @@ export class IsEmailUnique {
   /**
    * Check email address for uniqueness against existing user entities
    */
-  public async validate(email: string) {
+  public async validate(email: string): Promise<boolean> {
     const userExists = await this.userRepository.findOne({ email });
 
     return userExists !== undefined;
@@ -26,7 +26,7 @@ export class IsEmailUnique {
   /**
    * Default error message
    */
-  public defaultMessage(_args: ValidationArguments) {
+  public defaultMessage(_args: ValidationArguments): string {
     return 'User with this email already exists.';
   }
 }

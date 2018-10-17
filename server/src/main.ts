@@ -8,7 +8,7 @@ import { AppModule } from './AppModule';
  *
  * Launches HTTP server and queue listeners.
  */
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 

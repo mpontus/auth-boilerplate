@@ -16,14 +16,18 @@ export class MailerService {
   /**
    * Assemble and deliver transactional email
    */
-  public async send(recipient: string, template: string, locals: object) {
+  public async send(
+    recipient: string,
+    template: string,
+    locals: object,
+  ): Promise<void> {
     const mergedLocals = {
       site_url: this.config.get('app.site_url'),
       site_name: this.config.get('app.site_name'),
       ...locals,
     };
 
-    return await this.client.send({
+    await this.client.send({
       template: `${__dirname}/templates/${template}`,
       message: {
         to: recipient,

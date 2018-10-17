@@ -4,7 +4,7 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from 'nestjs-config';
 import { Session } from './data/entity/Session.entity';
 import { User } from './data/entity/User.entity';
@@ -23,7 +23,7 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: (config: ConfigService) => ({
+      useFactory: (config: ConfigService): TypeOrmModuleOptions => ({
         type: 'postgres',
         url: config.get('env.database_url'),
         entities: [`${__dirname}/**/*.entity{.ts,.js}`],
@@ -37,7 +37,7 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
   providers: [
     {
       provide: ClientProxy,
-      useFactory: (config: ConfigService) =>
+      useFactory: (config: ConfigService): ClientProxy =>
         ClientProxyFactory.create({
           transport: Transport.REDIS,
           options: {

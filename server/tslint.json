@@ -37,7 +37,14 @@
     // Wish this rule could be set to ignore generic parameters
     "id-length": false,
 
-    // I'll get to this in a moment
-    "typedef": false
+    // Call signature is a useful addition to documentation,
+    // parameters and variables not so much.
+    "typedef": [
+      true,
+      "call-signature",
+      "arrow-call-signature",
+      "property-declaration",
+      "member-variable-declaration"
+    ]
   }
 }

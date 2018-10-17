@@ -69,7 +69,7 @@ export class AuthController {
   public async singupWithProvider(
     @Param('provider') provider: string,
     @Body() { code }: SocialLoginDto,
-  ) {
+  ): Promise<Session> {
     return this.sessionService.signupWithProvider(provider, code);
   }
 

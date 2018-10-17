@@ -36,6 +36,6 @@ export class SocialLogin {
   /**
    * Associated user entity
    */
-  @ManyToOne(() => User, user => user.socialLogins)
+  @ManyToOne(() => User, (user: User) => user.socialLogins)
   public user: User;
 }

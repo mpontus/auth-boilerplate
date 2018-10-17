@@ -184,7 +184,7 @@ export class MailerService {
     recipient: string,
     template: string,
     locals: object,
-  ) {
+  ): void {
     // tslint:disable-next-line:no-floating-promises
     this.clientProxy
       .send(

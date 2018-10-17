@@ -19,7 +19,10 @@ export class TransformInterceptor<T> implements NestInterceptor<Partial<T>, T> {
   /**
    * Inject interceptor
    */
-  public intercept(_context: ExecutionContext, call$: Observable<T>) {
+  public intercept(
+    _context: ExecutionContext,
+    call$: Observable<Partial<T>>,
+  ): Observable<T> {
     return call$.pipe(map(data => plainToClass(this.cls, data)));
   }
 }

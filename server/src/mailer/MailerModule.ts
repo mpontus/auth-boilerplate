@@ -16,7 +16,7 @@ import { MailerService } from './MailerService';
   providers: [
     {
       provide: 'EmailTemplates',
-      useFactory: (config: ConfigService) =>
+      useFactory: (config: ConfigService): EmailTemplate =>
         new EmailTemplate({
           message: {
             from: config.get('app.email_sender'),

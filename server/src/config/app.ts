@@ -17,14 +17,14 @@ export default {
   /**
    * Base front-end url
    */
-  site_url(this: ConfigService) {
+  site_url(this: ConfigService): string {
     return `http://${this.get('domain_name')}`;
   },
 
   /**
    * Value of the "From:" field in transactional emails
    */
-  email_sender(this: ConfigService) {
+  email_sender(this: ConfigService): string {
     return `${this.get('site_name')} <noreply@${this.get('domain_name')}>`;
   },
 };

@@ -16,7 +16,7 @@ export class MailerController {
    * Send transactional email
    */
   @MessagePattern({ cmd: 'send_transactional_email' })
-  public async send({ recipient, template, locals }: SendDto) {
+  public async send({ recipient, template, locals }: SendDto): Promise<void> {
     await this.mailerService.send(recipient, template, locals);
   }
 }

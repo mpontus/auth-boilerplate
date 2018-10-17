@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`email verficiation request when user does not exist should return an error 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "Email not found or already verified",
+  "statusCode": 400,
+}
+`;
+
+exports[`email verficiation request when user email is already verified should return an error 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "Email not found or already verified",
+  "statusCode": 400,
+}
+`;
+
+exports[`email verficiation request when user exists should be successful 1`] = `Object {}`;

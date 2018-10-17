@@ -86,6 +86,12 @@ export class MailerService {
       throw new BadRequestException('Invalid token');
     }
 
+    if (await bcrypt.compare(password, user.passwordHash)) {
+      throw new BadRequestException(
+        'New password must be different form the previous one',
+      );
+    }
+
     user.emailVerified = true;
     user.passwordHash = await bcrypt.hash(password, 10);
 
@@ -141,16 +147,11 @@ export class MailerService {
     template: string,
     locals: object,
   ) {
-    console.log([
-      { cmd: 'send_transactional_email' },
-      { recipient, template, locals },
-    ]);
-
     this.clientProxy
       .send(
         { cmd: 'send_transactional_email' },
         { recipient, template, locals },
       )
-      .subscribe(); // engage cold observable
+      .toPromise(); // fire up cold observable
   }
 }

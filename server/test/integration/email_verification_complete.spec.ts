@@ -12,31 +12,27 @@ afterAll(() => nestApp.close());
 
 beforeEach(() => resetDb());
 
-describe('Password recovery', () => {
-  describe('when the user exists', () => {
-    const seed = require('../seeds/registered_user');
+describe('email verficiation complete', () => {
+  const seed = require('../seeds/email_verification_request');
 
-    beforeEach(() => seed.run());
+  beforeEach(() => seed.run());
 
+  describe('when token is valid', () => {
     it('should be successful', async () => {
       const response = await request(expressApp)
-        .post('/auth/password_recovery')
-        .send({
-          email: seed.email,
-        })
+        .post(`/email/email_activation/verify/${seed.validToken}`)
+        .send()
         .expect(202);
 
       expect(response.body).toMatchSnapshot();
     });
   });
 
-  describe('when the user does not exist', () => {
-    it('should be an error', async () => {
+  describe('when token is expired', () => {
+    it('should return an error', async () => {
       const response = await request(expressApp)
-        .post('/auth/password_recovery')
-        .send({
-          email: 'foo@bar.baz',
-        })
+        .post(`/email/email_activation/verify/${seed.expiredToken}`)
+        .send()
         .expect(400);
 
       expect(response.body).toMatchSnapshot();

@@ -25,21 +25,25 @@ export class EmailController {
   ) {}
 
   @Post('email_activation/request')
+  @HttpCode(HttpStatus.ACCEPTED)
   sendEmailActivation(@Body() { email }: EmailContainer): Promise<void> {
     return this.mailerService.sendEmailActivation(email);
   }
 
   @Post('email_activation/verify/:token')
+  @HttpCode(HttpStatus.ACCEPTED)
   completeEmailActivation(@Param('token') token: string): Promise<void> {
     return this.mailerService.completeEmailActivation(token);
   }
 
   @Post('password_recovery/request')
+  @HttpCode(HttpStatus.ACCEPTED)
   sendPasswordRecovery(@Body() { email }: EmailContainer): Promise<void> {
     return this.mailerService.sendPasswordRecovery(email);
   }
 
   @Post('password_recovery/verify/:token')
+  @HttpCode(HttpStatus.ACCEPTED)
   completePasswordRecovery(
     @Param('token') token: string,
     @Body() { password }: PasswordContainer,

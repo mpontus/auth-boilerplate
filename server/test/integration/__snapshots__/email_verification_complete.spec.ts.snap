@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`email verficiation complete when token is expired should return an error 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "Invalid token",
+  "statusCode": 400,
+}
+`;
+
+exports[`email verficiation complete when token is valid should be successful 1`] = `Object {}`;

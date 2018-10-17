@@ -1,10 +1,10 @@
 import {
-  Inject,
-  Injectable,
   CanActivate,
   ExecutionContext,
-} from '@nestjs/common';
-import { SessionService } from '../../data/service/SessionService';
+  Inject,
+  Injectable,
+} from "@nestjs/common";
+import { SessionService } from "../../data/service/SessionService";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,14 +12,14 @@ export class AuthGuard implements CanActivate {
     @Inject(SessionService) private readonly sessionService: SessionService,
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 
     if (!req.headers || !req.headers.authorization) {
       return false;
     }
 
-    const [schema, credentials, ...rest] = req.headers.authorization.split(' ');
+    const [schema, credentials, ...rest] = req.headers.authorization.split(" ");
 
     if (!/^Bearer$/i.test(schema) || rest.length > 0) {
       return false;

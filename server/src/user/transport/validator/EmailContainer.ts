@@ -1,7 +1,7 @@
-import { MaxLength, IsEmail } from 'class-validator';
+import { IsEmail, MaxLength } from "class-validator";
 
 export class EmailContainer {
   @IsEmail()
   @MaxLength(255)
-  email: string;
+  public email: string;
 }

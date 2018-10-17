@@ -1,24 +1,24 @@
 import {
-  Entity,
-  Unique,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   ManyToOne,
-} from 'typeorm';
-import { User } from './User.entity';
+  PrimaryGeneratedColumn,
+  Unique,
+} from "typeorm";
+import { User } from "./User.entity";
 
-@Entity('social_logins')
-@Unique(['provider', 'providerId'])
+@Entity("social_logins")
+@Unique(["provider", "providerId"])
 export class SocialLogin {
   @PrimaryGeneratedColumn()
-  id: number;
+  public id: number;
 
   @Column()
-  provider: string;
+  public provider: string;
 
   @Column()
-  providerId: string;
+  public providerId: string;
 
-  @ManyToOne(_ => User, user => user.socialLogins)
-  user: User;
+  @ManyToOne((_) => User, (user) => user.socialLogins)
+  public user: User;
 }

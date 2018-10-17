@@ -1,27 +1,27 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 import {
   ClientProxy,
   ClientProxyFactory,
   Transport,
-} from '@nestjs/microservices';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigService } from 'nestjs-config';
-import { AuthController } from './transport/controller/AuthController';
-import { EmailController } from './transport/controller/EmailController';
-import { IsEmailUnique } from './transport/validator/IsEmailUnique';
-import { SessionService } from './data/service/SessionService';
-import { MailerService } from './data/service/MailerService';
-import { OAuthClient } from './oauth/OAuthClient';
-import { User } from './data/entity/User.entity';
-import { Session } from './data/entity/Session.entity';
+} from "@nestjs/microservices";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigService } from "nestjs-config";
+import { Session } from "./data/entity/Session.entity";
+import { User } from "./data/entity/User.entity";
+import { MailerService } from "./data/service/MailerService";
+import { SessionService } from "./data/service/SessionService";
+import { OAuthClient } from "./oauth/OAuthClient";
+import { AuthController } from "./transport/controller/AuthController";
+import { EmailController } from "./transport/controller/EmailController";
+import { IsEmailUnique } from "./transport/validator/IsEmailUnique";
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        url: config.get('env.database_url'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        type: "postgres",
+        url: config.get("env.database_url"),
+        entities: [__dirname + "/**/*.entity{.ts,.js}"],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -36,7 +36,7 @@ import { Session } from './data/entity/Session.entity';
         ClientProxyFactory.create({
           transport: Transport.REDIS,
           options: {
-            url: config.get('env.redis_url'),
+            url: config.get("env.redis_url"),
           },
         }),
       inject: [ConfigService],

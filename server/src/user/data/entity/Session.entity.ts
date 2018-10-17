@@ -1,11 +1,11 @@
-import { Entity, PrimaryColumn, ManyToOne } from 'typeorm';
-import { User } from './User.entity';
+import { Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { User } from "./User.entity";
 
-@Entity('sessions')
+@Entity("sessions")
 export class Session {
   @PrimaryColumn()
-  token: string;
+  public token: string;
 
-  @ManyToOne(_ => User, { cascade: true, onDelete: 'CASCADE' })
-  user: User;
+  @ManyToOne((_) => User, { cascade: true, onDelete: "CASCADE" })
+  public user: User;
 }

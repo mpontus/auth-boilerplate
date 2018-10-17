@@ -1,14 +1,14 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { MailerService } from './MailerService';
-import { SendDto } from './SendDto';
+import { Controller } from "@nestjs/common";
+import { MessagePattern } from "@nestjs/microservices";
+import { MailerService } from "./MailerService";
+import { SendDto } from "./SendDto";
 
-@Controller('/mail')
+@Controller("/mail")
 export class MailerController {
   constructor(private readonly mailerService: MailerService) {}
 
-  @MessagePattern({ cmd: 'send_transactional_email' })
-  async send({ recipient, template, locals }: SendDto) {
+  @MessagePattern({ cmd: "send_transactional_email" })
+  public async send({ recipient, template, locals }: SendDto) {
     this.mailerService.send(recipient, template, locals);
   }
 }

@@ -1,44 +1,44 @@
 import {
-  Entity,
-  Index,
-  PrimaryColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
+  Index,
   OneToMany,
-} from 'typeorm';
-import { SocialLogin } from './SocialLogin.entity';
+  PrimaryColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { SocialLogin } from "./SocialLogin.entity";
 
-@Entity('users')
-@Index(['email'])
+@Entity("users")
+@Index(["email"])
 export class User {
   @PrimaryColumn()
-  id: string;
+  public id: string;
 
-  @Column('boolean')
-  isAnonymous: boolean = false;
+  @Column("boolean")
+  public isAnonymous: boolean = false;
 
-  @Column('json')
-  roles: string[] = [];
-
-  @Column()
-  name: string = '';
+  @Column("json")
+  public roles: string[] = [];
 
   @Column()
-  email: string = '';
+  public name: string = "";
 
   @Column()
-  emailVerified: boolean = false;
+  public email: string = "";
 
   @Column()
-  passwordHash: string = '';
+  public emailVerified: boolean = false;
+
+  @Column()
+  public passwordHash: string = "";
 
   @CreateDateColumn()
-  createdDate: Date;
+  public createdDate: Date;
 
   @UpdateDateColumn()
-  updatedDate: Date;
+  public updatedDate: Date;
 
-  @OneToMany(_ => SocialLogin, socialLogin => socialLogin.user)
-  socialLogins: SocialLogin[];
+  @OneToMany((_) => SocialLogin, (socialLogin) => socialLogin.user)
+  public socialLogins: SocialLogin[];
 }

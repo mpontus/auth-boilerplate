@@ -1,18 +1,10 @@
-import { plainToClass, Exclude, Expose, Transform } from 'class-transformer';
-
-@Exclude()
-class User {
-  @Expose()
-  id: string;
-
-  @Expose()
-  name: string;
-}
+import { Exclude, Expose, plainToClass, Transform } from 'class-transformer';
+import { User } from './User';
 
 @Exclude()
 export class Session {
   @Expose()
-  token: string;
+  public token: string;
 
   @Expose()
   @Transform(user => {
@@ -22,5 +14,5 @@ export class Session {
 
     return plainToClass(User, user);
   })
-  user: User | null;
+  public user: User | null;
 }

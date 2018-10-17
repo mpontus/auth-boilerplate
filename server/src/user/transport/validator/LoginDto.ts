@@ -1,10 +1,10 @@
-import { MaxLength, IsEmail, MinLength } from 'class-validator';
+import { IsEmail, MaxLength, MinLength } from "class-validator";
 
 export class LoginDto {
   @IsEmail()
   @MaxLength(255)
-  email: string;
+  public email: string;
 
   @MinLength(6)
-  password: string;
+  public password: string;
 }

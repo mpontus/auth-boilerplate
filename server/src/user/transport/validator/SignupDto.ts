@@ -1,22 +1,22 @@
 import {
+  IsEmail,
   IsNotEmpty,
   MaxLength,
-  IsEmail,
   MinLength,
   Validate,
-} from 'class-validator';
-import { IsEmailUnique } from './IsEmailUnique';
+} from "class-validator";
+import { IsEmailUnique } from "./IsEmailUnique";
 
 export class SignupDto {
   @IsNotEmpty()
   @MaxLength(255)
-  name: string;
+  public name: string;
 
   @IsEmail()
   @Validate(IsEmailUnique)
   @MaxLength(255)
-  email: string;
+  public email: string;
 
   @MinLength(6)
-  password: string;
+  public password: string;
 }

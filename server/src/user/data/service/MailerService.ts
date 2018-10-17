@@ -8,6 +8,12 @@ import { Repository } from 'typeorm';
 import { promisify } from 'util';
 import { User } from '../entity/User.entity';
 
+/**
+ * Email Service
+ *
+ * Service groups together various actions involving communicating
+ * with the user by their email.
+ */
 @Injectable()
 export class MailerService {
   constructor(
@@ -16,6 +22,9 @@ export class MailerService {
     @Inject(ClientProxy) private readonly clientProxy: ClientProxy,
   ) {}
 
+  /**
+   * Request email activation code
+   */
   public async sendEmailActivation(email: string): Promise<void> {
     const user = await this.userRepository.findOne({ email });
 
@@ -34,6 +43,9 @@ export class MailerService {
     });
   }
 
+  /**
+   * Validate email activation code
+   */
   public async completeEmailActivation(token: string): Promise<void> {
     const user = await this.getTokenSubject(token);
 
@@ -52,6 +64,9 @@ export class MailerService {
     await this.userRepository.save(user);
   }
 
+  /**
+   * Request password reset code
+   */
   public async sendPasswordRecovery(email: string): Promise<void> {
     const user = await this.userRepository.findOne({ email });
 
@@ -70,6 +85,9 @@ export class MailerService {
     });
   }
 
+  /**
+   * Validate password reset code
+   */
   public async completePasswordRecovery(
     token: string,
     password: string,
@@ -98,14 +116,23 @@ export class MailerService {
     await this.userRepository.save(user);
   }
 
+  /**
+   * Generate token secret for email activation for the user
+   */
   private getEmailActivationSecret(user: User): string {
     return `${user.email}${this.config.get('security.jwt_secret')}`;
   }
 
+  /**
+   * Generate token secret for password reset for the user
+   */
   private getPasswordRecoverySecret(user: User): string {
     return `${user.passwordHash}${this.config.get('security.jwt_secret')}`;
   }
 
+  /**
+   * Generate JWT token authenticating the user action
+   */
   private async generateToken(
     subject: User,
     secret: string,
@@ -118,6 +145,9 @@ export class MailerService {
     })();
   }
 
+  /**
+   * Retrieve subject (user) from the token
+   */
   private async getTokenSubject(token: string): Promise<User | undefined> {
     try {
       const decoded = jwt.decode(token);
@@ -132,6 +162,9 @@ export class MailerService {
     }
   }
 
+  /**
+   * Verify token integrity
+   */
   private async verifyToken(token: string, secret: string): Promise<boolean> {
     try {
       await promisify(callback => {
@@ -144,6 +177,9 @@ export class MailerService {
     }
   }
 
+  /**
+   * Dispatch transactional email in a non-blocking way
+   */
   private scheduleEmailDelivery(
     recipient: string,
     template: string,

@@ -4,6 +4,9 @@ import { ValidationArguments, ValidatorConstraint } from 'class-validator';
 import { Repository } from 'typeorm';
 import { User } from '../../data/entity/User.entity';
 
+/**
+ * Custom validation constraint for email uniqueness
+ */
 @ValidatorConstraint({ name: 'isUserAlreadyExist', async: true })
 @Injectable()
 export class IsEmailUnique {
@@ -11,12 +14,18 @@ export class IsEmailUnique {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
+  /**
+   * Check email address for uniqueness against existing user entities
+   */
   public async validate(email: string) {
     const userExists = await this.userRepository.findOne({ email });
 
     return userExists !== undefined;
   }
 
+  /**
+   * Default error message
+   */
   public defaultMessage(_args: ValidationArguments) {
     return 'User with this email already exists.';
   }

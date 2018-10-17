@@ -7,10 +7,18 @@ interface ClassType<T> {
   new (): T;
 }
 
+/**
+ * Transform Interceptor
+ *
+ * Transforms the result using the provided serializer.
+ */
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<Partial<T>, T> {
   constructor(private readonly cls: ClassType<T>) {}
 
+  /**
+   * Inject interceptor
+   */
   public intercept(_context: ExecutionContext, call$: Observable<T>) {
     return call$.pipe(map(data => plainToClass(this.cls, data)));
   }

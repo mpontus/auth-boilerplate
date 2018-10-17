@@ -3,6 +3,11 @@ import { Transport } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
 import { AppModule } from './AppModule';
 
+/**
+ * Entyr point to the applicaiton.
+ *
+ * Launches HTTP server and queue listeners.
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });

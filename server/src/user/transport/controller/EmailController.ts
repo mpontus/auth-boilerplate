@@ -13,6 +13,12 @@ import { MailerService } from '../../data/service/MailerService';
 import { EmailContainer } from '../validator/EmailContainer';
 import { PasswordContainer } from '../validator/PasswordContainer';
 
+/**
+ * EmailController
+ *
+ * Groups together various actions which involve communicating with
+ * the user by their email address
+ */
 @Controller('email')
 @UsePipes(new ValidationPipe({ transform: true }))
 export class EmailController {
@@ -20,6 +26,9 @@ export class EmailController {
     @Inject(MailerService) private readonly mailerService: MailerService,
   ) {}
 
+  /**
+   * Resend email activation message
+   */
   @Post('email_activation/request')
   @HttpCode(HttpStatus.ACCEPTED)
   public async sendEmailActivation(@Body() { email }: EmailContainer): Promise<
@@ -28,6 +37,9 @@ export class EmailController {
     return this.mailerService.sendEmailActivation(email);
   }
 
+  /**
+   * Activate user email address
+   */
   @Post('email_activation/verify/:token')
   @HttpCode(HttpStatus.ACCEPTED)
   public async completeEmailActivation(
@@ -36,6 +48,9 @@ export class EmailController {
     return this.mailerService.completeEmailActivation(token);
   }
 
+  /**
+   * Request password recovery code
+   */
   @Post('password_recovery/request')
   @HttpCode(HttpStatus.ACCEPTED)
   public async sendPasswordRecovery(@Body() { email }: EmailContainer): Promise<
@@ -44,6 +59,9 @@ export class EmailController {
     return this.mailerService.sendPasswordRecovery(email);
   }
 
+  /**
+   * Reset the password using password recovery code
+   */
   @Post('password_recovery/verify/:token')
   @HttpCode(HttpStatus.ACCEPTED)
   public async completePasswordRecovery(

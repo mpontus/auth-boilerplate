@@ -18,7 +18,7 @@
     "no-feature-envy": false,
     "no-unsafe-any": false,
 
-    "completed-docs": false,
+    "completed-docs": true,
 
     "typedef": true,
     "no-any": true,

@@ -15,6 +15,11 @@ import { AuthController } from './transport/controller/AuthController';
 import { EmailController } from './transport/controller/EmailController';
 import { IsEmailUnique } from './transport/validator/IsEmailUnique';
 
+/**
+ * User module
+ *
+ * Reponsible for authentication and user management.
+ */
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

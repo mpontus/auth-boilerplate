@@ -1,11 +1,23 @@
 import { Exclude, Expose, plainToClass, Transform } from 'class-transformer';
 import { User } from './User';
 
+/**
+ * Session serializer
+ */
 @Exclude()
 export class Session {
+  /**
+   * Secure session token
+   */
   @Expose()
   public token: string;
 
+  /**
+   * User associated with the session
+   *
+   * Anonymous users are opaque and their sessions should not include
+   * any identifiable details.
+   */
   @Expose()
   @Transform(user => {
     if (user.isAnonymous) {

@@ -5,6 +5,12 @@ import * as nodemailer from 'nodemailer';
 import { MailerController } from './MailerController';
 import { MailerService } from './MailerService';
 
+/**
+ * Mailer module
+ *
+ * Responsible for building email contents from templates and allowing
+ * other modules to defer email delivery.
+ */
 @Module({
   controllers: [MailerController],
   providers: [

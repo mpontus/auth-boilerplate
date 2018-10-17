@@ -14,6 +14,11 @@ import { SocialLogin } from '../entity/SocialLogin.entity';
 import { User } from '../entity/User.entity';
 import { SignupDto } from '../interface/SignupDto';
 
+/**
+ * Session Service
+ *
+ * Allows users to authenticate with the website.
+ */
 export class SessionService {
   constructor(
     @InjectRepository(Session)
@@ -22,6 +27,9 @@ export class SessionService {
     @Inject(OAuthClient) private readonly oauthClient: OAuthClient,
   ) {}
 
+  /**
+   * Return a user associated with the session
+   */
   public async authenticate(token: string): Promise<User | undefined> {
     const session = await this.sessionRepository.findOne(token, {
       relations: ['user'],
@@ -34,6 +42,9 @@ export class SessionService {
     return session.user;
   }
 
+  /**
+   * Create session for an existing user
+   */
   public async login(email: string, password: string): Promise<Session> {
     const user = await this.userRepository.findOne({ email });
 
@@ -51,6 +62,9 @@ export class SessionService {
     });
   }
 
+  /**
+   * Create a session with new anonymous user
+   */
   public async loginAnonymously(): Promise<Session> {
     return await this.sessionRepository.save({
       token: hat(),
@@ -61,6 +75,9 @@ export class SessionService {
     });
   }
 
+  /**
+   * Create session for a new user
+   */
   public async signup({ name, email, password }: SignupDto): Promise<Session> {
     return await this.sessionRepository.save({
       token: hat(),
@@ -75,6 +92,12 @@ export class SessionService {
     });
   }
 
+  /**
+   * Create session for a user associated with social network profile.
+   *
+   * Creates a new user if no user account associated with given
+   * profile exists.
+   */
   public async signupWithProvider(
     provider: string,
     code: string,
@@ -113,6 +136,9 @@ export class SessionService {
     return session;
   }
 
+  /**
+   * Destroy user session
+   */
   public async logout(actor: User, token: string): Promise<void> {
     const session = await this.sessionRepository.findOne(token, {
       relations: ['user'],

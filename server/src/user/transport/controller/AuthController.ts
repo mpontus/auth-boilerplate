@@ -21,6 +21,11 @@ import { LoginDto } from '../validator/LoginDto';
 import { SignupDto } from '../validator/SignupDto';
 import { SocialLoginDto } from '../validator/SocialLoginDto';
 
+/**
+ * Auth controller
+ *
+ * Repsonsible for authenticating users with the website
+ */
 @Controller('auth')
 @UsePipes(new ValidationPipe({ transform: true }))
 export class AuthController {
@@ -28,18 +33,27 @@ export class AuthController {
     @Inject(SessionService) private readonly sessionService: SessionService,
   ) {}
 
+  /**
+   * Authenticate the user with existing account
+   */
   @Post('login')
   @UseInterceptors(new TransformInterceptor(Session))
   public async login(@Body() { email, password }: LoginDto): Promise<Session> {
     return this.sessionService.login(email, password);
   }
 
+  /**
+   * Authenticate the user with anonymous user account
+   */
   @Post('login/anonymous')
   @UseInterceptors(new TransformInterceptor(Session))
   public async loginAnonymously(): Promise<Session> {
     return await this.sessionService.loginAnonymously();
   }
 
+  /**
+   * Authenticate the user with new account
+   */
   @Post('signup')
   @UseInterceptors(new TransformInterceptor(Session))
   public async signup(@Body() { name, email, password }: SignupDto): Promise<
@@ -48,6 +62,9 @@ export class AuthController {
     return this.sessionService.signup({ name, email, password });
   }
 
+  /**
+   * Authenticate the user by their social network profile
+   */
   @Post('social/:provider')
   public async singupWithProvider(
     @Param('provider') provider: string,
@@ -56,6 +73,9 @@ export class AuthController {
     return this.sessionService.signupWithProvider(provider, code);
   }
 
+  /**
+   * Destroy user session
+   */
   @Post('logout/:token')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.ACCEPTED)

@@ -6,12 +6,20 @@ import {
 } from '@nestjs/common';
 import { SessionService } from '../../data/service/SessionService';
 
+/**
+ * Auth Guard
+ *
+ * Restrict route access to authenticated users
+ */
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     @Inject(SessionService) private readonly sessionService: SessionService,
   ) {}
 
+  /**
+   * Validate Bearer token and inject user entity into the request
+   */
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 

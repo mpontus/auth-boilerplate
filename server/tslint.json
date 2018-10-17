@@ -7,27 +7,37 @@
   ],
   "rulesDirectory": ["node_modules/tslint-clean-code/dist/src"],
   "rules": {
+    // Interfaces are integral part of sane architecture with
+    // NestJS. It's a personal preference but I don't agree that "I-"
+    // makes things any clearer.
     "interface-name": [true, "never-prefix"],
+
+    // Leading underscore is necessary for allowing noUnusedParameters
+    // to skip unused parameters.
     "variable-name": [true, "allow-leading-underscore"],
+
+    // Too much work and doesn't always make sense.
     "object-literal-sort-keys": false,
 
+    // Conflicts with nestjs-config
     "no-default-export": false,
     "no-invalid-this": false,
-    "no-parameter-properties": false,
-    "min-class-cohesion": false,
-    "no-feature-envy": false,
+
+    // Conflicts with much of NestJS
     "no-unsafe-any": false,
 
-    "completed-docs": true,
+    // Shorthand for parameter initialization saves from too much
+    // boilerplate to opt-out of it in favor of clarity
+    "no-parameter-properties": false,
 
-    "typedef": true,
-    "no-any": true,
-    "restrict-plus-operands": true,
-    "prefer-template": true,
-    "strict-boolean-expressions": true,
-    "id-length": [true, { "exceptions": ["T"] }],
-    "no-void-expression": true,
-    "promise-function-async": true,
-    "no-floating-promises": true
+    // Interesting rules, but may lead to over-engineering
+    "min-class-cohesion": false,
+    "no-feature-envy": false,
+
+    // Wish this rule could be set to ignore generic parameters
+    "id-length": false,
+
+    // I'll get to this in a moment
+    "typedef": false
   }
 }

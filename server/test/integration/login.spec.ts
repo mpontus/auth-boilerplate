@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,12 +11,12 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('login', () => {
   describe('anonymous authentication', () => {
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/login/anonymous')
         .expect(201);
 
@@ -32,7 +32,7 @@ describe('login', () => {
     beforeEach(() => seed.run());
 
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/login')
         .send({
           email: seed.email,
@@ -51,7 +51,7 @@ describe('login', () => {
 
   describe('when the user does not exist', () => {
     it('should be an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/login')
         .send({
           email: 'nfisher@yahoo.com',

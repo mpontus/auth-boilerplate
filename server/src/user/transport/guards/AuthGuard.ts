@@ -3,8 +3,8 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-} from "@nestjs/common";
-import { SessionService } from "../../data/service/SessionService";
+} from '@nestjs/common';
+import { SessionService } from '../../data/service/SessionService';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    const [schema, credentials, ...rest] = req.headers.authorization.split(" ");
+    const [schema, credentials, ...rest] = req.headers.authorization.split(' ');
 
     if (!/^Bearer$/i.test(schema) || rest.length > 0) {
       return false;

@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { ValidationArguments, ValidatorConstraint } from "class-validator";
-import { Repository } from "typeorm";
-import { User } from "../../data/entity/User.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ValidationArguments, ValidatorConstraint } from 'class-validator';
+import { Repository } from 'typeorm';
+import { User } from '../../data/entity/User.entity';
 
-@ValidatorConstraint({ name: "isUserAlreadyExist", async: true })
+@ValidatorConstraint({ name: 'isUserAlreadyExist', async: true })
 @Injectable()
 export class IsEmailUnique {
   constructor(
@@ -18,6 +18,6 @@ export class IsEmailUnique {
   }
 
   public defaultMessage(_args: ValidationArguments) {
-    return "User with this email already exists.";
+    return 'User with this email already exists.';
   }
 }

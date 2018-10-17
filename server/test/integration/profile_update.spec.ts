@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe.skip('Profile update', () => {
   describe('When user is authenticated', () => {
@@ -20,7 +20,7 @@ describe.skip('Profile update', () => {
     beforeEach(() => seed.run());
 
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           name: 'Victor Martinez',
@@ -34,7 +34,7 @@ describe.skip('Profile update', () => {
 
   describe('When user is unauthenticated', () => {
     it('should fail', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           name: 'Victor Martinez',
@@ -53,7 +53,7 @@ describe.skip('Updating email', () => {
 
   describe('when current password is present', () => {
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           currentPassword: seed.password,
@@ -68,7 +68,7 @@ describe.skip('Updating email', () => {
 
   describe('when current password is invalid', () => {
     it('should fail', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           currentPassword: 'foo',
@@ -89,7 +89,7 @@ describe.skip('Updating password', () => {
 
   describe('when current password is present', () => {
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           currentPassword: seed.password,
@@ -104,7 +104,7 @@ describe.skip('Updating password', () => {
 
   describe('when current password is invalid', () => {
     it('should fail', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .patch(`/auth/profile`)
         .send({
           currentPassword: 'foo',

@@ -1,10 +1,31 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rulesDirectory": [],
+  "extends": [
+    "tslint:recommended",
+    "tslint-clean-code/recommended_ruleset",
+    "tslint-config-prettier"
+  ],
+  "rulesDirectory": ["node_modules/tslint-clean-code/dist/src"],
   "rules": {
     "interface-name": [true, "never-prefix"],
     "variable-name": [true, "allow-leading-underscore"],
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+
+    "completed-docs": false,
+    "typedef": false,
+    "strict-boolean-expressions": false,
+    "no-default-export": false,
+    "no-invalid-this": false,
+    "no-any": false,
+    "no-unsafe-any": false,
+    "id-length": false,
+    "min-class-cohesion": false,
+    "restrict-plus-operands": false,
+    "prefer-template": false,
+    "no-void-expression": false,
+    "promise-function-async": false,
+    "no-feature-envy": false,
+    "no-parameter-properties": false,
+    "no-floating-promises": false
   }
 }

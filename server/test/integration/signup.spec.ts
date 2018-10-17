@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,12 +11,12 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('signup', () => {
   describe('when the user does not exist', () => {
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/signup')
         .send({
           name: 'Hailee58',
@@ -40,7 +40,7 @@ describe('signup', () => {
     beforeEach(() => seed.run());
 
     it('should be an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/signup')
         .send({
           name: 'Hailee58',
@@ -55,7 +55,7 @@ describe('signup', () => {
 
   describe('when the email is invalid', () => {
     it('should be an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/signup')
         .send({
           name: 'Hailee58',
@@ -70,7 +70,7 @@ describe('signup', () => {
 
   describe('when the password is too short', () => {
     it('should be an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/signup')
         .send({
           name: 'Hailee58',
@@ -85,7 +85,7 @@ describe('signup', () => {
 
   describe('when the name is too long', () => {
     it('should be an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/auth/signup')
         .send({
           name: 'x'.repeat(1000),

@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('password recovery request', () => {
   describe('when user exists', () => {
@@ -20,7 +20,7 @@ describe('password recovery request', () => {
     beforeEach(() => seed.run());
 
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/email/password_recovery/request')
         .send({
           email: seed.email,
@@ -33,7 +33,7 @@ describe('password recovery request', () => {
 
   describe('when user does not exist', () => {
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/email/password_recovery/request')
         .send({
           email: 'nwashington@gmail.com',

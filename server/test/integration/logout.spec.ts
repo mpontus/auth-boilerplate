@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('logout', () => {
   describe('when user owns the sesssion', () => {
@@ -20,7 +20,7 @@ describe('logout', () => {
     beforeEach(() => seed.run());
 
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post(`/auth/logout/${seed.token}`)
         .set('Authorization', `Bearer ${seed.token}`)
         .expect(202);

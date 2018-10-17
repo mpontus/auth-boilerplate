@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('email verficiation request', () => {
   describe('when user exists', () => {
@@ -20,7 +20,7 @@ describe('email verficiation request', () => {
     beforeEach(() => seed.run());
 
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/email/email_activation/request')
         .send({
           email: seed.email,
@@ -37,7 +37,7 @@ describe('email verficiation request', () => {
     beforeEach(() => seed.run());
 
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/email/email_activation/request')
         .send({
           email: seed.email,
@@ -50,7 +50,7 @@ describe('email verficiation request', () => {
 
   describe('when user does not exist', () => {
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post('/email/email_activation/request')
         .send({
           email: 'nwashington@gmail.com',

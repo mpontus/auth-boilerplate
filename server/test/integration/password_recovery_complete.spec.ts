@@ -1,4 +1,4 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import { initApp } from '../utils/initApp';
 import { resetDb } from '../utils/resetDb';
 
@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 afterAll(() => nestApp.close());
 
-beforeEach(() => resetDb());
+beforeEach(resetDb);
 
 describe('password recovery complete', () => {
   const seed = require('../seeds/password_recovery_request');
@@ -20,7 +20,7 @@ describe('password recovery complete', () => {
 
   describe('when token is valid', () => {
     it('should be successful', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post(`/email/password_recovery/verify/${seed.validToken}`)
         .send({
           password: '_q*9s^Li$G',
@@ -33,7 +33,7 @@ describe('password recovery complete', () => {
 
   describe('when new password is invalid', () => {
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post(`/email/password_recovery/verify/${seed.validToken}`)
         .send({
           password: 'foo',
@@ -46,7 +46,7 @@ describe('password recovery complete', () => {
 
   describe('when the password is the same as previous one', () => {
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post(`/email/password_recovery/verify/${seed.validToken}`)
         .send({
           password: seed.previousPassword,
@@ -59,7 +59,7 @@ describe('password recovery complete', () => {
 
   describe('when token is expired', () => {
     it('should return an error', async () => {
-      const response = await request(expressApp)
+      const response = await supertest(expressApp)
         .post(`/email/password_recovery/verify/${seed.expiredToken}`)
         .send({
           password: '_q*9s^Li$G',

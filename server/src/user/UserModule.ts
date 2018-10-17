@@ -5,6 +5,7 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from 'nestjs-config';
 import { AuthController } from './transport/controller/AuthController';
 import { EmailController } from './transport/controller/EmailController';
 import { IsEmailUnique } from './transport/validator/IsEmailUnique';
@@ -16,11 +17,14 @@ import { Session } from './data/entity/Session.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        url: config.get('env.database_url'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([User, Session]),
   ],
@@ -28,12 +32,14 @@ import { Session } from './data/entity/Session.entity';
   providers: [
     {
       provide: ClientProxy,
-      useValue: ClientProxyFactory.create({
-        transport: Transport.REDIS,
-        options: {
-          url: process.env.REDIS_URL,
-        },
-      }),
+      useFactory: (config: ConfigService) =>
+        ClientProxyFactory.create({
+          transport: Transport.REDIS,
+          options: {
+            url: config.get('env.redis_url'),
+          },
+        }),
+      inject: [ConfigService],
     },
     {
       provide: OAuthClient,

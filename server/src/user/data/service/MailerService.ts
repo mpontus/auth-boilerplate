@@ -25,7 +25,7 @@ export class MailerService {
 
     const secret = this.getEmailActivationSecret(user);
     const token = await this.generateToken(user, secret, {
-      expiresIn: this.config.get('app.email_activation_expiry'),
+      expiresIn: this.config.get('security.email_activation_expiry'),
     });
 
     this.scheduleEmailDelivery(user.email, 'email_activation', {
@@ -61,7 +61,7 @@ export class MailerService {
 
     const secret = this.getPasswordRecoverySecret(user);
     const token = await this.generateToken(user, secret, {
-      expiresIn: this.config.get('app.password_recovery_expiry'),
+      expiresIn: this.config.get('security.password_recovery_expiry'),
     });
 
     this.scheduleEmailDelivery(user.email, 'password_recovery', {
@@ -99,11 +99,11 @@ export class MailerService {
   }
 
   private getEmailActivationSecret(user: User): string {
-    return user.email + this.config.get('app.jwt_secret');
+    return user.email + this.config.get('security.jwt_secret');
   }
 
   private getPasswordRecoverySecret(user: User): string {
-    return user.passwordHash + this.config.get('app.jwt_secret');
+    return user.passwordHash + this.config.get('security.jwt_secret');
   }
 
   private async generateToken(

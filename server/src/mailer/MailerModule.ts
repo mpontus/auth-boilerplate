@@ -3,24 +3,27 @@ import EmailTemplate from 'email-templates';
 import { Module } from '@nestjs/common';
 import { MailerController } from './MailerController';
 import { MailerService } from './MailerService';
+import { ConfigService } from 'nestjs-config';
 
 @Module({
   controllers: [MailerController],
   providers: [
     {
       provide: 'EmailTemplates',
-      useValue: new EmailTemplate({
-        message: {
-          from: 'foo@bar.baz',
-        },
-        send: true,
-        transport: nodemailer.createTransport(process.env.SMTP_URL),
-        views: {
-          options: {
-            extension: 'ejs',
+      useFactory: (config: ConfigService) =>
+        new EmailTemplate({
+          message: {
+            from: config.get('app.email_sender'),
           },
-        },
-      }),
+          send: true,
+          transport: nodemailer.createTransport(config.get('env.smtp_url')),
+          views: {
+            options: {
+              extension: 'ejs',
+            },
+          },
+        }),
+      inject: [ConfigService],
     },
     MailerService,
   ],

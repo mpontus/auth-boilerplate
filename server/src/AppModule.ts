@@ -4,6 +4,6 @@ import { MailerModule } from './mailer/MailerModule';
 import { ConfigModule } from 'nestjs-config';
 
 @Module({
-  imports: [MailerModule, UserModule, ConfigModule.load()],
+  imports: [ConfigModule.load(), MailerModule, UserModule],
 })
 export class AppModule {}

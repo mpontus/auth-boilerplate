@@ -1,21 +1,22 @@
-import { MailerController } from "./MailerController";
-import { MailerService } from "./MailerService";
+import * as EmailTemplates from 'email-templates';
+import { MailerController } from './MailerController';
+import { MailerService } from './MailerService';
 
-const mailer = {
+const mailer = <EmailTemplates>{
   send: jest.fn(),
 };
 
-const mailerService = new MailerService(mailer as any);
+const mailerService = new MailerService(mailer);
 const controller = new MailerController(mailerService);
 
-describe("MailerController", () => {
-  const recipient = "curtischarles@diaz-brown.com";
-  const template = "password_recovery";
+describe('MailerController', () => {
+  const recipient = 'curtischarles@diaz-brown.com';
+  const template = 'password_recovery';
   const data = {
-    action_url: "https://example.org/",
+    action_url: 'https://example.org/',
   };
 
-  describe("send", () => {
+  describe('send', () => {
     beforeEach(async () => {
       await controller.send({
         recipient,
@@ -24,7 +25,7 @@ describe("MailerController", () => {
       });
     });
 
-    it("should send the email to the given recepient", () => {
+    it('should send the email to the given recepient', () => {
       expect(mailer.send).toHaveBeenCalledWith({
         template: expect.stringMatching(new RegExp(`${template}$`)),
         message: {

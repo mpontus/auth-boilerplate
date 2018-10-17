@@ -2,17 +2,17 @@ import {
   BadRequestException,
   Inject,
   UnauthorizedException,
-} from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import bcrypt from "bcrypt";
-import hat from "hat";
-import { Repository } from "typeorm";
-import { v4 as uuid } from "uuid";
-import { OAuthClient } from "../../oauth/OAuthClient";
-import { Session } from "../entity/Session.entity";
-import { SocialLogin } from "../entity/SocialLogin.entity";
-import { User } from "../entity/User.entity";
-import { SignupDto } from "../interface/SignupDto";
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'bcrypt';
+import hat from 'hat';
+import { Repository } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { OAuthClient } from '../../oauth/OAuthClient';
+import { Session } from '../entity/Session.entity';
+import { SocialLogin } from '../entity/SocialLogin.entity';
+import { User } from '../entity/User.entity';
+import { SignupDto } from '../interface/SignupDto';
 
 export class SessionService {
   constructor(
@@ -22,13 +22,13 @@ export class SessionService {
     @Inject(OAuthClient) private readonly oauthClient: OAuthClient,
   ) {}
 
-  public async authenticate(token: string): Promise<User | null> {
+  public async authenticate(token: string): Promise<User | undefined> {
     const session = await this.sessionRepository.findOne(token, {
-      relations: ["user"],
+      relations: ['user'],
     });
 
-    if (session == null) {
-      return null;
+    if (session === undefined) {
+      return undefined;
     }
 
     return session.user;
@@ -67,7 +67,7 @@ export class SessionService {
       user: this.userRepository.create({
         id: uuid(),
         isAnonymous: false,
-        roles: ["user"],
+        roles: ['user'],
         name,
         email,
         passwordHash: await bcrypt.hash(password, 10),
@@ -75,7 +75,10 @@ export class SessionService {
     });
   }
 
-  public async signupWithProvider(provider: string, code: string): Promise<Session> {
+  public async signupWithProvider(
+    provider: string,
+    code: string,
+  ): Promise<Session> {
     const profile = await this.oauthClient.getProfile(provider, code);
 
     if (profile == null) {
@@ -83,9 +86,9 @@ export class SessionService {
     }
 
     let user = await this.userRepository
-      .createQueryBuilder("user")
-      .innerJoin(SocialLogin, "social", "social.userId = user.id")
-      .where("social.provider = :provider AND social.providerId = :id", {
+      .createQueryBuilder('user')
+      .innerJoin(SocialLogin, 'social', 'social.userId = user.id')
+      .where('social.provider = :provider AND social.providerId = :id', {
         provider,
         id: profile.id,
       })
@@ -112,10 +115,10 @@ export class SessionService {
 
   public async logout(actor: User, token: string): Promise<void> {
     const session = await this.sessionRepository.findOne(token, {
-      relations: ["user"],
+      relations: ['user'],
     });
 
-    if (!session || session.user.id !== actor.id) {
+    if (session === undefined || session.user.id !== actor.id) {
       throw new UnauthorizedException();
     }
 

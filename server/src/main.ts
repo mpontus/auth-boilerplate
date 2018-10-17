@@ -1,7 +1,7 @@
-import { NestFactory } from "@nestjs/core";
-import { Transport } from "@nestjs/microservices";
-import { useContainer } from "class-validator";
-import { AppModule } from "./AppModule";
+import { NestFactory } from '@nestjs/core';
+import { Transport } from '@nestjs/microservices';
+import { useContainer } from 'class-validator';
+import { AppModule } from './AppModule';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,4 +17,6 @@ async function bootstrap() {
 
   await app.listen(8080);
 }
+
+// tslint:disable-next-line:no-floating-promises
 bootstrap();

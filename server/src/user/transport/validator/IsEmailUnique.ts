@@ -14,7 +14,7 @@ export class IsEmailUnique {
   public async validate(email: string) {
     const userExists = await this.userRepository.findOne({ email });
 
-    return !userExists;
+    return userExists !== undefined;
   }
 
   public defaultMessage(_args: ValidationArguments) {

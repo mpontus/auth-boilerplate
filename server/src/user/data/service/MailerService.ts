@@ -1,12 +1,12 @@
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
-import { InjectRepository } from "@nestjs/typeorm";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { ConfigService } from "nestjs-config";
-import { Repository } from "typeorm";
-import { promisify } from "util";
-import { User } from "../entity/User.entity";
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { ConfigService } from 'nestjs-config';
+import { Repository } from 'typeorm';
+import { promisify } from 'util';
+import { User } from '../entity/User.entity';
 
 @Injectable()
 export class MailerService {
@@ -19,16 +19,16 @@ export class MailerService {
   public async sendEmailActivation(email: string): Promise<void> {
     const user = await this.userRepository.findOne({ email });
 
-    if (!user || user.emailVerified) {
-      throw new BadRequestException("Email not found or already verified");
+    if (user === undefined || user.emailVerified) {
+      throw new BadRequestException('Email not found or already verified');
     }
 
     const secret = this.getEmailActivationSecret(user);
     const token = await this.generateToken(user, secret, {
-      expiresIn: this.config.get("security.email_activation_expiry"),
+      expiresIn: this.config.get('security.email_activation_expiry'),
     });
 
-    this.scheduleEmailDelivery(user.email, "email_activation", {
+    this.scheduleEmailDelivery(user.email, 'email_activation', {
       recipient_name: user.name,
       token,
     });
@@ -37,14 +37,14 @@ export class MailerService {
   public async completeEmailActivation(token: string): Promise<void> {
     const user = await this.getTokenSubject(token);
 
-    if (!user || user.emailVerified) {
-      throw new BadRequestException("Invalid token");
+    if (user === undefined || user.emailVerified) {
+      throw new BadRequestException('Invalid token');
     }
 
     const secret = this.getEmailActivationSecret(user);
 
     if (!(await this.verifyToken(token, secret))) {
-      throw new BadRequestException("Invalid token");
+      throw new BadRequestException('Invalid token');
     }
 
     user.emailVerified = true;
@@ -55,16 +55,16 @@ export class MailerService {
   public async sendPasswordRecovery(email: string): Promise<void> {
     const user = await this.userRepository.findOne({ email });
 
-    if (!user) {
-      throw new BadRequestException("Email not found or already verified");
+    if (user === undefined) {
+      throw new BadRequestException('Email not found or already verified');
     }
 
     const secret = this.getPasswordRecoverySecret(user);
     const token = await this.generateToken(user, secret, {
-      expiresIn: this.config.get("security.password_recovery_expiry"),
+      expiresIn: this.config.get('security.password_recovery_expiry'),
     });
 
-    this.scheduleEmailDelivery(user.email, "password_recovery", {
+    this.scheduleEmailDelivery(user.email, 'password_recovery', {
       recipient_name: user.name,
       token,
     });
@@ -76,19 +76,19 @@ export class MailerService {
   ): Promise<void> {
     const user = await this.getTokenSubject(token);
 
-    if (!user) {
-      throw new BadRequestException("Invalid token");
+    if (user === undefined) {
+      throw new BadRequestException('Invalid token');
     }
 
     const secret = this.getPasswordRecoverySecret(user);
 
     if (!(await this.verifyToken(token, secret))) {
-      throw new BadRequestException("Invalid token");
+      throw new BadRequestException('Invalid token');
     }
 
     if (await bcrypt.compare(password, user.passwordHash)) {
       throw new BadRequestException(
-        "New password must be different form the previous one",
+        'New password must be different form the previous one',
       );
     }
 
@@ -99,11 +99,11 @@ export class MailerService {
   }
 
   private getEmailActivationSecret(user: User): string {
-    return user.email + this.config.get("security.jwt_secret");
+    return `${user.email}${this.config.get('security.jwt_secret')}`;
   }
 
   private getPasswordRecoverySecret(user: User): string {
-    return user.passwordHash + this.config.get("security.jwt_secret");
+    return `${user.passwordHash}${this.config.get('security.jwt_secret')}`;
   }
 
   private async generateToken(
@@ -113,16 +113,16 @@ export class MailerService {
   ): Promise<string> {
     const payload = { sub: subject.id };
 
-    return await promisify<string>((callback) =>
-      jwt.sign(payload, secret, options, callback),
-    )();
+    return await promisify<string>(callback => {
+      jwt.sign(payload, secret, options, callback);
+    })();
   }
 
   private async getTokenSubject(token: string): Promise<User | undefined> {
     try {
       const decoded = jwt.decode(token);
 
-      if (!decoded || typeof decoded !== "object" || !decoded.sub) {
+      if (decoded === null || typeof decoded !== 'object' || !decoded.sub) {
         return;
       }
 
@@ -134,7 +134,9 @@ export class MailerService {
 
   private async verifyToken(token: string, secret: string): Promise<boolean> {
     try {
-      await promisify((callback) => jwt.verify(token, secret, callback))();
+      await promisify(callback => {
+        jwt.verify(token, secret, callback);
+      })();
 
       return true;
     } catch {
@@ -147,9 +149,10 @@ export class MailerService {
     template: string,
     locals: object,
   ) {
+    // tslint:disable-next-line:no-floating-promises
     this.clientProxy
       .send(
-        { cmd: "send_transactional_email" },
+        { cmd: 'send_transactional_email' },
         { recipient, template, locals },
       )
       .toPromise(); // fire up cold observable

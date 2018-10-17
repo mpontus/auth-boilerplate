@@ -4,11 +4,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
-} from "typeorm";
-import { User } from "./User.entity";
+} from 'typeorm';
+import { User } from './User.entity';
 
-@Entity("social_logins")
-@Unique(["provider", "providerId"])
+@Entity('social_logins')
+@Unique(['provider', 'providerId'])
 export class SocialLogin {
   @PrimaryGeneratedColumn()
   public id: number;
@@ -19,6 +19,6 @@ export class SocialLogin {
   @Column()
   public providerId: string;
 
-  @ManyToOne((_) => User, (user) => user.socialLogins)
+  @ManyToOne(() => User, user => user.socialLogins)
   public user: User;
 }

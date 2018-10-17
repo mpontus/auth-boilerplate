@@ -6,6 +6,6 @@ export class Session {
   @PrimaryColumn()
   public token: string;
 
-  @ManyToOne(_ => User, { cascade: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, { cascade: true, onDelete: 'CASCADE' })
   public user: User;
 }

@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
 
     const user = await this.sessionService.authenticate(credentials);
 
-    if (!user) {
+    if (user === undefined) {
       return false;
     }
 

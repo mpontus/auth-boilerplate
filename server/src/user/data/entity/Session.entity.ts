@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Unique,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-  RelationId,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, PrimaryColumn, ManyToOne } from 'typeorm';
 import { User } from './User.entity';
 
 @Entity('sessions')

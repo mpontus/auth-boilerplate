@@ -11,7 +11,7 @@ type ClassType<T> = {
 export class TransformInterceptor<T> implements NestInterceptor<Partial<T>, T> {
   constructor(private readonly cls: ClassType<T>) {}
 
-  intercept(context: ExecutionContext, call$: Observable<T>) {
+  intercept(_context: ExecutionContext, call$: Observable<T>) {
     return call$.pipe(map(data => plainToClass(this.cls, data)));
   }
 }

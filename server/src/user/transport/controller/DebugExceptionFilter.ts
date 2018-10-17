@@ -1,9 +1,5 @@
 import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
-import {
-  Catch,
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Catch } from '@nestjs/common';
 import { HttpServer, Inject, ArgumentsHost } from '@nestjs/common';
 
 @Catch()

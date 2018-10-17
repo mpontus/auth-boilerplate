@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ValidatorConstraint, ValidationArguments } from 'class-validator';
@@ -17,7 +17,7 @@ export class IsEmailUnique {
     return !userExists;
   }
 
-  defaultMessage(args: ValidationArguments) {
+  defaultMessage(_args: ValidationArguments) {
     return 'User with this email already exists.';
   }
 }

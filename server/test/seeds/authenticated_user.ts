@@ -5,6 +5,7 @@ import { User } from '../../src/user/data/entity/User.entity';
 import { Session } from '../../src/user/data/entity/Session.entity';
 
 export const id = '847563';
+export const name = 'Brian Foster';
 export const email = 'Toby38@gmail.com';
 export const password = 'H$4Dxli4R8';
 export const passwordHash = bcrypt.hashSync(password, 6);
@@ -15,6 +16,7 @@ export const run = async () => {
 
   const user = manager.create(User, {
     id,
+    name,
     email,
     passwordHash,
   });

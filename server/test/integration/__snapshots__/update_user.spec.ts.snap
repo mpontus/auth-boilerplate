@@ -3,7 +3,7 @@
 exports[`profile update when requested by admin when email is being updated should succeed 1`] = `
 Object {
   "id": "847563",
-  "name": "",
+  "name": "Brian Foster",
 }
 `;
 
@@ -17,7 +17,7 @@ Object {
 exports[`profile update when requested by admin when password is being updated should succeed 1`] = `
 Object {
   "id": "847563",
-  "name": "",
+  "name": "Brian Foster",
 }
 `;
 
@@ -32,7 +32,7 @@ Object {
 exports[`profile update when requested by owner when email is being updated when current password is valid should succeed 1`] = `
 Object {
   "id": "847563",
-  "name": "",
+  "name": "Brian Foster",
 }
 `;
 
@@ -54,7 +54,7 @@ Object {
 exports[`profile update when requested by owner when password is being updated when current password is valid should succeed 1`] = `
 Object {
   "id": "847563",
-  "name": "",
+  "name": "Brian Foster",
 }
 `;
 

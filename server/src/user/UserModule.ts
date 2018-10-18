@@ -10,9 +10,11 @@ import { Session } from './data/entity/Session.entity';
 import { User } from './data/entity/User.entity';
 import { MailerService } from './data/service/MailerService';
 import { SessionService } from './data/service/SessionService';
+import { UserService } from './data/service/UserService';
 import { OAuthClient } from './oauth/OAuthClient';
 import { AuthController } from './transport/controller/AuthController';
 import { EmailController } from './transport/controller/EmailController';
+import { UserController } from './transport/controller/UserController';
 import { IsEmailUnique } from './transport/validator/IsEmailUnique';
 
 /**
@@ -21,6 +23,7 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
  * Reponsible for authentication and user management.
  */
 @Module({
+  controllers: [AuthController, EmailController, UserController],
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService): TypeOrmModuleOptions => ({
@@ -33,7 +36,6 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
     }),
     TypeOrmModule.forFeature([User, Session]),
   ],
-  controllers: [AuthController, EmailController],
   providers: [
     {
       provide: ClientProxy,
@@ -50,6 +52,7 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
       provide: OAuthClient,
       useValue: new OAuthClient(),
     },
+    UserService,
     SessionService,
     MailerService,
     IsEmailUnique,

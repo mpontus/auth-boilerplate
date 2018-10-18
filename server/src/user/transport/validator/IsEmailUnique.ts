@@ -20,7 +20,7 @@ export class IsEmailUnique {
   public async validate(email: string): Promise<boolean> {
     const userExists = await this.userRepository.findOne({ email });
 
-    return userExists !== undefined;
+    return userExists === undefined;
   }
 
   /**

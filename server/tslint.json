@@ -16,27 +16,6 @@
     // to skip unused parameters.
     "variable-name": [true, "allow-leading-underscore"],
 
-    // Too much work and doesn't always make sense.
-    "object-literal-sort-keys": false,
-
-    // Conflicts with nestjs-config
-    "no-default-export": false,
-    "no-invalid-this": false,
-
-    // Conflicts with much of NestJS
-    "no-unsafe-any": false,
-
-    // Shorthand for parameter initialization saves from too much
-    // boilerplate to opt-out of it in favor of clarity
-    "no-parameter-properties": false,
-
-    // Interesting rules, but may lead to over-engineering
-    "min-class-cohesion": false,
-    "no-feature-envy": false,
-
-    // Wish this rule could be set to ignore generic parameters
-    "id-length": false,
-
     // Call signature is a useful addition to documentation,
     // parameters and variables not so much.
     "typedef": [
@@ -45,6 +24,27 @@
       "arrow-call-signature",
       "property-declaration",
       "member-variable-declaration"
-    ]
+    ],
+
+    // Too much work and doesn't always make sense.
+    "object-literal-sort-keys": false,
+
+    // Shorthand for parameter initialization saves from too much
+    // boilerplate to opt-out of it in favor of clarity
+    "no-parameter-properties": false,
+
+    // Wish this rule could be set to ignore generic parameters
+    "id-length": false,
+
+    // Conflicts with much of NestJS
+    "no-unsafe-any": false,
+
+    // Conflicts with nestjs-config
+    "no-default-export": false,
+    "no-invalid-this": false,
+
+    // Interesting rules, but may lead to over-engineering
+    "min-class-cohesion": false,
+    "no-feature-envy": false
   }
 }

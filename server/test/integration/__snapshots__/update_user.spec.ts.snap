@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`profile update when requested by admin when email is being updated should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "",
+}
+`;
+
+exports[`profile update when requested by admin when name is being updated should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "Samantha Washington",
+}
+`;
+
+exports[`profile update when requested by admin when password is being updated should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "",
+}
+`;
+
+exports[`profile update when requested by owner when email is being updated when current password is invalid should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "Current password does not match",
+  "statusCode": 400,
+}
+`;
+
+exports[`profile update when requested by owner when email is being updated when current password is valid should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "",
+}
+`;
+
+exports[`profile update when requested by owner when name is being updated should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "Norma Fisher",
+}
+`;
+
+exports[`profile update when requested by owner when password is being updated when current password is invalid should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "Current password does not match",
+  "statusCode": 400,
+}
+`;
+
+exports[`profile update when requested by owner when password is being updated when current password is valid should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "",
+}
+`;
+
+exports[`profile update when requested by someone else should fail 1`] = `
+Object {
+  "error": "Unauthorized",
+  "statusCode": 401,
+}
+`;

@@ -1,38 +1,74 @@
+import * as TypeMoq from 'typemoq';
 import * as EmailTemplates from 'email-templates';
+import { ConfigService } from 'nestjs-config';
 import { MailerController } from './MailerController';
 import { MailerService } from './MailerService';
 
-const mailer = <EmailTemplates>{
-  send: jest.fn(),
-};
+const mailerMock = TypeMoq.Mock.ofType<EmailTemplates>(
+  undefined,
+  TypeMoq.MockBehavior.Strict,
+);
 
-const mailerService = new MailerService(mailer);
+const configMock = TypeMoq.Mock.ofType<ConfigService>(
+  undefined,
+  TypeMoq.MockBehavior.Strict,
+);
+
+const mailerService = new MailerService(mailerMock.object, configMock.object);
 const controller = new MailerController(mailerService);
 
 describe('MailerController', () => {
   const recipient = 'curtischarles@diaz-brown.com';
   const template = 'password_recovery';
-  const data = {
-    action_url: 'https://example.org/',
+  const locals = {
+    recipient_name: 'Brian Foster',
+    token: '_q*9s^Li$G',
   };
 
   describe('send', () => {
+    beforeEach(() => {
+      configMock
+        .setup(x => x.get('app.site_url'))
+        .returns(() => 'http://example.org/');
+      configMock
+        .setup(x => x.get('app.site_name'))
+        .returns(() => 'Website Name');
+
+      mailerMock
+        .setup(x =>
+          x.send(
+            TypeMoq.It.is(arg => {
+              expect(arg).toEqual({
+                template: expect.stringMatching(new RegExp(`${template}$`)),
+                message: {
+                  to: recipient,
+                },
+                locals: {
+                  recipient_name: 'Brian Foster',
+                  token: '_q*9s^Li$G',
+                  site_name: 'Website Name',
+                  site_url: 'http://example.org/',
+                },
+              });
+
+              return true;
+            }),
+          ),
+        )
+        .returns(() => undefined)
+        .verifiable(TypeMoq.Times.once());
+    });
+
     beforeEach(async () => {
       await controller.send({
         recipient,
         template,
-        data,
+        locals,
       });
     });
 
-    it('should send the email to the given recepient', () => {
-      expect(mailer.send).toHaveBeenCalledWith({
-        template: expect.stringMatching(new RegExp(`${template}$`)),
-        message: {
-          to: recipient,
-        },
-        locals: data,
-      });
+    it('should send the email to the provided recepient', () => {
+      mailerMock.verifyAll();
     });
   });
 });

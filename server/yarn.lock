@@ -916,6 +916,10 @@ ci-info@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.6.0.tgz#2ca20dbb9ceb32d4524a683303313f0304b1e497"
 
+circular-json@^0.3.1:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
+
 class-transformer@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.1.9.tgz#29977c528233ca014e6fd9523327ebd31d11ca54"
@@ -4086,6 +4090,10 @@ postgres-interval@^1.1.0:
   dependencies:
     xtend "^4.0.0"
 
+postinstall-build@^5.0.1:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/postinstall-build/-/postinstall-build-5.0.3.tgz#238692f712a481d8f5bc8960e94786036241efc7"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
@@ -5179,6 +5187,14 @@ typechecker@~2.0.1:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typemoq@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/typemoq/-/typemoq-2.1.0.tgz#4452ce360d92cf2a1a180f0c29de2803f87af1e8"
+  dependencies:
+    circular-json "^0.3.1"
+    lodash "^4.17.4"
+    postinstall-build "^5.0.1"
 
 typeorm@^0.2.7:
   version "0.2.7"

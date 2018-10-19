@@ -11,7 +11,6 @@ import { User } from './data/entity/User.entity';
 import { MailerService } from './data/service/MailerService';
 import { SessionService } from './data/service/SessionService';
 import { UserService } from './data/service/UserService';
-import { OAuthClient } from './oauth/OAuthClient';
 import { AuthController } from './transport/controller/AuthController';
 import { EmailController } from './transport/controller/EmailController';
 import { UserController } from './transport/controller/UserController';
@@ -47,10 +46,6 @@ import { IsEmailUnique } from './transport/validator/IsEmailUnique';
           },
         }),
       inject: [ConfigService],
-    },
-    {
-      provide: OAuthClient,
-      useValue: new OAuthClient(),
     },
     UserService,
     SessionService,

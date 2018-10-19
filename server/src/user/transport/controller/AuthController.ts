@@ -19,7 +19,6 @@ import { TransformInterceptor } from '../interceptor/TransformInterceptor';
 import { Session } from '../serializer/Session';
 import { LoginDto } from '../validator/LoginDto';
 import { SignupDto } from '../validator/SignupDto';
-import { SocialLoginDto } from '../validator/SocialLoginDto';
 
 /**
  * Auth controller
@@ -60,17 +59,6 @@ export class AuthController {
     Session
   > {
     return this.sessionService.signup({ name, email, password });
-  }
-
-  /**
-   * Authenticate the user by their social network profile
-   */
-  @Post('social/:provider')
-  public async singupWithProvider(
-    @Param('provider') provider: string,
-    @Body() { code }: SocialLoginDto,
-  ): Promise<Session> {
-    return this.sessionService.signupWithProvider(provider, code);
   }
 
   /**

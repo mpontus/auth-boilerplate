@@ -1,16 +1,10 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Inject,
-} from '@nestjs/common';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import hat from 'hat';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { OAuthClient } from '../../oauth/OAuthClient';
 import { Session } from '../entity/Session.entity';
-import { SocialLogin } from '../entity/SocialLogin.entity';
 import { User } from '../entity/User.entity';
 import { SignupDto } from '../interface/SignupDto';
 
@@ -24,7 +18,6 @@ export class SessionService {
     @InjectRepository(Session)
     private readonly sessionRepository: Repository<Session>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @Inject(OAuthClient) private readonly oauthClient: OAuthClient,
   ) {}
 
   /**
@@ -90,50 +83,6 @@ export class SessionService {
         passwordHash: await bcrypt.hash(password, 10),
       }),
     });
-  }
-
-  /**
-   * Create session for a user associated with social network profile.
-   *
-   * Creates a new user if no user account associated with given
-   * profile exists.
-   */
-  public async signupWithProvider(
-    provider: string,
-    code: string,
-  ): Promise<Session> {
-    const profile = await this.oauthClient.getProfile(provider, code);
-
-    if (profile == null) {
-      throw new BadRequestException();
-    }
-
-    let user = await this.userRepository
-      .createQueryBuilder('user')
-      .innerJoin(SocialLogin, 'social', 'social.userId = user.id')
-      .where('social.provider = :provider AND social.providerId = :id', {
-        provider,
-        id: profile.id,
-      })
-      .getOne();
-
-    if (user == null) {
-      user = this.userRepository.create({
-        id: uuid(),
-        name: profile.displayName,
-      });
-
-      await this.userRepository.save(user);
-    }
-
-    const session = this.sessionRepository.create({
-      token: hat(),
-      user,
-    });
-
-    await this.sessionRepository.save(session);
-
-    return session;
   }
 
   /**

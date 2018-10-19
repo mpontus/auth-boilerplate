@@ -3,11 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SocialLogin } from './SocialLogin.entity';
 
 /**
  * User entity
@@ -68,10 +66,4 @@ export class User {
    */
   @UpdateDateColumn()
   public updatedDate: Date;
-
-  /**
-   * User social acocunts on other networks
-   */
-  @OneToMany(() => SocialLogin, (socialLogin: SocialLogin) => socialLogin.user)
-  public socialLogins: SocialLogin[];
 }

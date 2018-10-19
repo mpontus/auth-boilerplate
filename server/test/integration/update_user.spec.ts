@@ -158,7 +158,7 @@ describe('profile update', () => {
           name: 'Chris Curtis',
         })
         .set('Authorization', `Bearer ${seed.token}`)
-        .expect(401);
+        .expect(403);
 
       expect(response.body).toMatchSnapshot();
     });

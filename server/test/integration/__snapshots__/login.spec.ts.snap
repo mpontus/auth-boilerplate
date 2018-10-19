@@ -18,7 +18,8 @@ Object {
 
 exports[`login when the user does not exist should be an error 1`] = `
 Object {
-  "error": "Unauthorized",
-  "statusCode": 401,
+  "error": "Bad Request",
+  "message": "Bad credentials",
+  "statusCode": 400,
 }
 `;

@@ -57,7 +57,7 @@ describe('login', () => {
           email: 'nfisher@yahoo.com',
           password: '9O_8ywUKpHuHjnZ',
         })
-        .expect(401);
+        .expect(400);
 
       expect(response.body).toMatchSnapshot();
     });

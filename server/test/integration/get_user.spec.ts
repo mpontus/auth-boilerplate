@@ -53,7 +53,7 @@ describe('get user by id', () => {
       const response = await supertest(expressApp)
         .get(`/users/${otherSeed.id}`)
         .set('Authorization', `Bearer ${seed.token}`)
-        .expect(401);
+        .expect(403);
 
       expect(response.body).toMatchSnapshot();
     });

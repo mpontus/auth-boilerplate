@@ -1,7 +1,7 @@
 import {
   BadRequestException,
+  ForbiddenException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -29,7 +29,7 @@ export class UserService {
     limit: number,
   ): Promise<Pagination<User>> {
     if (!actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     return {
@@ -46,7 +46,7 @@ export class UserService {
    */
   public async getUser(actor: User, id: string): Promise<User> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     const user = await this.userRepository.findOne(id);
@@ -70,7 +70,7 @@ export class UserService {
     update: ProfileUpdate,
   ): Promise<User> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     const user = await this.userRepository.findOne(id);
@@ -112,7 +112,7 @@ export class UserService {
    */
   public async deleteUser(actor: User, id: string): Promise<void> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     const user = await this.userRepository.findOne(id);
@@ -134,7 +134,7 @@ export class UserService {
     delta: number,
   ) {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     const user = await this.userRepository.findOne(id);
@@ -166,7 +166,7 @@ export class UserService {
     _code: string,
   ) {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     throw new Error('Not implemented');
@@ -177,7 +177,7 @@ export class UserService {
    */
   public async detachProvider(actor: User, id: string, _provider: string) {
     if (actor.id !== id && !actor.roles.includes('admin')) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     throw new Error('Not implemented');

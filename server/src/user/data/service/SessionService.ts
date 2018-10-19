@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Inject,
-  UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
@@ -49,11 +49,11 @@ export class SessionService {
     const user = await this.userRepository.findOne({ email });
 
     if (user == null) {
-      throw new UnauthorizedException();
+      throw new BadRequestException('Bad credentials');
     }
 
     if (!(await bcrypt.compare(password, user.passwordHash))) {
-      throw new UnauthorizedException();
+      throw new BadRequestException('Bad credentials');
     }
 
     return await this.sessionRepository.save({
@@ -145,7 +145,7 @@ export class SessionService {
     });
 
     if (session === undefined || session.user.id !== actor.id) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     await this.sessionRepository.remove(session);

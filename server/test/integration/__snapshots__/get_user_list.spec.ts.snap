@@ -215,7 +215,7 @@ Object {
 
 exports[`get user by id when requested by someone else should fail 1`] = `
 Object {
-  "error": "Unauthorized",
-  "statusCode": 401,
+  "error": "Forbidden",
+  "statusCode": 403,
 }
 `;

@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get user by id when requested by admin when limit is invalid should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isPositive": "take must be a positive number",
+        "max": "take must not be greater than 50",
+      },
+      "property": "take",
+      "target": Object {
+        "take": null,
+      },
+      "value": null,
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`get user by id when requested by admin when limit is negative should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isPositive": "take must be a positive number",
+      },
+      "property": "take",
+      "target": Object {
+        "take": -2,
+      },
+      "value": -2,
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`get user by id when requested by admin when limit is provided should succeed 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "id": "1020792911429632",
+      "name": "Derek Blake",
+    },
+    Object {
+      "id": "4433688441913344",
+      "name": "Phoebe Sandoval",
+    },
+  ],
+  "total": 32,
+}
+`;
+
+exports[`get user by id when requested by admin when limit is too large should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "max": "take must not be greater than 50",
+      },
+      "property": "take",
+      "target": Object {
+        "take": 90000,
+      },
+      "value": 90000,
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`get user by id when requested by admin when offset is invalid should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isPositive": "skip must be a positive number",
+      },
+      "property": "skip",
+      "target": Object {
+        "skip": null,
+      },
+      "value": null,
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`get user by id when requested by admin when offset is negative should fail 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isPositive": "skip must be a positive number",
+      },
+      "property": "skip",
+      "target": Object {
+        "skip": -2,
+      },
+      "value": -2,
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`get user by id when requested by admin when offset is provided should succeed 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "id": "7591496318451712",
+      "name": "Della Hale",
+    },
+    Object {
+      "id": "6661526800826368",
+      "name": "Jeffery Munoz",
+    },
+    Object {
+      "id": "5296032296468480",
+      "name": "Norman Lane",
+    },
+    Object {
+      "id": "2475574186475520",
+      "name": "Louis Moran",
+    },
+    Object {
+      "id": "810085049696256",
+      "name": "Bobby Stevens",
+    },
+    Object {
+      "id": "2406117441273856",
+      "name": "Mina Wallace",
+    },
+    Object {
+      "id": "654970728742912",
+      "name": "Edna Davis",
+    },
+    Object {
+      "id": "4309729140539392",
+      "name": "Frank Watson",
+    },
+    Object {
+      "id": "5548803264348160",
+      "name": "Dorothy Burgess",
+    },
+    Object {
+      "id": "2348784637968384",
+      "name": "Olivia Delgado",
+    },
+  ],
+  "total": 32,
+}
+`;
+
+exports[`get user by id when requested by admin when pagination is omitted should succeed 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "id": "1020792911429632",
+      "name": "Derek Blake",
+    },
+    Object {
+      "id": "4433688441913344",
+      "name": "Phoebe Sandoval",
+    },
+    Object {
+      "id": "7591496318451712",
+      "name": "Della Hale",
+    },
+    Object {
+      "id": "6661526800826368",
+      "name": "Jeffery Munoz",
+    },
+    Object {
+      "id": "5296032296468480",
+      "name": "Norman Lane",
+    },
+    Object {
+      "id": "2475574186475520",
+      "name": "Louis Moran",
+    },
+    Object {
+      "id": "810085049696256",
+      "name": "Bobby Stevens",
+    },
+    Object {
+      "id": "2406117441273856",
+      "name": "Mina Wallace",
+    },
+    Object {
+      "id": "654970728742912",
+      "name": "Edna Davis",
+    },
+    Object {
+      "id": "4309729140539392",
+      "name": "Frank Watson",
+    },
+  ],
+  "total": 32,
+}
+`;
+
+exports[`get user by id when requested by someone else should fail 1`] = `
+Object {
+  "error": "Unauthorized",
+  "statusCode": 401,
+}
+`;

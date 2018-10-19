@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get user by id when requested by admin should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "Brian Foster",
+}
+`;
+
+exports[`get user by id when requested by owner should succeed 1`] = `
+Object {
+  "id": "847563",
+  "name": "Brian Foster",
+}
+`;
+
+exports[`get user by id when requested by someone else should fail 1`] = `
+Object {
+  "error": "Unauthorized",
+  "statusCode": 401,
+}
+`;

@@ -1,9 +1,26 @@
-import { IsPositive } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsOptional, IsPositive, Max } from 'class-validator';
 
+/**
+ * Describes request for pagination
+ *
+ * Converts strings to integers before validation.
+ */
 export class PaginationDto {
+  /**
+   * Pagination offset
+   */
+  @IsOptional()
   @IsPositive()
-  skip: number;
+  @Transform(val => parseInt(val, 10))
+  public skip: number;
 
+  /**
+   * Pagination limit
+   */
+  @IsOptional()
   @IsPositive()
-  take: number;
+  @Max(50)
+  @Transform(val => parseInt(val, 10))
+  public take: number;
 }

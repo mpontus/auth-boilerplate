@@ -6,6 +6,7 @@ import {
   Inject,
   Param,
   Patch,
+  Query,
   Req,
   UseGuards,
   UseInterceptors,
@@ -39,7 +40,7 @@ export class UserController {
   @UseInterceptors(new TransformInterceptor(UserPagination))
   public async listUsers(
     @Req() req: { user: UserEntity },
-    @Body() { skip, take }: PaginationDto,
+    @Query() { skip = 0, take = 10 }: PaginationDto,
   ): Promise<UserPagination> {
     return this.userService.listUsers(req.user, skip, take);
   }

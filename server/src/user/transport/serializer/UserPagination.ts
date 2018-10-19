@@ -1,19 +1,21 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
+import { User } from './User';
 
-@Exclude()
-class User {
-  @Expose()
-  id: string;
-
-  @Expose()
-  name: string;
-}
-
+/**
+ * Serialized user list
+ */
 @Exclude()
 export class UserPagination {
+  /**
+   * Total number of users in the database
+   */
   @Expose()
-  total: number;
+  public total: number;
 
+  /**
+   * User entities included in the current page
+   */
   @Expose()
-  items: User[];
+  @Type(() => User)
+  public items: User[];
 }

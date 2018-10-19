@@ -6,6 +6,7 @@ import {
   Inject,
   Param,
   Patch,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -82,5 +83,31 @@ export class UserController {
     @Param('id') id: string,
   ): Promise<void> {
     return this.userService.deleteUser(req.user, id);
+  }
+
+  /**
+   * Attach role to the user
+   */
+  @Put(':id/roles/:role')
+  @UseGuards(AuthGuard)
+  public async attachRole(
+    @Req() req: { user: UserEntity },
+    @Param('id') id: string,
+    @Param('role') role: string,
+  ): Promise<void> {
+    return this.userService.toggleUserRole(req.user, id, role, +1);
+  }
+
+  /**
+   * Remove role from the user
+   */
+  @Delete(':id/roles/:role')
+  @UseGuards(AuthGuard)
+  public async removeRole(
+    @Req() req: { user: UserEntity },
+    @Param('id') id: string,
+    @Param('role') role: string,
+  ): Promise<void> {
+    return this.userService.toggleUserRole(req.user, id, role, -1);
   }
 }

@@ -136,7 +136,7 @@ export class UserService {
     role: string,
     delta: number,
   ): Promise<void> {
-    if (actor.id !== id && !actor.roles.includes('admin')) {
+    if (!actor.roles.includes('admin')) {
       throw new ForbiddenException();
     }
 

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add user role when requested by admin should succeed 1`] = `Object {}`;
+
+exports[`add user role when requested by someone else should fail 1`] = `
+Object {
+  "error": "Forbidden",
+  "statusCode": 403,
+}
+`;

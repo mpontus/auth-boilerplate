@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`delete user when requested by admin should succeed 1`] = `Object {}`;
+
+exports[`delete user when requested by owner should succeed 1`] = `Object {}`;
+
+exports[`delete user when requested by someone else should fail 1`] = `
+Object {
+  "error": "Forbidden",
+  "statusCode": 403,
+}
+`;

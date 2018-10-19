@@ -1,7 +1,7 @@
 import {
-  IsOptional,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   MaxLength,
   MinLength,
   Validate,

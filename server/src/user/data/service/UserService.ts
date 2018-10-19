@@ -82,22 +82,25 @@ export class UserService {
     // User needs to specify their current password to update password or email
     const currentPasswordValid =
       actor.roles.includes('admin') ||
-      (update.currentPassword &&
+      (update.currentPassword !== undefined &&
         (await bcrypt.compare(update.currentPassword, user.passwordHash)));
 
-    if (!currentPasswordValid && (update.password || update.email)) {
+    if (
+      !currentPasswordValid &&
+      (update.password !== undefined || update.email !== undefined)
+    ) {
       throw new BadRequestException('Current password does not match');
     }
 
-    if (update.name) {
+    if (update.name !== undefined) {
       user.name = update.name;
     }
 
-    if (update.password) {
+    if (update.password !== undefined) {
       user.passwordHash = await bcrypt.hash(update.password, 10);
     }
 
-    if (update.email && user.email !== update.email) {
+    if (update.email !== undefined && user.email !== update.email) {
       user.email = update.email;
       user.emailVerified = false;
     }
@@ -132,7 +135,7 @@ export class UserService {
     id: string,
     role: string,
     delta: number,
-  ) {
+  ): Promise<void> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
       throw new ForbiddenException();
     }
@@ -144,7 +147,8 @@ export class UserService {
     }
 
     if (delta < 0 && user.roles.includes(role)) {
-      const notEqual = <T>(value: T) => (other: T) => value !== other;
+      // tslint:disable-next-line:typedef
+      const notEqual = <T>(value: T) => (other: T): boolean => value !== other;
 
       user.roles = user.roles.filter(notEqual(role));
     }
@@ -164,7 +168,7 @@ export class UserService {
     id: string,
     _provider: string,
     _code: string,
-  ) {
+  ): Promise<void> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
       throw new ForbiddenException();
     }
@@ -175,7 +179,11 @@ export class UserService {
   /**
    * Delete profile association with a social network
    */
-  public async detachProvider(actor: User, id: string, _provider: string) {
+  public async detachProvider(
+    actor: User,
+    id: string,
+    _provider: string,
+  ): Promise<void> {
     if (actor.id !== id && !actor.roles.includes('admin')) {
       throw new ForbiddenException();
     }

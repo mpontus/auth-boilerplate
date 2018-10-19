@@ -36,6 +36,9 @@
     // Wish this rule could be set to ignore generic parameters
     "id-length": false,
 
+    // Forces having too many DTO classes. Not here.
+    "max-func-args": false,
+
     // Conflicts with much of NestJS
     "no-unsafe-any": false,
 

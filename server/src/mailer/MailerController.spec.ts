@@ -1,6 +1,6 @@
-import * as TypeMoq from 'typemoq';
 import * as EmailTemplates from 'email-templates';
 import { ConfigService } from 'nestjs-config';
+import * as TypeMoq from 'typemoq';
 import { MailerController } from './MailerController';
 import { MailerService } from './MailerService';
 

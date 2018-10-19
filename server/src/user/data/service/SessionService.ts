@@ -1,7 +1,7 @@
 import {
   BadRequestException,
-  Inject,
   ForbiddenException,
+  Inject,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';

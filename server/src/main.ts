@@ -10,8 +10,11 @@ import { AppModule } from './AppModule';
  */
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+
+  // Connect class-validator to DI container
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
+  // Start listeners in the same process
   app.connectMicroservice({
     transport: Transport.REDIS,
     options: {
@@ -20,6 +23,8 @@ async function bootstrap(): Promise<void> {
   });
   await app.startAllMicroservicesAsync();
 
+  // Launch the web server
+  app.setGlobalPrefix('api');
   await app.listen(8080);
 }
 

@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { getType } from "typesafe-actions";
 import { Action } from "../action";
-import { login } from "../action/loginActions";
+import { loginAction } from "../action/loginActions";
 
 /**
  * Describes the state of login request
@@ -34,14 +34,14 @@ export const loginRequestReducer: Reducer<State, Action> = (
   action
 ) => {
   switch (action.type) {
-    case getType(login.request): {
+    case getType(loginAction.request): {
       return {
         ...state,
         loading: true
       };
     }
 
-    case getType(login.success): {
+    case getType(loginAction.success): {
       return {
         ...state,
         loading: false,
@@ -49,7 +49,7 @@ export const loginRequestReducer: Reducer<State, Action> = (
       };
     }
 
-    case getType(login.failure): {
+    case getType(loginAction.failure): {
       return {
         ...state,
         loading: false,

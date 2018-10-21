@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { login } from "../action/loginActions";
+import { loginAction } from "../action/loginActions";
 import { FormError } from "../component/FormError";
 import { LoginForm } from "../component/LoginForm";
 import { LoginDto } from "../model/LoginDto";
@@ -28,7 +28,7 @@ const makeMapStateToProps = createStructuredSelector({
 const enhance = connect(
   makeMapStateToProps,
   {
-    onSubmit: login.request
+    onSubmit: loginAction.request
   }
 );
 

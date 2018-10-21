@@ -8,7 +8,7 @@ type Result = t.TypeOf<typeof sessionSchema>;
 /**
  * Authenticate user anonymously
  */
-export const signup = async (api: ApiGateway): Promise<Result> => {
+export const loginAnonymously = async (api: ApiGateway): Promise<Result> => {
   const session = await api
     .post("/auth/anonymous")
     .then(validateResponse(sessionSchema));

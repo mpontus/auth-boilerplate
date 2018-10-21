@@ -1,4 +1,4 @@
-import { Form, Formik, FormikErrors } from "formik";
+import { Form as FormikForm, Formik, FormikErrors } from "formik";
 import * as React from "react";
 import { Schema } from "yup";
 
@@ -38,7 +38,7 @@ interface Props<V> {
  * Extends Formik with ability to set external errors and normalize
  * values before passing them to onSubmit callback.
  */
-export class FormikForm<T> extends React.Component<Props<T>> {
+export class Form<T> extends React.Component<Props<T>> {
   private readonly formikRef: React.RefObject<Formik<T>> = React.createRef();
 
   /**
@@ -66,7 +66,7 @@ export class FormikForm<T> extends React.Component<Props<T>> {
         onSubmit={this.handleSubmit}
         ref={this.formikRef}
       >
-        <Form>{this.props.children}</Form>
+        <FormikForm>{this.props.children}</FormikForm>
       </Formik>
     );
   }

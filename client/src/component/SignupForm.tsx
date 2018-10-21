@@ -1,12 +1,13 @@
-import { Form, Formik } from "formik";
 import * as React from "react";
 import * as yup from "yup";
 import { SignupDto } from "../model/SignupDto";
 import { Button } from "./Button";
-import { FormikField } from "./FormikField";
+import { Field } from "./Field";
+import { Form } from "./Form";
 import { Input } from "./Input";
 
 interface Props {
+  errors?: { [P in keyof SignupDto]?: string };
   onSubmit: (values: SignupDto) => void;
 }
 
@@ -16,7 +17,7 @@ const initialValues: SignupDto = {
   password: ""
 };
 
-const schema = yup.object().shape({
+const schema = yup.object<SignupDto>().shape({
   name: yup.string().required(),
   email: yup
     .string()
@@ -28,22 +29,16 @@ const schema = yup.object().shape({
     .required()
 });
 
-export const SignupForm = ({ onSubmit }: Props) => (
-  <Formik
+export const SignupForm = ({ errors, onSubmit }: Props) => (
+  <Form
+    errors={errors}
     initialValues={initialValues}
     validationSchema={schema}
     onSubmit={onSubmit}
   >
-    <Form>
-      <FormikField component={Input} type="text" name="name" label="Name" />
-      <FormikField component={Input} type="email" name="email" label="Email" />
-      <FormikField
-        component={Input}
-        type="password"
-        name="password"
-        label="Password"
-      />
-      <Button type="submit">Sign Up</Button>
-    </Form>
-  </Formik>
+    <Field component={Input} type="text" name="name" label="Name" />
+    <Field component={Input} type="email" name="email" label="Email" />
+    <Field component={Input} type="password" name="password" label="Password" />
+    <Button type="submit">Sign Up</Button>
+  </Form>
 );

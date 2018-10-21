@@ -1,31 +1,31 @@
 import { ActionType, getType } from "typesafe-actions";
-import { loginAction } from "../action/loginActions";
-import { LoginDto } from "../model/LoginDto";
+import { signupAction } from "../action/signupActions";
 import { RequestError } from "../model/RequestError";
+import { SignupDto } from "../model/SignupDto";
 import { createRequestStateReducer } from "./utils/createRequestStateReducer";
 
 /**
- * Reducer for login request state
+ * Reducer for signup request state
  */
-export const loginRequestReducer = createRequestStateReducer<
-  ActionType<typeof loginAction>,
-  RequestError<LoginDto>
+export const signupRequestReducer = createRequestStateReducer<
+  ActionType<typeof signupAction>,
+  RequestError<SignupDto>
 >((state, action) => {
   switch (action.type) {
-    case getType(loginAction.request):
+    case getType(signupAction.request):
       return {
         ...state,
         loading: true
       };
 
-    case getType(loginAction.success):
+    case getType(signupAction.success):
       return {
         ...state,
         loading: false,
         success: true
       };
 
-    case getType(loginAction.failure):
+    case getType(signupAction.failure):
       return {
         ...state,
         error: action.payload

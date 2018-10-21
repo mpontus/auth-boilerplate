@@ -1,10 +1,10 @@
-import { Field, FieldAttributes, FieldProps } from "formik";
+import { Field as FormikField, FieldAttributes, FieldProps } from "formik";
 import * as React from "react";
 
 /**
  * FormikField component
  */
-export class FormikField<T> extends React.Component<FieldAttributes<any>> {
+export class Field<T> extends React.Component<FieldAttributes<any>> {
   /**
    * Extract field props before passing them onto the child component
    */
@@ -24,6 +24,6 @@ export class FormikField<T> extends React.Component<FieldAttributes<any>> {
   public render() {
     const { component, ...rest } = this.props;
 
-    return <Field {...rest} component={this.renderField} />;
+    return <FormikField {...rest} component={this.renderField} />;
   }
 }

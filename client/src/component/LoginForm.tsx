@@ -2,8 +2,8 @@ import * as React from "react";
 import * as yup from "yup";
 import { LoginDto } from "../model/LoginDto";
 import { Button } from "./Button";
-import { FormikField } from "./FormikField";
-import { FormikForm } from "./FormikForm";
+import { Field } from "./Field";
+import { Form } from "./Form";
 import { Input } from "./Input";
 
 interface Props {
@@ -29,20 +29,20 @@ const schema = yup.object<LoginDto>().shape({
 
 export const LoginForm = ({ errors, onSubmit }: Props) => {
   return (
-    <FormikForm<LoginDto>
+    <Form<LoginDto>
       errors={errors}
       validationSchema={schema}
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      <FormikField component={Input} type="email" name="email" label="Email" />
-      <FormikField
+      <Field component={Input} type="email" name="email" label="Email" />
+      <Field
         component={Input}
         type="password"
         name="password"
         label="Password"
       />
-      <Button type="submit">Sign Up</Button>
-    </FormikForm>
+      <Button type="submit">Log In</Button>
+    </Form>
   );
 };

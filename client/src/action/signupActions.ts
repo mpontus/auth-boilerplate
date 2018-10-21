@@ -1,7 +1,9 @@
 import { createAsyncAction } from "typesafe-actions";
+import { RequestError } from "../model/RequestError";
+import { SignupDto } from "../model/SignupDto";
 
-export const signup = createAsyncAction(
-  "SIGNUP_PENDING",
+export const signupAction = createAsyncAction(
+  "SIGNUP_REQUEST",
   "SIGNUP_SUCCESS",
   "SIGNUP_FAILURE"
-)<void, void, Error>();
+)<SignupDto, void, RequestError<SignupDto>>();

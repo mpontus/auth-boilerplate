@@ -6,6 +6,7 @@ import { Action } from "../action";
 import { login as loginAction } from "../action/loginActions";
 import { login as loginMethod } from "../api/method/login";
 import { Dependencies } from "../configureStore";
+import { RequestError } from "../model/RequestError";
 import { State } from "../reducer";
 
 export const loginEpic: Epic<Action, Action, State, Dependencies> = (
@@ -18,7 +19,9 @@ export const loginEpic: Epic<Action, Action, State, Dependencies> = (
     switchMap(action =>
       from(loginMethod(api, action.payload)).pipe(
         mapTo(loginAction.success()),
-        catchError(error => of(loginAction.failure(error)))
+        catchError(error =>
+          of(loginAction.failure(RequestError.fromApiError(error)))
+        )
       )
     )
   );

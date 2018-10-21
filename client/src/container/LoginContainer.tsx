@@ -5,6 +5,7 @@ import { login } from "../action/loginActions";
 import { FormError } from "../component/FormError";
 import { LoginForm } from "../component/LoginForm";
 import { LoginDto } from "../model/LoginDto";
+import { RequestError } from "../model/RequestError";
 import {
   makeGetLoginRequestError,
   makeIsLoginRequestLoading,
@@ -14,7 +15,7 @@ import {
 interface Props {
   loading: boolean;
   success: boolean;
-  error?: Error;
+  error?: RequestError<LoginDto>;
   onSubmit: (data: LoginDto) => void;
 }
 
@@ -24,15 +25,18 @@ const makeMapStateToProps = createStructuredSelector({
   error: makeGetLoginRequestError()
 });
 
-const enhance = connect(makeMapStateToProps, {
-  onSubmit: login.request
-});
+const enhance = connect(
+  makeMapStateToProps,
+  {
+    onSubmit: login.request
+  }
+);
 
 export const LoginContainer = enhance(
   ({ loading, success, error, onSubmit }: Props) => (
     <React.Fragment>
       {error && <FormError>{error.message}</FormError>}
-      <LoginForm onSubmit={onSubmit} />
+      <LoginForm errors={error && error.details} onSubmit={onSubmit} />
     </React.Fragment>
   )
 );

@@ -1,30 +1,30 @@
 import { ActionType, getType } from "typesafe-actions";
 import {
-  emailActivationCompleteAction,
-  emailActivationRequestAction
-} from "../action/emailActivationActions";
+  passwordRecoveryCompleteAction,
+  passwordRecoveryRequestAction
+} from "../action/passwordRecoveryActions";
 import { PasswordRecoveryCompleteDto } from "../model/PasswordRecoveryCompleteDto";
 import { PasswordRecoveryRequestDto } from "../model/PasswordRecoveryRequestDto";
 import { RequestError } from "../model/RequestError";
 import { createRequestStateReducer } from "./utils/createRequestStateReducer";
 
-export const emailActivationRequestReducer = createRequestStateReducer<
+export const passwordRecoveryRequestReducer = createRequestStateReducer<
   ActionType<
-    typeof emailActivationRequestAction | typeof emailActivationCompleteAction
+    typeof passwordRecoveryRequestAction | typeof passwordRecoveryCompleteAction
   >,
   RequestError<PasswordRecoveryRequestDto | PasswordRecoveryCompleteDto>
 >((state, action) => {
   switch (action.type) {
-    case getType(emailActivationRequestAction.request):
-    case getType(emailActivationCompleteAction.request):
+    case getType(passwordRecoveryRequestAction.request):
+    case getType(passwordRecoveryCompleteAction.request):
       return { ...state, loading: true };
 
-    case getType(emailActivationRequestAction.success):
-    case getType(emailActivationCompleteAction.success):
+    case getType(passwordRecoveryRequestAction.success):
+    case getType(passwordRecoveryCompleteAction.success):
       return { ...state, loading: false, success: true };
 
-    case getType(emailActivationRequestAction.failure):
-    case getType(emailActivationCompleteAction.failure):
+    case getType(passwordRecoveryRequestAction.failure):
+    case getType(passwordRecoveryCompleteAction.failure):
       return { ...state, error: action.payload };
 
     default:

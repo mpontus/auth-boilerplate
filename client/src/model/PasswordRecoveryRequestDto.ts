@@ -1,6 +1,6 @@
 /**
  * DTO for requesting password reset code
  */
-export interface PasswordResetRequestDto {
+export interface PasswordRecoveryRequestDto {
   email: string;
 }

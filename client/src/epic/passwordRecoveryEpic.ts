@@ -4,47 +4,47 @@ import { catchError, filter, mapTo, switchMap } from "rxjs/operators";
 import { getType, isOfType } from "typesafe-actions";
 import { Action } from "../action";
 import {
-  passwordResetCompleteAction,
-  passwordResetRequestAction
-} from "../action/passwordResetActions";
+  passwordRecoveryCompleteAction,
+  passwordRecoveryRequestAction
+} from "../action/passwordRecoveryActions";
 import { passwordRecoveryComplete } from "../api/method/passwordRecoveryComplete";
 import { passwordRecoveryRequest } from "../api/method/passwordRecoveryRequest";
 import { Dependencies } from "../configureStore";
 import { RequestError } from "../model/RequestError";
 import { State } from "../reducer";
 
-const passwordResetRequestEpic: Epic<Action, Action, State, Dependencies> = (
+const passwordRecoveryRequestEpic: Epic<Action, Action, State, Dependencies> = (
   action$,
   state$,
   { api }
 ) =>
   action$.pipe(
-    filter(isOfType(getType(passwordResetRequestAction.request))),
+    filter(isOfType(getType(passwordRecoveryRequestAction.request))),
     switchMap(action =>
       from(passwordRecoveryRequest(api, action.payload)).pipe(
-        mapTo(passwordResetRequestAction.success()),
+        mapTo(passwordRecoveryRequestAction.success()),
         catchError(error =>
           of(
-            passwordResetRequestAction.failure(RequestError.fromApiError(error))
+            passwordRecoveryRequestAction.failure(RequestError.fromApiError(error))
           )
         )
       )
     )
   );
 
-const passwordResetCompleteEpic: Epic<Action, Action, State, Dependencies> = (
+const passwordRecoveryCompleteEpic: Epic<Action, Action, State, Dependencies> = (
   action$,
   state$,
   { api }
 ) =>
   action$.pipe(
-    filter(isOfType(getType(passwordResetCompleteAction.request))),
+    filter(isOfType(getType(passwordRecoveryCompleteAction.request))),
     switchMap(action =>
       from(passwordRecoveryComplete(api, action.payload)).pipe(
-        mapTo(passwordResetCompleteAction.success()),
+        mapTo(passwordRecoveryCompleteAction.success()),
         catchError(error =>
           of(
-            passwordResetCompleteAction.failure(
+            passwordRecoveryCompleteAction.failure(
               RequestError.fromApiError(error)
             )
           )
@@ -53,7 +53,7 @@ const passwordResetCompleteEpic: Epic<Action, Action, State, Dependencies> = (
     )
   );
 
-export const passwordResetEpic = combineEpics(
-  passwordResetRequestEpic,
-  passwordResetCompleteEpic
+export const passwordRecoveryEpic = combineEpics(
+  passwordRecoveryRequestEpic,
+  passwordRecoveryCompleteEpic
 );

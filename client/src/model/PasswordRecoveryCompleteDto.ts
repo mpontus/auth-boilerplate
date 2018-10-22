@@ -1,7 +1,7 @@
 /**
  * DTO for completing password reset
  */
-export interface PasswordResetCompleteDto {
+export interface PasswordRecoveryCompleteDto {
   token: string;
   password: string;
 }

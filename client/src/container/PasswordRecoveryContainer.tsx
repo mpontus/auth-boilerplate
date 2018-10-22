@@ -3,24 +3,24 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import * as yup from "yup";
 import {
-  passwordResetCompleteAction,
-  passwordResetRequestAction
-} from "../action/passwordResetActions";
+  passwordRecoveryCompleteAction,
+  passwordRecoveryRequestAction
+} from "../action/passwordRecoveryActions";
 import { Button } from "../component/Button";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
 import { Link } from "../component/Link";
 import { Paragraph } from "../component/Paragraph";
-import { PasswordResetCompleteDto } from "../model/PasswordResetCompleteDto";
-import { PasswordResetRequestDto } from "../model/PasswordResetRequestDto";
+import { PasswordRecoveryCompleteDto } from "../model/PasswordRecoveryCompleteDto";
+import { PasswordRecoveryRequestDto } from "../model/PasswordRecoveryRequestDto";
 import { RequestError } from "../model/RequestError";
 import * as routes from "../routes";
 import {
-  makeGetPasswordResetRequestError,
-  makeIsPasswordResetRequestLoading,
-  makeIsPasswordResetRequestSuccess
-} from "../selector/passwordResetSelectors";
+  makeGetPasswordRecoveryRequestError,
+  makeIsPasswordRecoveryRequestLoading,
+  makeIsPasswordRecoveryRequestSuccess
+} from "../selector/passwordRecoverySelectors";
 
 interface Props {
   /**
@@ -41,17 +41,17 @@ interface Props {
   /**
    * Request error
    */
-  error?: RequestError<PasswordResetRequestDto & PasswordResetCompleteDto>;
+  error?: RequestError<PasswordRecoveryRequestDto & PasswordRecoveryCompleteDto>;
 
   /**
    * Handle password reset request submission
    */
-  onSubmitRequest: (values: PasswordResetRequestDto) => void;
+  onSubmitRequest: (values: PasswordRecoveryRequestDto) => void;
 
   /**
    * Handle password reset confirmation submission
    */
-  onSubmitConfirm: (values: PasswordResetCompleteDto) => void;
+  onSubmitConfirm: (values: PasswordRecoveryCompleteDto) => void;
 }
 
 /**
@@ -75,20 +75,20 @@ const confirmSchema = yup.object<{ password: string }>().shape({
 });
 
 const makeMapStateToProps = createStructuredSelector({
-  loading: makeIsPasswordResetRequestLoading(),
-  success: makeIsPasswordResetRequestSuccess(),
-  error: makeGetPasswordResetRequestError()
+  loading: makeIsPasswordRecoveryRequestLoading(),
+  success: makeIsPasswordRecoveryRequestSuccess(),
+  error: makeGetPasswordRecoveryRequestError()
 });
 
 const enhance = connect(
   makeMapStateToProps,
   {
-    onSubmitRequest: passwordResetRequestAction.request,
-    onSubmitConfirm: passwordResetCompleteAction.request
+    onSubmitRequest: passwordRecoveryRequestAction.request,
+    onSubmitConfirm: passwordRecoveryCompleteAction.request
   }
 );
 
-class BasePasswordResetContainer extends React.Component<Props> {
+class BasePasswordRecoveryContainer extends React.Component<Props> {
   /**
    * Render a form for requesting password reset code
    */
@@ -153,4 +153,4 @@ class BasePasswordResetContainer extends React.Component<Props> {
   }
 }
 
-export const PasswordResetContainer = enhance(BasePasswordResetContainer);
+export const PasswordRecoveryContainer = enhance(BasePasswordRecoveryContainer);

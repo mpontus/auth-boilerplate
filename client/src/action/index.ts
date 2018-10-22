@@ -1,7 +1,7 @@
 import { ActionType } from "typesafe-actions";
 import * as authActions from "./authActions";
 import * as loginActions from "./loginActions";
-import * as passwordResetActions from "./passwordResetActions";
+import * as passwordRecoveryActions from "./passwordRecoveryActions";
 import * as signupActions from "./signupActions";
 
 /**
@@ -11,5 +11,5 @@ export type Action = ActionType<
   | typeof loginActions
   | typeof signupActions
   | typeof authActions
-  | typeof passwordResetActions
+  | typeof passwordRecoveryActions
 >;

@@ -11,6 +11,8 @@
   "rules": {
     "object-literal-sort-keys": false,
     "interface-name": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-unused-variable": true,
+    "no-unused-expression": true
   }
 }

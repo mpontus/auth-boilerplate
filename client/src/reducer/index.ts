@@ -5,13 +5,19 @@ import { emailActivationRequestReducer } from "./emailActivationRequestReducer";
 import { loginRequestReducer } from "./loginRequestReducer";
 import { passwordRecoveryRequestReducer } from "./passwordRecoveryRequestReducer";
 import { signupRequestReducer } from "./signupRequestReducer";
+import { userEntityReducer } from "./userEntityReducer";
+import { userFetchRequestReducer } from "./userFetchRequestReducer";
+import { userUpdateRequestReducer } from "./userUpdateRequestReducer";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   loginRequest: loginRequestReducer,
   signupRequest: signupRequestReducer,
   passwordRecoveryRequest: passwordRecoveryRequestReducer,
-  emailActivationRequest: emailActivationRequestReducer
+  emailActivationRequest: emailActivationRequestReducer,
+  userFetchRequest: userFetchRequestReducer,
+  userUpdateRequest: userUpdateRequestReducer,
+  userEntity: userEntityReducer
 });
 
 export type State = StateType<typeof rootReducer>;

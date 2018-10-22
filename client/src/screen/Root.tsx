@@ -5,6 +5,7 @@ import * as routes from "../routes";
 import { EmailActivationScreen } from "../screen/EmailActivationScreen";
 import { LoginScreen } from "./LoginScreen";
 import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
+import { ProfileScreen } from "./ProfileScreen";
 import { SignupScreen } from "./SignupScreen";
 
 export const Root = () => (
@@ -18,6 +19,7 @@ export const Root = () => (
         path={routes.PASSWORD_RECOVERY}
         component={PasswordRecoveryScreen}
       />
+      <Route path={routes.PROFILE} component={ProfileScreen} />
     </Switch>
   </React.Fragment>
 );

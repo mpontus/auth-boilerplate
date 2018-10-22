@@ -1,5 +1,3 @@
-import { ConfigService } from 'nestjs-config';
-
 /**
  * Site configuration which is most likely to be changed
  */
@@ -17,14 +15,14 @@ export default {
   /**
    * Base front-end url
    */
-  site_url(this: ConfigService): string {
-    return `http://${this.get('domain_name')}`;
+  get site_url(): string {
+    return `http://${this.domain_name}`;
   },
 
   /**
    * Value of the "From:" field in transactional emails
    */
-  email_sender(this: ConfigService): string {
-    return `${this.get('site_name')} <noreply@${this.get('domain_name')}>`;
+  get email_sender(): string {
+    return `${this.site_name} <noreply@${this.domain_name}>`;
   },
 };

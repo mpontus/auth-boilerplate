@@ -1,5 +1,6 @@
 import { ActionType } from "typesafe-actions";
 import * as authActions from "./authActions";
+import * as emailActivationActions from "./emailActivationActions";
 import * as loginActions from "./loginActions";
 import * as passwordRecoveryActions from "./passwordRecoveryActions";
 import * as signupActions from "./signupActions";
@@ -12,4 +13,5 @@ export type Action = ActionType<
   | typeof signupActions
   | typeof authActions
   | typeof passwordRecoveryActions
+  | typeof emailActivationActions
 >;

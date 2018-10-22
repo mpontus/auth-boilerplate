@@ -2,10 +2,10 @@ import * as React from "react";
 import { Route, Switch } from "react-router";
 import { EmailActivationContainer } from "../container/EmailActivationContainer";
 import { NavbarContainer } from "../container/NavbarContainer";
-import { PasswordRecoveryContainer } from "../container/PasswordRecoveryContainer";
 import * as routes from "../routes";
 import { LoginScreen } from "./LoginScreen";
 import { SignupScreen } from "./SignupScreen";
+import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 
 export const Root = () => (
   <React.Fragment>
@@ -19,7 +19,7 @@ export const Root = () => (
       />
       <Route
         path={routes.PASSWORD_RECOVERY}
-        component={PasswordRecoveryContainer}
+        component={PasswordRecoveryScreen}
       />
     </Switch>
   </React.Fragment>

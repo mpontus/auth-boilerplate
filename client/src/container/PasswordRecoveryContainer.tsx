@@ -41,7 +41,9 @@ interface Props {
   /**
    * Request error
    */
-  error?: RequestError<PasswordRecoveryRequestDto & PasswordRecoveryCompleteDto>;
+  error?: RequestError<
+    PasswordRecoveryRequestDto & PasswordRecoveryCompleteDto
+  >;
 
   /**
    * Handle password reset request submission
@@ -90,6 +92,15 @@ const enhance = connect(
 
 class BasePasswordRecoveryContainer extends React.Component<Props> {
   /**
+   * Handle final form submission
+   */
+  public handleConfirmSubmit = ({ password }: { password: string }) => {
+    if (this.props.code !== undefined) {
+      this.props.onSubmitConfirm({ password, token: this.props.code });
+    }
+  };
+
+  /**
    * Render a form for requesting password reset code
    */
   public renderRequestForm() {
@@ -126,7 +137,7 @@ class BasePasswordRecoveryContainer extends React.Component<Props> {
         initialValues={{ password: "" }}
         validationSchema={confirmSchema}
         errors={this.props.error ? this.props.error.details : undefined}
-        onSubmit={this.props.onSubmitConfirm}
+        onSubmit={this.handleConfirmSubmit}
       >
         <Field
           component={Input}

@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { signupAction } from "../action/signupActions";
-import { FormError } from "../component/FormError";
+import { ErrorMessage } from "../component/ErrorMessage";
 import { SignupForm } from "../component/SignupForm";
 import { RequestError } from "../model/RequestError";
 import { SignupDto } from "../model/SignupDto";
@@ -35,7 +35,7 @@ const enhance = connect(
 export const SignupContainer = enhance(
   ({ loading, success, error, onSubmit }: Props) => (
     <React.Fragment>
-      {error && <FormError>{error.message}</FormError>}
+      {error && <ErrorMessage>{error.message}</ErrorMessage>}
       <SignupForm errors={error && error.details} onSubmit={onSubmit} />
     </React.Fragment>
   )

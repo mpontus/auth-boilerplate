@@ -1,3 +1,3 @@
 import * as React from "react";
 
-export const FormError: React.SFC<{}> = ({ children }) => <p>{children}</p>;
+export const ErrorMessage: React.SFC<{}> = ({ children }) => <p>{children}</p>;

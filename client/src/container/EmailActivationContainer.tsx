@@ -7,6 +7,7 @@ import {
   emailActivationRequestAction
 } from "../action/emailActivationActions";
 import { Button } from "../component/Button";
+import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
@@ -72,7 +73,7 @@ const enhance = connect(
   makeMapStateToProps,
   {
     onSubmitRequest: emailActivationRequestAction.request,
-    onSubmitConfirm: emailActivationCompleteAction.request
+    onConfirm: emailActivationCompleteAction.request
   }
 );
 
@@ -107,11 +108,15 @@ class BaseEmailActivationContainer extends React.Component<Props> {
    * Render a placeholder while validation request is happening.
    */
   public renderConfirmationProgress() {
-    return !this.props.success ? (
-      <Paragraph>Please wait...</Paragraph>
-    ) : (
-      <Paragraph>Your email is now activated!</Paragraph>
-    );
+    if (this.props.error) {
+      return <ErrorMessage>{this.props.error.message}</ErrorMessage>;
+    }
+
+    if (this.props.success) {
+      return <Paragraph>Your email is now activated!</Paragraph>;
+    }
+
+    return <Paragraph>Please wait...</Paragraph>;
   }
 
   public componentDidMount() {

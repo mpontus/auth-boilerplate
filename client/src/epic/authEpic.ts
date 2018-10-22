@@ -1,13 +1,13 @@
-import { Epic, combineEpics } from "redux-observable";
-import { of, from } from "rxjs";
+import { combineEpics, Epic } from "redux-observable";
+import { from, of } from "rxjs";
 import {
+  catchError,
   filter,
   ignoreElements,
   map,
+  mapTo,
   switchMap,
-  tap,
-  catchError,
-  mapTo
+  tap
 } from "rxjs/operators";
 import { getType, isOfType } from "typesafe-actions";
 import { Action } from "../action";
@@ -15,8 +15,8 @@ import { authStatusChangeAction, logoutAction } from "../action/authActions";
 import { loginAnonymously } from "../api/method/loginAnonymously";
 import { logout } from "../api/method/logout";
 import { Dependencies } from "../configureStore";
-import { State } from "../reducer";
 import { RequestError } from "../model/RequestError";
+import { State } from "../reducer";
 
 /**
  * Login user anonymously whenever they are unathenticated

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
 import { NavbarContainer } from "../container/NavbarContainer";
+import * as routes from "../routes";
 import { LoginScreen } from "./LoginScreen";
 import { SignupScreen } from "./SignupScreen";
-import * as routes from "../routes";
 
 export const Root = () => (
   <React.Fragment>

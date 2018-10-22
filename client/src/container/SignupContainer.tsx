@@ -4,8 +4,8 @@ import { createStructuredSelector } from "reselect";
 import { signupAction } from "../action/signupActions";
 import { FormError } from "../component/FormError";
 import { SignupForm } from "../component/SignupForm";
-import { SignupDto } from "../model/SignupDto";
 import { RequestError } from "../model/RequestError";
+import { SignupDto } from "../model/SignupDto";
 import {
   makeGetSignupRequestError,
   makeIsSignupRequestLoading,

@@ -10,10 +10,10 @@ type Result = t.TypeOf<typeof sessionSchema>;
  */
 export const loginAnonymously = async (api: ApiGateway): Promise<Result> => {
   const session = await api
-    .post("/auth/anonymous")
+    .post("/auth/login/anonymous")
     .then(validateResponse(sessionSchema));
 
-  api.emit("authStatusChange", session);
+  api.auth.next(session);
 
   return session;
 };

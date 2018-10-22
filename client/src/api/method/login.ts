@@ -21,7 +21,7 @@ export const login = async (
     .post("/auth/login", { email, password })
     .then(validateResponse(sessionSchema));
 
-  api.emit("authStatusChange", session);
+  api.auth.next(session);
 
   return session;
 };

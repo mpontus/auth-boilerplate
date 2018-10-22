@@ -22,7 +22,7 @@ export const signup = async (
     .post("/auth/signup", { name, email, password })
     .then(validateResponse(sessionSchema));
 
-  api.emit("authStatusChange", session);
+  api.auth.next(session);
 
   return session;
 };

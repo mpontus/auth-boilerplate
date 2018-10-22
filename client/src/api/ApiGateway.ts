@@ -1,46 +1,96 @@
 import { AxiosInstance, AxiosPromise, AxiosRequestConfig } from "axios";
-import { EventEmitter } from "events";
+import { BehaviorSubject } from "rxjs";
 
-export interface KVStore {
-  getItem(key: string): string | null;
-  setItem(key: string, value: string | null): void;
-  removeItem(key: string): void;
-}
+const AUTH_KEY = "auth";
 
-export interface AuthStatus {
+/**
+ * Authentication state maintained by API Gateway
+ */
+export interface AuthState {
+  /**
+   * Access token injected into the requests
+   */
   token: string | null;
+
+  /**
+   * Details about the user associated with the session
+   */
+  user?: { id: string; name: string };
 }
 
-export class ApiGateway extends EventEmitter {
+/**
+ * Helper function to retrieve auth state from persistent storage
+ */
+const getAuthState = (storage: Storage): AuthState | null => {
+  try {
+    const currentValue = storage.getItem(AUTH_KEY);
+
+    if (currentValue === null) {
+      return null;
+    }
+
+    return JSON.parse(currentValue);
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Helper function to save auth state to persistent storage
+ */
+const setAuthState = (storage: Storage, value: AuthState | null): void => {
+  if (value === null) {
+    storage.removeItem(AUTH_KEY);
+  } else {
+    storage.setItem(AUTH_KEY, JSON.stringify(value));
+  }
+};
+
+/**
+ * API Gateway
+ *
+ * Maintains session authentication details and provides request
+ * services to concrete API methods.
+ */
+export class ApiGateway {
+  /**
+   * Observable authentication state
+   *
+   * API methods may write here to update session details.
+   */
+  public readonly auth: BehaviorSubject<AuthState | null>;
+
   constructor(
     public readonly axios: AxiosInstance,
-    private readonly storage: KVStore = window.localStorage
+    storage: Storage = window.localStorage
   ) {
-    super();
+    this.auth = new BehaviorSubject(getAuthState(storage));
+
+    this.auth.subscribe(setAuthState.bind(null, storage));
 
     this.axios.interceptors.request.use(config => {
-      const status = this.storage.getItem("auth");
+      const authState = this.auth.getValue();
 
-      if (status === null) {
+      if (authState === null) {
         return config;
       }
 
-      const { token } = JSON.parse(status);
-
-      config.headers.common.Auhtorization = `Bearer ${token}`;
+      config.headers.common.Authorization = `Bearer ${authState.token}`;
 
       return config;
     });
-
-    this.on("authStatusChange", (status: AuthStatus) => {
-      this.storage.setItem("auth", JSON.stringify(status));
-    });
   }
 
+  /**
+   * Proxy generic request to axios client
+   */
   public request<T = any>(config: AxiosRequestConfig): AxiosPromise<T> {
     return this.axios.request(config);
   }
 
+  /**
+   * Proxy GET request to axios client
+   */
   public get<T = any>(
     url: string,
     config?: AxiosRequestConfig
@@ -48,14 +98,23 @@ export class ApiGateway extends EventEmitter {
     return this.axios.get(url, config);
   }
 
+  /**
+   * Proxy DELETE request to axios client
+   */
   public delete(url: string, config?: AxiosRequestConfig): AxiosPromise {
     return this.axios.delete(url, config);
   }
 
+  /**
+   * Proxy HEAD request to axios client
+   */
   public head(url: string, config?: AxiosRequestConfig): AxiosPromise {
     return this.axios.head(url, config);
   }
 
+  /**
+   * Proxy POST request to axios client
+   */
   public post<T = any>(
     url: string,
     data?: any,
@@ -64,6 +123,9 @@ export class ApiGateway extends EventEmitter {
     return this.axios.post(url, data, config);
   }
 
+  /**
+   * Proxy PUT request to axios client
+   */
   public put<T = any>(
     url: string,
     data?: any,
@@ -72,6 +134,9 @@ export class ApiGateway extends EventEmitter {
     return this.axios.put(url, data, config);
   }
 
+  /**
+   * Proxy PATCH request to axios client
+   */
   public patch<T = any>(
     url: string,
     data?: any,

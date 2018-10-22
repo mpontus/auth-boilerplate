@@ -1,5 +1,5 @@
 import * as React from "react";
-import { QueryParams } from "../components/QueryParams";
+import { QueryParams } from "../component/QueryParams";
 import { EmailActivationContainer } from "../container/EmailActivationContainer";
 
 export const EmailActivationScreen = () => (

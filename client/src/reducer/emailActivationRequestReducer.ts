@@ -25,7 +25,7 @@ export const emailActivationRequestReducer = createRequestStateReducer<
 
     case getType(emailActivationRequestAction.failure):
     case getType(emailActivationCompleteAction.failure):
-      return { ...state, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;

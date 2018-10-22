@@ -13,23 +13,13 @@ export const signupRequestReducer = createRequestStateReducer<
 >((state, action) => {
   switch (action.type) {
     case getType(signupAction.request):
-      return {
-        ...state,
-        loading: true
-      };
+      return { ...state, loading: true };
 
     case getType(signupAction.success):
-      return {
-        ...state,
-        loading: false,
-        success: true
-      };
+      return { ...state, loading: false, success: true };
 
     case getType(signupAction.failure):
-      return {
-        ...state,
-        error: action.payload
-      };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;

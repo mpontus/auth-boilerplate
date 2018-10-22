@@ -25,7 +25,7 @@ export const passwordRecoveryRequestReducer = createRequestStateReducer<
 
     case getType(passwordRecoveryRequestAction.failure):
     case getType(passwordRecoveryCompleteAction.failure):
-      return { ...state, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;

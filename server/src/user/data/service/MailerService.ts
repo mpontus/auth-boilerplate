@@ -39,7 +39,9 @@ export class MailerService {
 
     this.scheduleEmailDelivery(user.email, 'email_activation', {
       recipient_name: user.name,
-      token,
+      action_url: this.config
+        .get('app.email_activation_url')
+        .replace('%s', token),
     });
   }
 
@@ -81,7 +83,9 @@ export class MailerService {
 
     this.scheduleEmailDelivery(user.email, 'password_recovery', {
       recipient_name: user.name,
-      token,
+      action_url: this.config
+        .get('app.password_recovery_url')
+        .replace('%s', token),
     });
   }
 

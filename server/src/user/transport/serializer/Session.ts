@@ -21,10 +21,10 @@ export class Session {
   @Expose()
   @Transform(user => {
     if (user.isAnonymous) {
-      return null;
+      return undefined;
     }
 
     return plainToClass(User, user);
   })
-  public user: User | null;
+  public user?: User;
 }

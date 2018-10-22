@@ -2,15 +2,21 @@
 
 exports[`get user by id when requested by admin should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 
 exports[`get user by id when requested by owner should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 

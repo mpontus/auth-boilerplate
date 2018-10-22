@@ -2,22 +2,31 @@
 
 exports[`profile update when requested by admin when email is being updated should succeed 1`] = `
 Object {
+  "email": "mitchell97@jones-smith.net",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 
 exports[`profile update when requested by admin when name is being updated should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Samantha Washington",
+  "roles": Array [],
 }
 `;
 
 exports[`profile update when requested by admin when password is being updated should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 
@@ -31,15 +40,21 @@ Object {
 
 exports[`profile update when requested by owner when email is being updated when current password is valid should succeed 1`] = `
 Object {
+  "email": "laura80@hotmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 
 exports[`profile update when requested by owner when name is being updated should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Norma Fisher",
+  "roles": Array [],
 }
 `;
 
@@ -53,8 +68,11 @@ Object {
 
 exports[`profile update when requested by owner when password is being updated when current password is valid should succeed 1`] = `
 Object {
+  "email": "Toby38@gmail.com",
+  "emailVerified": false,
   "id": "847563",
   "name": "Brian Foster",
+  "roles": Array [],
 }
 `;
 

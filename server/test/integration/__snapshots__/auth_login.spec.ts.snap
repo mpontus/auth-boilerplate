@@ -3,7 +3,6 @@
 exports[`login anonymous authentication should be successful 1`] = `
 Object {
   "token": Any<String>,
-  "user": null,
 }
 `;
 

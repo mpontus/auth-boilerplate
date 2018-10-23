@@ -8,7 +8,7 @@
 /**
  * Front page
  */
-export const FRONT = "/";
+export const HOME = "/";
 
 /**
  * Login page

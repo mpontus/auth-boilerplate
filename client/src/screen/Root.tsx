@@ -15,7 +15,7 @@ import { SignupScreen } from "./SignupScreen";
 /**
  * Redirect to the front page when current route is inaccessible
  */
-const redirectToFront = <Redirect to={routes.FRONT} />;
+const redirectToFront = <Redirect to={routes.HOME} />;
 
 /**
  * Root screen
@@ -28,7 +28,7 @@ export const Root = () => (
       <NavbarContainer />
       <SingleColumnLayout>
         <Switch>
-          <Route exact={true} path={routes.FRONT} component={MainScreen} />
+          <Route exact={true} path={routes.HOME} component={MainScreen} />
           <Route path={routes.LOGIN}>
             <AuthGate placeholder={redirectToFront} isAnonymous={true}>
               <LoginScreen />

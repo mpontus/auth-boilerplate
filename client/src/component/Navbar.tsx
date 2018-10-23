@@ -7,7 +7,7 @@ export const Navbar: React.SFC = ({ children }) => (
     <nav className="navbar level is-mobile">
       <div className="level-left">
         <div className="level-item">
-          <Link to={routes.FRONT}>
+          <Link to={routes.HOME}>
             <span className="subtitle is-5">Home</span>
           </Link>
         </div>

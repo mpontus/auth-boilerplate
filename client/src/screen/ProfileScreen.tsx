@@ -1,12 +1,21 @@
 import * as React from "react";
 import { Heading } from "../component/Heading";
 import { ProfileContainer } from "../container/ProfileContainer";
+import { Section } from "../component/Section";
 
 export const ProfileScreen = () => (
   <React.Fragment>
-    <Heading>Your Profile</Heading>
-    <ProfileContainer section="personal" />
-    <ProfileContainer section="email" />
-    <ProfileContainer section="password" />
+    <Section>
+      <Heading>Your Profile</Heading>
+      <ProfileContainer section="personal" />
+    </Section>
+    <Section>
+      <Heading is="h4">Change Email Address</Heading>
+      <ProfileContainer section="email" />
+    </Section>
+    <Section>
+      <Heading is="h4">Change Password</Heading>
+      <ProfileContainer section="password" />
+    </Section>
   </React.Fragment>
 );

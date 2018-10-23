@@ -64,7 +64,7 @@ export const matchRoles = (
  * Gate component which renders children when current authentication
  * state matches provided constraints.
  */
-export const AuthRoute: React.SFC<Constraints> = props => (
+export const AuthGate: React.SFC<Constraints> = props => (
   <CurrentUserProvider>
     {userState =>
       authorize(props, userState) ? (

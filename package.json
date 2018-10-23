@@ -6,7 +6,11 @@
   "author": "Michael Pontus",
   "license": "MIT",
   "scripts": {
-    "start": "lerna run start --parallel --scope '{client,server}'"
+    "postinstall": "lerna bootstrap",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
+    "heroku-postbuild": "npm run build --scope server"
   },
   "devDependencies": {
     "lerna": "^2.11.0"

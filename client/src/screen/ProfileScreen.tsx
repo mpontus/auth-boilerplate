@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Heading } from "../component/Heading";
-import { ProfileContainer } from "../container/ProfileContainer";
 import { Section } from "../component/Section";
+import { ProfileContainer } from "../container/ProfileContainer";
 
 export const ProfileScreen = () => (
   <React.Fragment>

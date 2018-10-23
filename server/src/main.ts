@@ -25,7 +25,7 @@ async function bootstrap(): Promise<void> {
 
   // Launch the web server
   app.setGlobalPrefix('api');
-  await app.listen(8080);
+  await app.listen(parseInt(process.env.PORT || '8080', 10));
 }
 
 // tslint:disable-next-line:no-floating-promises

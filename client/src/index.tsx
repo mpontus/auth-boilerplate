@@ -12,7 +12,7 @@ import { Root } from "./screen/Root";
 
 const api = new ApiGateway(
   axios.create({
-    baseURL: "/api"
+    baseURL: `${process.env.API_URL}`
   })
 );
 const store = configureStore(undefined, { api });

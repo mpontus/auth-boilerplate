@@ -7,7 +7,10 @@
   ],
   "rulesDirectory": ["node_modules/tslint-clean-code/dist/src"],
   "rules": {
-    // Interfaces are integral part of sane architecture with
+    // Conflicts with process.env.* default expressions
+    "strict-boolean-expressions": false,
+
+    // Interfaces are integral part of a sane architecture with
     // NestJS. It's a personal preference but I don't agree that "I-"
     // makes things any clearer.
     "interface-name": [true, "never-prefix"],

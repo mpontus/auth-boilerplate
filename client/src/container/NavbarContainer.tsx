@@ -41,7 +41,6 @@ export const NavbarContainer = enhance(
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <span>{user.name}</span>
           <Button link={routes.PROFILE}>Profile</Button>
           <Button onClick={onLogout}>Logout</Button>
         </React.Fragment>

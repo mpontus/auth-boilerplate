@@ -2,8 +2,8 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Heading } from "../component/Heading";
 import { Paragraph } from "../component/Paragraph";
-import { LoginContainer } from "../container/LoginContainer";
 import { Section } from "../component/Section";
+import { LoginContainer } from "../container/LoginContainer";
 
 export const LoginScreen = () => (
   <React.Fragment>

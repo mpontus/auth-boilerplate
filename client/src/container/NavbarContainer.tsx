@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router";
 import { createStructuredSelector } from "reselect";
 import { logoutAction } from "../action/authActions";
 import { Button } from "../component/Button";
+import { Navbar } from "../component/Navbar";
 import { User } from "../model/User";
 import * as routes from "../routes";
 import {
@@ -11,7 +11,6 @@ import {
   makeIsUserAnonymous,
   makeIsUserAuthenticated
 } from "../selector/authSelectors";
-import { Navbar } from "../component/Navbar";
 
 interface Props {
   isAuthenticated: boolean;

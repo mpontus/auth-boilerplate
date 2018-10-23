@@ -6,6 +6,11 @@
  */
 
 /**
+ * Front page
+ */
+export const FRONT = "/";
+
+/**
  * Login page
  */
 export const LOGIN = "/login";

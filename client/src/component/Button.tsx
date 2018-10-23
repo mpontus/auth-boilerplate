@@ -29,16 +29,16 @@ export const Button: React.SFC<Props> = props => {
         }
       </Route>
     );
+  } else {
+    const { loading, className, ...rest } = props;
+
+    return (
+      <button
+        {...rest}
+        className={cn("button", className, {
+          "is-loading": loading
+        })}
+      />
+    );
   }
-
-  const { loading, className, ...rest } = props;
-
-  return (
-    <button
-      {...rest}
-      className={cn("button", className, {
-        "is-loading": loading
-      })}
-    />
-  );
 };

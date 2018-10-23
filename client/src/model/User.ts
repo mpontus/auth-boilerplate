@@ -17,10 +17,10 @@ export interface User {
   /**
    * User email
    */
-  email?: string;
+  email: string;
 
   /**
    * User roles.
    */
-  roles?: Array<"user" | "admin">;
+  roles: Array<"user" | "admin">;
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ProfileContainer } from "../container/ProfileContainer";
 import { Heading } from "../component/Heading";
+import { ProfileContainer } from "../container/ProfileContainer";
 
 export const ProfileScreen = () => (
   <React.Fragment>

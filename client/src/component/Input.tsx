@@ -1,5 +1,5 @@
-import * as React from "react";
 import cn from "classnames";
+import * as React from "react";
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
   label: string;

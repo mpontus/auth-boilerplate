@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router";
 import { Container } from "../component/Container";
+import { Footer } from "../component/Footer";
 import { SingleColumnLayout } from "../component/SingleColumnLayout";
 import { AuthGate } from "../container/AuthGate";
 import { NavbarContainer } from "../container/NavbarContainer";
@@ -55,6 +56,7 @@ export const Root = () => (
           {redirectToFront}
         </Switch>
       </SingleColumnLayout>
+      <Footer />
     </Container>
   </AuthGate>
 );

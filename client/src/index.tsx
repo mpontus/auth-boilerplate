@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ApiGateway } from "./api/ApiGateway";
 import { configureStore } from "./configureStore";
+import "./global.css";
 import registerServiceWorker from "./registerServiceWorker";
 import { Root } from "./screen/Root";
 

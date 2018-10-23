@@ -1,5 +1,10 @@
 import * as React from "react";
 
 export const Container: React.SFC = ({ children }) => (
-  <React.Fragment>{children}</React.Fragment>
+  <div
+    className="has-background-white"
+    style={{ height: "100%", display: "flex", flexDirection: "column" }}
+  >
+    {children}
+  </div>
 );

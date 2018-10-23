@@ -63,6 +63,7 @@ export class Form<T> extends React.Component<Props<T>> {
     return (
       <Formik<T>
         initialValues={this.props.initialValues}
+        validationSchema={this.props.validationSchema}
         onSubmit={this.handleSubmit}
         ref={this.formikRef}
       >

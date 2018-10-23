@@ -24,6 +24,16 @@ interface Constraints {
 }
 
 /**
+ * Component props
+ */
+interface Props extends Constraints {
+  /**
+   * Render this instead of children if the constraints are not met
+   */
+  placeholder?: React.ReactNode;
+}
+
+/**
  * Decide whether authentication state passes constraints
  */
 export const authorize = (
@@ -64,12 +74,14 @@ export const matchRoles = (
  * Gate component which renders children when current authentication
  * state matches provided constraints.
  */
-export const AuthGate: React.SFC<Constraints> = props => (
+export const AuthGate: React.SFC<Props> = props => (
   <CurrentUserProvider>
     {userState =>
       authorize(props, userState) ? (
         <React.Fragment>{props.children}</React.Fragment>
-      ) : null
+      ) : (
+        props.placeholder || null
+      )
     }
   </CurrentUserProvider>
 );

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { logoutAction } from "../action/authActions";
@@ -19,7 +20,7 @@ interface RenderProps {
 }
 
 interface Props extends RenderProps {
-  children: (props: RenderProps) => JSX.Element | null;
+  children: (props: RenderProps) => React.ReactNode;
 }
 
 const makeMapStateToProps = createStructuredSelector({
@@ -40,5 +41,5 @@ const enhance = connect(
  */
 export const CurrentUserProvider = enhance(
   ({ isAuthenticated, isAnonymous, user, onLogout, children }: Props) =>
-    children({ isAuthenticated, isAnonymous, user, onLogout })
+    children({ isAuthenticated, isAnonymous, user, onLogout }) as JSX.Element
 );

@@ -1,3 +1,4 @@
+import cn from "classnames";
 import * as React from "react";
 import { Route } from "react-router";
 
@@ -17,15 +18,6 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
  * Generic button
  */
 export const Button: React.SFC<Props> = props => {
-  // Loading flag should provide progress indicator
-  if (props.loading !== undefined) {
-    const { loading, ...rest } = props;
-
-    return loading
-      ? Button({ ...rest, disabled: true, children: "Loading..." })
-      : Button(rest);
-  }
-
   // Shortcut for creating a link as a button
   if (props.link) {
     const { link, ...rest } = props;
@@ -39,5 +31,14 @@ export const Button: React.SFC<Props> = props => {
     );
   }
 
-  return <button {...props} />;
+  const { loading, className, ...rest } = props;
+
+  return (
+    <button
+      {...rest}
+      className={cn("button", className, {
+        "is-loading": loading
+      })}
+    />
+  );
 };

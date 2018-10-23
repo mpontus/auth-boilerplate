@@ -11,6 +11,7 @@ import {
   makeIsUserAnonymous,
   makeIsUserAuthenticated
 } from "../selector/authSelectors";
+import { Navbar } from "../component/Navbar";
 
 interface Props {
   isAuthenticated: boolean;
@@ -34,22 +35,18 @@ const enhance = connect(
 
 export const NavbarContainer = enhance(
   ({ isAuthenticated, isAnonymous, user, onLogout }: Props) => (
-    <Route>
-      {({ history }) => (
-        <div>
-          {!isAuthenticated || isAnonymous ? (
-            <div>
-              <Button link={routes.LOGIN}>Log in</Button>
-            </div>
-          ) : (
-            <div>
-              <span>{user.name}</span>
-              <Button link={routes.PROFILE}>Profile</Button>
-              <Button onClick={onLogout}>Logout</Button>
-            </div>
-          )}
-        </div>
+    <Navbar>
+      {!isAuthenticated || isAnonymous ? (
+        <React.Fragment>
+          <Button link={routes.LOGIN}>Log in</Button>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <span>{user.name}</span>
+          <Button link={routes.PROFILE}>Profile</Button>
+          <Button onClick={onLogout}>Logout</Button>
+        </React.Fragment>
       )}
-    </Route>
+    </Navbar>
   )
 );

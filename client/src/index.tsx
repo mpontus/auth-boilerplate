@@ -1,3 +1,4 @@
+import "bulma/css/bulma.css";
 import axios from "axios";
 import * as React from "react";
 import * as ReactDOM from "react-dom";

@@ -36,9 +36,27 @@ export const SignupForm = ({ errors, onSubmit }: Props) => (
     validationSchema={schema}
     onSubmit={onSubmit}
   >
-    <Field component={Input} type="text" name="name" label="Name" />
-    <Field component={Input} type="email" name="email" label="Email" />
-    <Field component={Input} type="password" name="password" label="Password" />
+    <Field
+      component={Input}
+      type="text"
+      name="name"
+      label="Name"
+      placeholder="Enter your name"
+    />
+    <Field
+      component={Input}
+      type="email"
+      name="email"
+      label="Email"
+      placeholder="Enter your email address"
+    />
+    <Field
+      component={Input}
+      type="password"
+      name="password"
+      label="Password"
+      placeholder="Enter your password"
+    />
     <Button type="submit">Sign Up</Button>
   </Form>
 );

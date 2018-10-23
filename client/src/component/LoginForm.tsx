@@ -35,12 +35,19 @@ export const LoginForm = ({ errors, onSubmit }: Props) => {
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      <Field component={Input} type="email" name="email" label="Email" />
+      <Field
+        component={Input}
+        type="email"
+        name="email"
+        label="Email"
+        placeholder="Enter your email address"
+      />
       <Field
         component={Input}
         type="password"
         name="password"
         label="Password"
+        placeholder="Enter your passwort"
       />
       <Button type="submit">Log In</Button>
     </Form>

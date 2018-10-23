@@ -119,7 +119,7 @@ class BasePasswordRecoveryContainer extends React.Component<Props> {
           component={Input}
           type="email"
           name="email"
-          label="Please enter your email address"
+          placeholder="Enter your email address"
         />
         <Button type="submit" loading={this.props.loading}>
           Send password reset email
@@ -150,7 +150,7 @@ class BasePasswordRecoveryContainer extends React.Component<Props> {
           component={Input}
           type="password"
           name="password"
-          label="New Password"
+          placeholder="Enter your new password"
         />
         <Button type="submit" loading={this.props.loading}>
           Change password

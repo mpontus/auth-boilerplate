@@ -89,11 +89,14 @@ class BaseEmailActivationContainer extends React.Component<Props> {
         errors={this.props.error ? this.props.error.details : undefined}
         onSubmit={this.props.onSubmitRequest}
       >
+        {this.props.error && (
+          <ErrorMessage>{this.props.error.message}</ErrorMessage>
+        )}
         <Field
           component={Input}
           type="email"
           name="email"
-          label="Please enter your email address"
+          placeholder="Enter your email address"
         />
         <Button type="submit" loading={this.props.loading}>
           Resend activation email

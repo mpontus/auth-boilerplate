@@ -1,4 +1,5 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import hat from 'hat';
@@ -7,6 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { Session } from '../entity/Session.entity';
 import { User } from '../entity/User.entity';
 import { SignupDto } from '../interface/SignupDto';
+import { MailerService } from './MailerService';
 
 /**
  * Session Service
@@ -18,6 +20,7 @@ export class SessionService {
     @InjectRepository(Session)
     private readonly sessionRepository: Repository<Session>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(MailerService) private readonly mailerService: MailerService,
   ) {}
 
   /**
@@ -72,7 +75,7 @@ export class SessionService {
    * Create session for a new user
    */
   public async signup({ name, email, password }: SignupDto): Promise<Session> {
-    return await this.sessionRepository.save({
+    const session = await this.sessionRepository.save({
       token: hat(),
       user: this.userRepository.create({
         id: uuid(),
@@ -83,6 +86,10 @@ export class SessionService {
         passwordHash: await bcrypt.hash(password, 10),
       }),
     });
+
+    await this.mailerService.sendEmailActivation(email);
+
+    return session;
   }
 
   /**

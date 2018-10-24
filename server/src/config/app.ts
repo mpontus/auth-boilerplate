@@ -3,9 +3,9 @@
  */
 export default {
   /**
-   * Website domain name excluding schema
+   * Base front-end URL
    */
-  domain_name: 'localhost:3000',
+  site_url: `${process.env.PUBLIC_URL}`,
 
   /**
    * Website display name
@@ -13,17 +13,10 @@ export default {
   site_name: 'Auth Boilerplate',
 
   /**
-   * Base front-end url
-   */
-  get site_url(): string {
-    return `http://${this.domain_name}`;
-  },
-
-  /**
-   * Value of the "From:" field in transactional emails
+   * This will be included in the `Form: ` header of outgoing emails
    */
   get email_sender(): string {
-    return `${this.site_name} <noreply@${this.domain_name}>`;
+    return `${this.site_name} <noreply@mx.mpontus.me>`;
   },
 
   /**

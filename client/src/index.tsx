@@ -12,14 +12,14 @@ import { Root } from "./screen/Root";
 
 const api = new ApiGateway(
   axios.create({
-    baseURL: `${process.env.REACT_APP_API_URL}`
+    baseURL: `${process.env.REACT_APP_API_URL || "/api"}`
   })
 );
 const store = configureStore(undefined, { api });
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename={`${process.env.REACT_APP_BASE_PATH || ""}`}>
       <Root />
     </BrowserRouter>
   </Provider>,

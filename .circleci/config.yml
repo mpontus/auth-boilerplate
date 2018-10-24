@@ -19,18 +19,25 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn build --scope client
-      - store_artifacts:
-          path: client/build
-      - run: |
-          git config --global user.email $GH_EMAIL
-          git config --global user.name $GH_NAME
-      - run: npx gh-pages -m "[ci skip] auto deploy" -d client/build
+      - run:
+          name: Configure git client
+          command: |
+            git config --global user.email $GH_EMAIL
+            git config --global user.name $GH_NAME
+      - run:
+          name: Deploy the app to GitHub pages
+          command: |
+            npx gh-pages -m "[ci skip] auto deploy" -d client/build
 
   deploy_server:
     docker:
       - image: circleci/node:8.11
     steps:
       - checkout
+      - run:
+          name: Synchronize front-end URL with the server
+          command: |
+            npx heroku config:set PUBLIC_URL=$PUBLIC_URL -a $HEROKU_APP_NAME
       - run:
           name: Deploy Master to Heroku
           command: |

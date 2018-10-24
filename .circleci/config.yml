@@ -20,14 +20,10 @@ jobs:
       - run: yarn
       - run: yarn build --scope client
       - run:
-          name: Configure git client
+          name: Deploy web app to now.sh
           command: |
-            git config --global user.email $GH_EMAIL
-            git config --global user.name $GH_NAME
-      - run:
-          name: Deploy the app to GitHub pages
-          command: |
-            npx gh-pages -m "[ci skip] auto deploy" -d client/build
+            url=$(npx now --public client/build -t $NOW_TOKEN)
+            npx now alias set "$url" $NOW_DOMAIN -t $NOW_TOKEN 
 
   deploy_server:
     docker:
@@ -38,7 +34,7 @@ jobs:
           name: Synchronize front-end URL with the server
           command: |
             npx heroku config:set PUBLIC_URL=$PUBLIC_URL -a $HEROKU_APP_NAME
-      - run:
+      - run: 
           name: Deploy Master to Heroku
           command: |
             git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master

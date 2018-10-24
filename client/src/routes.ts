@@ -26,11 +26,6 @@ export const SIGNUP = "/signup";
 export const PROFILE = "/profile";
 
 /**
- * User listing page
- */
-export const USERS = "/admin/users";
-
-/**
  * Email activation page
  */
 export const EMAIL_ACTIVATION = "/email_activation";

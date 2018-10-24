@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
+// tslint:disable-next-line:match-default-export-name
+import cors from 'cors';
 import { AppModule } from './AppModule';
 
 /**
@@ -10,6 +12,7 @@ import { AppModule } from './AppModule';
  */
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+  app.use(cors());
 
   // Connect class-validator to DI container
   useContainer(app.select(AppModule), { fallbackOnErrors: true });

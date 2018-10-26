@@ -20,10 +20,15 @@ jobs:
       - run: yarn
       - run: yarn build --scope client
       - run:
-          name: Deploy web app to now.sh
+          name: Install awscli
+          command: sudo apt-get -y -qq install awscli
+      - run:
+          name: Setting Signature Version 4 for S3 Request Authentication
+          command: aws configure set default.s3.signature_version s3v4
+      - run: 
+          name: Deploy to S3
           command: |
-            url=$(npx now --public client/build -t $NOW_TOKEN)
-            npx now alias set "$url" $NOW_DOMAIN -t $NOW_TOKEN 
+            aws s3 sync client/build/ s3://$AWS_BUCKET_NAME --delete
 
   deploy_server:
     docker:
@@ -47,12 +52,6 @@ workflows:
       - deploy_client:
           requires:
             - build
-          filters:
-            branches:
-              only: master
       - deploy_server:
           requires:
             - build
-          filters:
-            branches:
-              only: master

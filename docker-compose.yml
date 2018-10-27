@@ -1,0 +1,60 @@
+version: "3"
+services:
+  client:
+    image: node:8
+    volumes:
+      - .:/usr/src
+    working_dir: /usr/src/client
+    command: yarn start
+    networks:
+      - frontend
+    ports:
+      - "3000:3000"
+    environment:
+      PUBLIC_URL: "http://localhost:3000"
+      REACT_APP_API_URL: "http://localhost:8080/api"
+
+  server:
+    image: node:8
+    volumes:
+      - .:/usr/src
+    working_dir: /usr/src/server
+    command: yarn start
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      JWT_SECRET: "secret"
+      DATABASE_URL: "postgresql://postgres@db:5432/postgres"
+      REDIS_URL: "redis://redis:6379"
+      SMTP_URL: "smtp://mailhog:1025"
+      PUBLIC_URL: "http://localhost:3000"
+
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    networks:
+      - backend
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:

@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
 // tslint:disable-next-line:match-default-export-name
 import cors from 'cors';
@@ -16,15 +15,6 @@ async function bootstrap(): Promise<void> {
 
   // Connect class-validator to DI container
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  // Start listeners in the same process
-  app.connectMicroservice({
-    transport: Transport.REDIS,
-    options: {
-      url: process.env.REDIS_URL,
-    },
-  });
-  await app.startAllMicroservicesAsync();
 
   // Launch the web server
   app.setGlobalPrefix('api');

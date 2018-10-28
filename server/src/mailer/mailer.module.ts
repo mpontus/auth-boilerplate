@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
+import { CommandBus, CQRSModule, EventBus } from '@nestjs/cqrs';
 import EmailTemplate from 'email-templates';
 import { ConfigService } from 'nestjs-config';
 import * as nodemailer from 'nodemailer';
-import { MailerController } from './mailer.controller';
+import { commandHandlers } from './command/handler';
 import { MailerService } from './mailer.service';
 
 /**
@@ -12,7 +14,7 @@ import { MailerService } from './mailer.service';
  * other modules to defer email delivery.
  */
 @Module({
-  controllers: [MailerController],
+  imports: [CQRSModule],
   providers: [
     {
       provide: 'EmailTemplates',
@@ -32,6 +34,20 @@ import { MailerService } from './mailer.service';
       inject: [ConfigService],
     },
     MailerService,
+    ...commandHandlers,
   ],
 })
-export class MailerModule {}
+export class MailerModule implements OnModuleInit {
+  constructor(
+    private readonly moduleRef: ModuleRef,
+    private readonly command$: CommandBus,
+    private readonly event$: EventBus,
+  ) {}
+
+  public onModuleInit(): void {
+    this.command$.setModuleRef(this.moduleRef);
+    this.event$.setModuleRef(this.moduleRef);
+
+    this.command$.register(commandHandlers);
+  }
+}

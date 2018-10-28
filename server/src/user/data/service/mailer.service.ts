@@ -1,8 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { CommandBus } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { SendTemplateEmailCommand } from 'mailer/command/impl/send-template-email.command';
 import { ConfigService } from 'nestjs-config';
 import { Repository } from 'typeorm';
 import { promisify } from 'util';
@@ -19,7 +20,7 @@ export class MailerService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @Inject(ConfigService) private readonly config: ConfigService,
-    @Inject(ClientProxy) private readonly clientProxy: ClientProxy,
+    private readonly commandBus: CommandBus,
   ) {}
 
   /**
@@ -37,7 +38,7 @@ export class MailerService {
       expiresIn: this.config.get('security.email_activation_expiry'),
     });
 
-    this.scheduleEmailDelivery(user.email, 'email_activation', {
+    await this.scheduleEmailDelivery(user.email, 'email_activation', {
       recipient_name: user.name,
       action_url: this.config
         .get('app.email_activation_url')
@@ -81,7 +82,7 @@ export class MailerService {
       expiresIn: this.config.get('security.password_recovery_expiry'),
     });
 
-    this.scheduleEmailDelivery(user.email, 'password_recovery', {
+    await this.scheduleEmailDelivery(user.email, 'password_recovery', {
       recipient_name: user.name,
       action_url: this.config
         .get('app.password_recovery_url')
@@ -184,17 +185,16 @@ export class MailerService {
   /**
    * Dispatch transactional email in a non-blocking way
    */
-  private scheduleEmailDelivery(
+  private async scheduleEmailDelivery(
     recipient: string,
-    template: string,
-    locals: object,
-  ): void {
-    // tslint:disable-next-line:no-floating-promises
-    this.clientProxy
-      .send(
-        { cmd: 'send_transactional_email' },
-        { recipient, template, locals },
-      )
-      .toPromise(); // fire up cold observable
+    template: 'password_recovery' | 'email_activation',
+    locals: {
+      recipient_name: string;
+      action_url: string;
+    },
+  ): Promise<void> {
+    await this.commandBus.execute(
+      new SendTemplateEmailCommand(recipient, template, locals),
+    );
   }
 }

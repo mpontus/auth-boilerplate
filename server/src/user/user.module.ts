@@ -1,9 +1,5 @@
 import { Module } from '@nestjs/common';
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  Transport,
-} from '@nestjs/microservices';
+import { CQRSModule } from '@nestjs/cqrs';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from 'nestjs-config';
 import { Session } from './data/entity/session.entity';
@@ -24,6 +20,7 @@ import { IsEmailUnique } from './transport/validator/is-email-unique.validator';
 @Module({
   controllers: [AuthController, EmailController, UserController],
   imports: [
+    CQRSModule,
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService): TypeOrmModuleOptions => ({
         type: 'postgres',
@@ -35,22 +32,6 @@ import { IsEmailUnique } from './transport/validator/is-email-unique.validator';
     }),
     TypeOrmModule.forFeature([User, Session]),
   ],
-  providers: [
-    {
-      provide: ClientProxy,
-      useFactory: (config: ConfigService): ClientProxy =>
-        ClientProxyFactory.create({
-          transport: Transport.REDIS,
-          options: {
-            url: config.get('env.redis_url'),
-          },
-        }),
-      inject: [ConfigService],
-    },
-    UserService,
-    SessionService,
-    MailerService,
-    IsEmailUnique,
-  ],
+  providers: [UserService, SessionService, MailerService, IsEmailUnique],
 })
 export class UserModule {}

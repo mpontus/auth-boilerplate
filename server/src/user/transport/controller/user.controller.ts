@@ -18,8 +18,8 @@ import { User as UserEntity } from '../../data/entity/user.entity';
 import { UserService } from '../../data/service/user.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { TransformInterceptor } from '../interceptor/transform.interceptor';
-import { User } from '../serializer/user.serializer';
 import { UserPagination } from '../serializer/user-pagination.serializer';
+import { User } from '../serializer/user.serializer';
 import { PaginationDto } from '../validator/pagination-dto.validator';
 import { ProfileUpdateDto } from '../validator/profile-update-dto.validator';
 

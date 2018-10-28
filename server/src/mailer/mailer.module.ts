@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import EmailTemplate from 'email-templates';
 import { ConfigService } from 'nestjs-config';
 import * as nodemailer from 'nodemailer';
-import { MailerController } from './MailerController';
-import { MailerService } from './MailerService';
+import { MailerController } from './mailer.controller';
+import { MailerService } from './mailer.service';
 
 /**
  * Mailer module

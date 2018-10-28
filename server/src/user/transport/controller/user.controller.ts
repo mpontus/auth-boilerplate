@@ -14,14 +14,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { User as UserEntity } from '../../data/entity/User.entity';
-import { UserService } from '../../data/service/UserService';
-import { AuthGuard } from '../guards/AuthGuard';
-import { TransformInterceptor } from '../interceptor/TransformInterceptor';
-import { User } from '../serializer/User';
-import { UserPagination } from '../serializer/UserPagination';
-import { PaginationDto } from '../validator/PaginationDto';
-import { ProfileUpdateDto } from '../validator/ProfileUpdateDto';
+import { User as UserEntity } from '../../data/entity/user.entity';
+import { UserService } from '../../data/service/user.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { TransformInterceptor } from '../interceptor/transform.interceptor';
+import { User } from '../serializer/user.serializer';
+import { UserPagination } from '../serializer/user-pagination.serializer';
+import { PaginationDto } from '../validator/pagination-dto.validator';
+import { ProfileUpdateDto } from '../validator/profile-update-dto.validator';
 
 /**
  * User Controller

@@ -12,13 +12,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { User } from '../../data/entity/User.entity';
-import { SessionService } from '../../data/service/SessionService';
-import { AuthGuard } from '../guards/AuthGuard';
-import { TransformInterceptor } from '../interceptor/TransformInterceptor';
-import { Session } from '../serializer/Session';
-import { LoginDto } from '../validator/LoginDto';
-import { SignupDto } from '../validator/SignupDto';
+import { User } from '../../data/entity/user.entity';
+import { SessionService } from '../../data/service/session.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { TransformInterceptor } from '../interceptor/transform.interceptor';
+import { Session } from '../serializer/session.serializer';
+import { LoginDto } from '../validator/login-dto.validator';
+import { SignupDto } from '../validator/signup-dto.validator';
 
 /**
  * Auth controller

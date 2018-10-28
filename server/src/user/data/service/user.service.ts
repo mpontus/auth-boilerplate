@@ -6,9 +6,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { User } from '../entity/User.entity';
-import { Pagination } from '../interface/Pagination';
-import { ProfileUpdate } from '../interface/ProfileUpdate';
+import { User } from '../entity/user.entity';
+import { Pagination } from '../interface/pagination.interface';
+import { ProfileUpdate } from '../interface/profile-update.interface';
 
 /**
  * User service

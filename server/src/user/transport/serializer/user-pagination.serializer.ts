@@ -1,5 +1,5 @@
 import { Exclude, Expose, Type } from 'class-transformer';
-import { User } from './User';
+import { User } from './user.serializer';
 
 /**
  * Serialized user list

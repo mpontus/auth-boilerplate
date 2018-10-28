@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { MailerService } from './MailerService';
-import { SendDto } from './SendDto';
+import { MailerService } from './mailer.service';
+import { SendDto } from './send-dto.interface';
 
 /**
  * Mailer controller

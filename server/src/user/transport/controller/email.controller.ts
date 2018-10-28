@@ -9,9 +9,9 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { MailerService } from '../../data/service/MailerService';
-import { EmailContainer } from '../validator/EmailContainer';
-import { PasswordContainer } from '../validator/PasswordContainer';
+import { MailerService } from '../../data/service/mailer.service';
+import { EmailContainer } from '../validator/email-container.validator';
+import { PasswordContainer } from '../validator/password-container.validator';
 
 /**
  * EmailController

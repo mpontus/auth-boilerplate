@@ -1,8 +1,8 @@
 import * as EmailTemplates from 'email-templates';
 import { ConfigService } from 'nestjs-config';
 import * as TypeMoq from 'typemoq';
-import { MailerController } from './MailerController';
-import { MailerService } from './MailerService';
+import { MailerController } from './mailer.controller';
+import { MailerService } from './mailer.service';
 
 const mailerMock = TypeMoq.Mock.ofType<EmailTemplates>(
   undefined,

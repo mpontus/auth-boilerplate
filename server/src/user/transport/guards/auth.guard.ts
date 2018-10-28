@@ -4,7 +4,7 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { SessionService } from '../../data/service/SessionService';
+import { SessionService } from '../../data/service/session.service';
 
 /**
  * Auth Guard

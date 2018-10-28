@@ -3,7 +3,7 @@ import { Transport } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
 // tslint:disable-next-line:match-default-export-name
 import cors from 'cors';
-import { AppModule } from './AppModule';
+import { AppModule } from './app.module';
 
 /**
  * Entyr point to the applicaiton.

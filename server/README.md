@@ -28,7 +28,7 @@ Features:
 | | | /serializer				# Transformation rules from entities to their API representation
 | | | /validator				# Request validation logic
 | | | /interceptors
-| | | | TransformInterceptor.ts # Transforms responses using provided Serializer
+| | | | transform.interceptor.ts # Transforms responses using provided Serializer
 | | /data
 | | | /entity					# Entity definitions
 | | | /interface				# Models without persistence ability

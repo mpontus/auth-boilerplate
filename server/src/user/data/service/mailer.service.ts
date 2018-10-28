@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { ConfigService } from 'nestjs-config';
 import { Repository } from 'typeorm';
 import { promisify } from 'util';
-import { User } from '../entity/User.entity';
+import { User } from '../entity/user.entity';
 
 /**
  * Email Service

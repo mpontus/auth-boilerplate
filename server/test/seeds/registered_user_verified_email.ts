@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
-import { User } from '../../src/user/data/entity/User.entity';
+import { User } from '../../src/user/data/entity/user.entity';
 
 export const id = '7435683745';
 export const name = 'Brian Foster';

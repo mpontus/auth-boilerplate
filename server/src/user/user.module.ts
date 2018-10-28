@@ -6,15 +6,15 @@ import {
 } from '@nestjs/microservices';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from 'nestjs-config';
-import { Session } from './data/entity/Session.entity';
-import { User } from './data/entity/User.entity';
-import { MailerService } from './data/service/MailerService';
-import { SessionService } from './data/service/SessionService';
-import { UserService } from './data/service/UserService';
-import { AuthController } from './transport/controller/AuthController';
-import { EmailController } from './transport/controller/EmailController';
-import { UserController } from './transport/controller/UserController';
-import { IsEmailUnique } from './transport/validator/IsEmailUnique';
+import { Session } from './data/entity/session.entity';
+import { User } from './data/entity/user.entity';
+import { MailerService } from './data/service/mailer.service';
+import { SessionService } from './data/service/session.service';
+import { UserService } from './data/service/user.service';
+import { AuthController } from './transport/controller/auth.controller';
+import { EmailController } from './transport/controller/email.controller';
+import { UserController } from './transport/controller/user.controller';
+import { IsEmailUnique } from './transport/validator/is-email-unique.validator';
 
 /**
  * User module

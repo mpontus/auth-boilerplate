@@ -1,8 +1,8 @@
 import hat from 'hat';
 import * as bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
-import { User } from '../../src/user/data/entity/User.entity';
-import { Session } from '../../src/user/data/entity/Session.entity';
+import { User } from '../../src/user/data/entity/user.entity';
+import { Session } from '../../src/user/data/entity/session.entity';
 
 export const id = '7536485';
 export const name = 'Victor Martinez';

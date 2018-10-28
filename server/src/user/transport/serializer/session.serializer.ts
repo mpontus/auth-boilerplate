@@ -1,5 +1,5 @@
 import { Exclude, Expose, plainToClass, Transform } from 'class-transformer';
-import { User } from './User';
+import { User } from './user.serializer';
 
 /**
  * Session serializer

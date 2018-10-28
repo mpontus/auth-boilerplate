@@ -1,5 +1,5 @@
 import { getConnection } from 'typeorm';
-import { User } from '../../src/user/data/entity/User.entity';
+import { User } from '../../src/user/data/entity/user.entity';
 
 export const users = [
   ['1020792911429632', 'Derek Blake', 'big@hodef.va', 'cfqNXCK#wPGMQg6uPdKK'],

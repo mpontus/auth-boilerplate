@@ -5,7 +5,7 @@ import {
   MinLength,
   Validate,
 } from 'class-validator';
-import { IsEmailUnique } from './IsEmailUnique';
+import { IsEmailUnique } from './is-email-unique.validator';
 
 /**
  * Describes a container for sign up dtails

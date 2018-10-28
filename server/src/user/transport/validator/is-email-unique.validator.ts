@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
 import { Repository } from 'typeorm';
-import { User } from '../../data/entity/User.entity';
+import { User } from '../../data/entity/user.entity';
 
 /**
  * Custom validation constraint for email uniqueness

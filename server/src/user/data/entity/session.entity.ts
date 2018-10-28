@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { User } from './User.entity';
+import { User } from './user.entity';
 
 /**
  * Session entity

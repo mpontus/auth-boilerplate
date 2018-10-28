@@ -5,10 +5,10 @@ import bcrypt from 'bcrypt';
 import hat from 'hat';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Session } from '../entity/Session.entity';
-import { User } from '../entity/User.entity';
-import { SignupDto } from '../interface/SignupDto';
-import { MailerService } from './MailerService';
+import { Session } from '../entity/session.entity';
+import { User } from '../entity/user.entity';
+import { SignupDto } from '../interface/signup-dto.interface';
+import { MailerService } from './mailer.service';
 
 /**
  * Session Service

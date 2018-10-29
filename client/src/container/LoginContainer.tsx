@@ -1,9 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import * as yup from "yup";
 import { loginAction } from "../action/loginActions";
+import { Button } from "../component/Button";
 import { ErrorMessage } from "../component/ErrorMessage";
-import { LoginForm } from "../component/LoginForm";
+import { Field } from "../component/Field";
+import { Form } from "../component/Form";
+import { Input } from "../component/Input";
 import { LoginDto } from "../model/LoginDto";
 import { RequestError } from "../model/RequestError";
 import {
@@ -32,11 +36,46 @@ const enhance = connect(
   }
 );
 
+const initialValues = {
+  email: "",
+  password: ""
+};
+
+const schema = yup.object<LoginDto>().shape({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup
+    .string()
+    .min(6)
+    .required()
+});
+
 export const LoginContainer = enhance(
   ({ loading, success, error, onSubmit }: Props) => (
-    <React.Fragment>
+    <Form
+      errors={error ? error.details : undefined}
+      validationSchema={schema}
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+    >
       {error && <ErrorMessage>{error.message}</ErrorMessage>}
-      <LoginForm errors={error && error.details} onSubmit={onSubmit} />
-    </React.Fragment>
+      <Field
+        component={Input}
+        type="email"
+        name="email"
+        label="Email"
+        placeholder="Enter your email address"
+      />
+      <Field
+        component={Input}
+        type="password"
+        name="password"
+        label="Password"
+        placeholder="Enter your passwort"
+      />
+      <Button type="submit">Log In</Button>
+    </Form>
   )
 );

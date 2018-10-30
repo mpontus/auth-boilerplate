@@ -12,6 +12,7 @@ import { MainScreen } from "./MainScreen";
 import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { SignupScreen } from "./SignupScreen";
+import { DocumentTitle } from "src/component/DocumentTitle";
 
 /**
  * Redirect to the front page when current route is inaccessible
@@ -24,39 +25,41 @@ const redirectToFront = <Redirect to={routes.HOME} />;
  * Contains top-level routes of the website.
  */
 export const Root = () => (
-  <AuthGate isAuthenticated={true}>
-    <Container>
-      <NavbarContainer />
-      <SingleColumnLayout>
-        <Switch>
-          <Route exact={true} path={routes.HOME} component={MainScreen} />
-          <Route path={routes.LOGIN}>
-            <AuthGate placeholder={redirectToFront} isAnonymous={true}>
-              <LoginScreen />
-            </AuthGate>
-          </Route>
-          <Route path={routes.SIGNUP}>
-            <AuthGate placeholder={redirectToFront} isAnonymous={true}>
-              <SignupScreen />
-            </AuthGate>
-          </Route>
-          <Route
-            path={routes.EMAIL_ACTIVATION}
-            component={EmailActivationScreen}
-          />
-          <Route
-            path={routes.PASSWORD_RECOVERY}
-            component={PasswordRecoveryScreen}
-          />
-          <Route path={routes.PROFILE}>
-            <AuthGate placeholder={redirectToFront} isAnonymous={false}>
-              <ProfileScreen />
-            </AuthGate>
-          </Route>
-          {redirectToFront}
-        </Switch>
-      </SingleColumnLayout>
-      <Footer />
-    </Container>
-  </AuthGate>
+  <DocumentTitle>
+    <AuthGate isAuthenticated={true}>
+      <Container>
+        <NavbarContainer />
+        <SingleColumnLayout>
+          <Switch>
+            <Route exact={true} path={routes.HOME} component={MainScreen} />
+            <Route path={routes.LOGIN}>
+              <AuthGate placeholder={redirectToFront} isAnonymous={true}>
+                <LoginScreen />
+              </AuthGate>
+            </Route>
+            <Route path={routes.SIGNUP}>
+              <AuthGate placeholder={redirectToFront} isAnonymous={true}>
+                <SignupScreen />
+              </AuthGate>
+            </Route>
+            <Route
+              path={routes.EMAIL_ACTIVATION}
+              component={EmailActivationScreen}
+            />
+            <Route
+              path={routes.PASSWORD_RECOVERY}
+              component={PasswordRecoveryScreen}
+            />
+            <Route path={routes.PROFILE}>
+              <AuthGate placeholder={redirectToFront} isAnonymous={false}>
+                <ProfileScreen />
+              </AuthGate>
+            </Route>
+            {redirectToFront}
+          </Switch>
+        </SingleColumnLayout>
+        <Footer />
+      </Container>
+    </AuthGate>
+  </DocumentTitle>
 );

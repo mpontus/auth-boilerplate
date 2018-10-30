@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { DocumentTitle } from "src/component/DocumentTitle";
 import { Heading } from "../component/Heading";
 import { Paragraph } from "../component/Paragraph";
 import { Section } from "../component/Section";
 import { SignupContainer } from "../container/SignupContainer";
 
 export const SignupScreen = () => (
-  <React.Fragment>
+  <DocumentTitle title="Sign Up">
     <Section>
       <Heading>Create new account</Heading>
       <SignupContainer />
@@ -16,5 +17,5 @@ export const SignupScreen = () => (
         Already have an account? <Link to="/login">Login »</Link>
       </Paragraph>
     </Section>
-  </React.Fragment>
+  </DocumentTitle>
 );

@@ -15,7 +15,7 @@ export interface AuthState {
   /**
    * Details about the user associated with the session
    */
-  user?: { id: string; name: string };
+  user?: { id: string; name: string; roles: string[] };
 }
 
 /**

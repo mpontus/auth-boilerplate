@@ -3,7 +3,7 @@ import { Heading } from "../component/Heading";
 import { QueryParams } from "../component/QueryParams";
 import { Section } from "../component/Section";
 import { PasswordRecoveryContainer } from "../container/PasswordRecoveryContainer";
-import { DocumentTitle } from "src/component/DocumentTitle";
+import { DocumentTitle } from "../component/DocumentTitle";
 
 export const PasswordRecoveryScreen = () => (
   <DocumentTitle title="Recover Your Password">

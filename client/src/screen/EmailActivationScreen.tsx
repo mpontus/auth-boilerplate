@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DocumentTitle } from "src/component/DocumentTitle";
+import { DocumentTitle } from "../component/DocumentTitle";
 import { Heading } from "../component/Heading";
 import { QueryParams } from "../component/QueryParams";
 import { Section } from "../component/Section";

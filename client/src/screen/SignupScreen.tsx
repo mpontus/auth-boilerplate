@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { DocumentTitle } from "src/component/DocumentTitle";
+import { DocumentTitle } from "../component/DocumentTitle";
 import { Heading } from "../component/Heading";
 import { Paragraph } from "../component/Paragraph";
 import { Section } from "../component/Section";

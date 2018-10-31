@@ -12,7 +12,7 @@ import { MainScreen } from "./MainScreen";
 import { PasswordRecoveryScreen } from "./PasswordRecoveryScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { SignupScreen } from "./SignupScreen";
-import { DocumentTitle } from "src/component/DocumentTitle";
+import { DocumentTitle } from "../component/DocumentTitle";
 
 /**
  * Redirect to the front page when current route is inaccessible

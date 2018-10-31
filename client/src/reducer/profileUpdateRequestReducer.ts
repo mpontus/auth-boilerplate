@@ -1,6 +1,6 @@
-import { profileUpdateAction } from "src/action/profileActions";
 import { getType, StateType } from "typesafe-actions";
 import { Action } from "../action";
+import { profileUpdateAction } from "../action/profileActions";
 import { RequestError } from "../model/RequestError";
 import { createNamespaceReducer } from "./utils/createNamespaceReducer";
 import { createRequestStateReducer } from "./utils/createRequestStateReducer";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DocumentTitle } from "src/component/DocumentTitle";
+import { DocumentTitle } from "../component/DocumentTitle";
 import { Heading } from "../component/Heading";
 import { Section } from "../component/Section";
 import { ProfileContainer } from "../container/ProfileContainer";

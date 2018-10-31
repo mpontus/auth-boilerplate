@@ -4,10 +4,10 @@ import { authReducer } from "./authReducer";
 import { emailActivationRequestReducer } from "./emailActivationRequestReducer";
 import { loginRequestReducer } from "./loginRequestReducer";
 import { passwordRecoveryRequestReducer } from "./passwordRecoveryRequestReducer";
+import { profileUpdateRequestReducer } from "./profileUpdateRequestReducer";
 import { signupRequestReducer } from "./signupRequestReducer";
 import { userEntityReducer } from "./userEntityReducer";
 import { userFetchRequestReducer } from "./userFetchRequestReducer";
-import { userUpdateRequestReducer } from "./userUpdateRequestReducer";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,7 +16,7 @@ export const rootReducer = combineReducers({
   passwordRecoveryRequest: passwordRecoveryRequestReducer,
   emailActivationRequest: emailActivationRequestReducer,
   userFetchRequest: userFetchRequestReducer,
-  userUpdateRequest: userUpdateRequestReducer,
+  profileUpdateRequest: profileUpdateRequestReducer,
   userEntity: userEntityReducer
 });
 

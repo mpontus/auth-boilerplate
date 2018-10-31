@@ -1,16 +1,12 @@
+import { profileUpdateAction } from "src/action/profileActions";
 import { getType, StateType } from "typesafe-actions";
 import { Action } from "../action";
-import { profileUpdateAction } from "../action/profileActions";
 import { RequestError } from "../model/RequestError";
-import { User } from "../model/User";
 import { createNamespaceReducer } from "./utils/createNamespaceReducer";
 import { createRequestStateReducer } from "./utils/createRequestStateReducer";
 import { updateIn } from "./utils/updateIn";
 
-/**
- * Subreducer which updates request state for a single user
- */
-const singleUserUpdateRequestReducer = createRequestStateReducer<
+const sectionRequestReducer = createRequestStateReducer<
   Action,
   RequestError<ProfileUpdateDto>
 >((state, action) => {
@@ -31,6 +27,7 @@ const singleUserUpdateRequestReducer = createRequestStateReducer<
     case getType(profileUpdateAction.failure):
       return {
         ...state,
+        loading: false,
         error: action.payload.error
       };
 
@@ -39,22 +36,16 @@ const singleUserUpdateRequestReducer = createRequestStateReducer<
   }
 });
 
-/**
- * Namespaced reduer which maintains a map of request states
- * associated with users by their id.
- */
-export const userUpdateRequestReducer = createNamespaceReducer<
-  User["id"],
-  StateType<typeof singleUserUpdateRequestReducer>,
+export const profileUpdateRequestReducer = createNamespaceReducer<
+  string,
+  StateType<typeof sectionRequestReducer>,
   Action
 >(action => {
   switch (action.type) {
     case getType(profileUpdateAction.request):
-    case getType(profileUpdateAction.failure):
-      return updateIn(action.payload.user.id, singleUserUpdateRequestReducer);
-
     case getType(profileUpdateAction.success):
-      return updateIn(action.payload.id, singleUserUpdateRequestReducer);
+    case getType(profileUpdateAction.failure):
+      return updateIn(action.payload.section, sectionRequestReducer);
 
     default:
       return state => state;

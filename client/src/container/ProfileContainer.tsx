@@ -7,6 +7,7 @@ import {
   profileUpdateAction
 } from "../action/profileActions";
 import { Button } from "../component/Button";
+import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
@@ -21,13 +22,26 @@ import {
   makeIsProfileSaving
 } from "../selector/profileSelectors";
 
-interface Props {
-  section: "personal" | "email" | "password";
+type Section = "personal" | "email" | "password";
+
+interface StateProps {
   user?: User;
   profile?: User;
   loading: boolean;
   saving: boolean;
   error?: RequestError<ProfileUpdateDto>;
+}
+
+interface DispatchProps {
+  onShown: typeof profileRetrieveAction.request;
+  onSubmit: typeof profileUpdateAction.request;
+}
+
+interface OwnProps {
+  section: Section;
+}
+
+interface Props extends OwnProps, StateProps {
   onShown: () => void;
   onSubmit: (values: ProfileUpdateDto) => void;
 }
@@ -73,7 +87,7 @@ const makeMapStateToProps = createStructuredSelector({
   error: makeGetProfileError()
 });
 
-const enhance = connect(
+const enhance = connect<StateProps, DispatchProps, OwnProps, Props>(
   makeMapStateToProps,
   {
     onSubmit: profileUpdateAction.request,
@@ -83,7 +97,11 @@ const enhance = connect(
     Object.assign({}, stateProps, ownProps, {
       onSubmit: (payload: ProfileUpdateDto) =>
         stateProps.user &&
-        dispatchProps.onSubmit({ user: stateProps.user, update: payload }),
+        dispatchProps.onSubmit({
+          section: ownProps.section,
+          user: stateProps.user,
+          update: payload
+        }),
 
       onShown: () => stateProps.user && dispatchProps.onShown(stateProps.user)
     })
@@ -103,8 +121,13 @@ class BaseProfileContainer extends React.Component<Props> {
         validationSchema={personalFormSchema}
         onSubmit={this.props.onSubmit}
       >
+        {this.props.error && (
+          <ErrorMessage>{this.props.error.message}</ErrorMessage>
+        )}
         <Field component={Input} type="text" label="Display Name" name="name" />
-        <Button type="submit">Save</Button>
+        <Button type="submit" loading={this.props.saving}>
+          Save
+        </Button>
       </Form>
     );
   }
@@ -122,6 +145,9 @@ class BaseProfileContainer extends React.Component<Props> {
         validationSchema={emailFormSchema}
         onSubmit={this.props.onSubmit}
       >
+        {this.props.error && (
+          <ErrorMessage>{this.props.error.message}</ErrorMessage>
+        )}
         <Field
           component={Input}
           type="text"
@@ -134,7 +160,9 @@ class BaseProfileContainer extends React.Component<Props> {
           label="Current Password"
           name="currentPassword"
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit" loading={this.props.saving}>
+          Save
+        </Button>
       </Form>
     );
   }
@@ -156,6 +184,9 @@ class BaseProfileContainer extends React.Component<Props> {
           this.props.onSubmit({ password, currentPassword })
         }
       >
+        {this.props.error && (
+          <ErrorMessage>{this.props.error.message}</ErrorMessage>
+        )}
         <Field
           component={Input}
           type="text"
@@ -174,7 +205,9 @@ class BaseProfileContainer extends React.Component<Props> {
           label="Current Password"
           name="currentPassword"
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit" loading={this.props.saving}>
+          Save
+        </Button>
       </Form>
     );
   }

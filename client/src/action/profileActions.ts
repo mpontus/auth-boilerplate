@@ -22,7 +22,7 @@ export const profileUpdateAction = createAsyncAction(
   "PROFILE_UPDATE_SUCCESS",
   "PROFILE_UPDATE_FAILURE"
 )<
-  { user: User; update: ProfileUpdateDto },
-  User,
-  { user: User; error: RequestError<ProfileUpdateDto> }
+  { section: string; user: User; update: ProfileUpdateDto },
+  { section: string; user: User },
+  { section: string; user: User; error: RequestError<ProfileUpdateDto> }
 >();

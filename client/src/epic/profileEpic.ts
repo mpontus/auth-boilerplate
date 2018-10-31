@@ -49,10 +49,16 @@ export const profileUpdateEpic: Epic<Action, Action, State, Dependencies> = (
           update: action.payload.update
         })
       ).pipe(
-        map(profileUpdateAction.success),
+        map(user =>
+          profileUpdateAction.success({
+            section: action.payload.section,
+            user
+          })
+        ),
         catchError(error =>
           of(
             profileUpdateAction.failure({
+              section: action.payload.section,
               user: action.payload.user,
               error: RequestError.fromApiError(error)
             })

@@ -1,4 +1,4 @@
-import { createSelector, Selector } from "reselect";
+import { createSelector, Selector, ParametricSelector } from "reselect";
 import { RequestError } from "../model/RequestError";
 import { User } from "../model/User";
 import { State } from "../reducer";
@@ -27,53 +27,6 @@ export const makeIsProfileLoading = (): Selector<State, boolean> =>
   );
 
 /**
- * Return whether the current user profile is saving
- */
-export const makeIsProfileSaving = (): Selector<State, boolean> =>
-  createSelector(
-    makeGetCurrentUser(),
-    state => state.userUpdateRequest,
-    (user, updateRequestByUser) => {
-      if (!user) {
-        return false;
-      }
-
-      const request = updateRequestByUser[user.id];
-
-      if (!request) {
-        return false;
-      }
-
-      return request.loading;
-    }
-  );
-
-/**
- * Return whether the current user profile is saving
- */
-export const makeGetProfileError = (): Selector<
-  State,
-  RequestError<ProfileUpdateDto> | undefined
-> =>
-  createSelector(
-    makeGetCurrentUser(),
-    state => state.userUpdateRequest,
-    (user, updateRequestByUser) => {
-      if (!user) {
-        return undefined;
-      }
-
-      const request = updateRequestByUser[user.id];
-
-      if (!request) {
-        return undefined;
-      }
-
-      return request.error;
-    }
-  );
-
-/**
  * Return current user profile.
  */
 export const makeGetProfile = (): Selector<State, User | undefined> =>
@@ -88,3 +41,37 @@ export const makeGetProfile = (): Selector<State, User | undefined> =>
       return entityById[user.id];
     }
   );
+
+/**
+ * Return whether the current user profile is loading
+ */
+export const makeIsProfileSaving = (): ParametricSelector<
+  State,
+  { section: string },
+  boolean
+> => (state, { section }) => {
+  const requestState = state.profileUpdateRequest[section];
+
+  if (requestState !== undefined) {
+    return requestState.loading;
+  }
+
+  return false;
+};
+
+/**
+ * Return latest update profile error
+ */
+export const makeGetProfileError = (): ParametricSelector<
+  State,
+  { section: string },
+  RequestError<ProfileUpdateDto> | undefined
+> => (state, { section }) => {
+  const requestState = state.profileUpdateRequest[section];
+
+  if (requestState !== undefined) {
+    return requestState.error;
+  }
+
+  return undefined;
+};

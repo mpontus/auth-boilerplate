@@ -7,14 +7,17 @@ export class RequestError<T> extends Error {
   public static fromApiError<T>(error: AxiosError): RequestError<T> {
     const { response } = error;
 
-    if (
-      response === undefined ||
-      response.data.message === null ||
-      response.data.message === undefined
-    ) {
+    // Non-API error, programmer mistake.
+    if (response === undefined) {
+      return new RequestError<T>(error.message);
+    }
+
+    // 500 error
+    if (response.data.message === null || response.data.message === undefined) {
       return new RequestError<T>("An error occured. Please try again later.");
     }
 
+    // Validation error
     if (Array.isArray(response.data.message)) {
       const errors: ValidationError[] = response.data.message;
 
@@ -34,6 +37,7 @@ export class RequestError<T> extends Error {
       return new RequestError("Validation Error", details);
     }
 
+    // Different kind of error with human-readalble message
     return new RequestError(response.data.message);
   }
 

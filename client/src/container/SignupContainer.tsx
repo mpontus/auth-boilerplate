@@ -4,10 +4,10 @@ import { createStructuredSelector } from "reselect";
 import * as yup from "yup";
 import { signupAction } from "../action/signupActions";
 import { Button } from "../component/Button";
-import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
+import { Message } from "../component/Message";
 import { RequestError } from "../model/RequestError";
 import { SignupDto } from "../model/SignupDto";
 import {
@@ -62,7 +62,7 @@ export const SignupContainer = enhance(
       validationSchema={schema}
       onSubmit={onSubmit}
     >
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
+      <Message error={error} />
       <Field
         component={Input}
         type="text"

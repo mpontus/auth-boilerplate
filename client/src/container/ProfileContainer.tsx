@@ -7,11 +7,11 @@ import {
   profileUpdateAction
 } from "../action/profileActions";
 import { Button } from "../component/Button";
-import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
 import { Loading } from "../component/Loading";
+import { Message } from "../component/Message";
 import { RequestError } from "../model/RequestError";
 import { User } from "../model/User";
 import { makeGetCurrentUser } from "../selector/authSelectors";
@@ -121,9 +121,7 @@ class BaseProfileContainer extends React.Component<Props> {
         validationSchema={personalFormSchema}
         onSubmit={this.props.onSubmit}
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field component={Input} type="text" label="Display Name" name="name" />
         <Button type="submit" loading={this.props.saving}>
           Save
@@ -145,9 +143,7 @@ class BaseProfileContainer extends React.Component<Props> {
         validationSchema={emailFormSchema}
         onSubmit={this.props.onSubmit}
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field
           component={Input}
           type="text"
@@ -184,9 +180,7 @@ class BaseProfileContainer extends React.Component<Props> {
           this.props.onSubmit({ password, currentPassword })
         }
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field
           component={Input}
           type="text"

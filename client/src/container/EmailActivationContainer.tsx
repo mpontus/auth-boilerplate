@@ -7,10 +7,10 @@ import {
   emailActivationRequestAction
 } from "../action/emailActivationActions";
 import { Button } from "../component/Button";
-import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
+import { Message } from "../component/Message";
 import { Paragraph } from "../component/Paragraph";
 import { EmailActivationCompleteDto } from "../model/EmailActivationCompleteDto";
 import { EmailActivationRequestDto } from "../model/EmailActivationRequestDto";
@@ -89,9 +89,7 @@ class BaseEmailActivationContainer extends React.Component<Props> {
         errors={this.props.error ? this.props.error.details : undefined}
         onSubmit={this.props.onSubmitRequest}
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field
           component={Input}
           type="email"
@@ -112,7 +110,7 @@ class BaseEmailActivationContainer extends React.Component<Props> {
    */
   public renderConfirmationProgress() {
     if (this.props.error) {
-      return <ErrorMessage>{this.props.error.message}</ErrorMessage>;
+      return <Message error={this.props.error} />;
     }
 
     if (this.props.success) {

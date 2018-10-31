@@ -7,7 +7,6 @@ import {
   passwordRecoveryRequestAction
 } from "../action/passwordRecoveryActions";
 import { Button } from "../component/Button";
-import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
@@ -22,6 +21,7 @@ import {
   makeIsPasswordRecoveryRequestLoading,
   makeIsPasswordRecoveryRequestSuccess
 } from "../selector/passwordRecoverySelectors";
+import { Message } from "../component/Message";
 
 interface Props {
   /**
@@ -112,9 +112,7 @@ class BasePasswordRecoveryContainer extends React.Component<Props> {
         errors={this.props.error ? this.props.error.details : undefined}
         onSubmit={this.props.onSubmitRequest}
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field
           component={Input}
           type="email"
@@ -143,9 +141,7 @@ class BasePasswordRecoveryContainer extends React.Component<Props> {
         errors={this.props.error ? this.props.error.details : undefined}
         onSubmit={this.handleConfirmSubmit}
       >
-        {this.props.error && (
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
-        )}
+        <Message error={this.props.error} />
         <Field
           component={Input}
           type="password"

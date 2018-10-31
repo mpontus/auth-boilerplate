@@ -4,7 +4,6 @@ import { createStructuredSelector } from "reselect";
 import * as yup from "yup";
 import { loginAction } from "../action/loginActions";
 import { Button } from "../component/Button";
-import { ErrorMessage } from "../component/ErrorMessage";
 import { Field } from "../component/Field";
 import { Form } from "../component/Form";
 import { Input } from "../component/Input";
@@ -15,6 +14,7 @@ import {
   makeIsLoginRequestLoading,
   makeIsLoginRequestSuccess
 } from "../selector/loginSelectors";
+import { Message } from "../component/Message";
 
 interface Props {
   loading: boolean;
@@ -60,7 +60,7 @@ export const LoginContainer = enhance(
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
+      <Message error={error} />
       <Field
         component={Input}
         type="email"

@@ -75,7 +75,9 @@ export const LoginContainer = enhance(
         label="Password"
         placeholder="Enter your passwort"
       />
-      <Button type="submit">Log In</Button>
+      <Button type="submit" loading={loading}>
+        Log In
+      </Button>
     </Form>
   )
 );
